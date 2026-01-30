@@ -207,11 +207,9 @@ const createTables = async () => {
     });
 
     console.log('Database initialization complete!');
-    process.exit(0);
   } catch (error) {
     console.error('Error initializing database:', error);
-    process.exit(1);
   }
 };
 
-createTables();
+module.exports = createTables;
