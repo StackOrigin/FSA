@@ -22,10 +22,9 @@ export function Footer({ onNavigate }: FooterProps) {
   };
 
   const socialLinks = [
-    { icon: Facebook, label: 'Facebook', href: '#' },
-    { icon: Twitter, label: 'Twitter', href: '#' },
-    { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Youtube, label: 'YouTube', href: '#' },
+    { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/futurestars.acdmy' },
+    { icon: Twitter, label: 'Tiktok', href: '#' },
+    { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/futurestarsacademylalitpur/' },
   ];
 
   return (

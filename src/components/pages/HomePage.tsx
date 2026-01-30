@@ -40,58 +40,12 @@ export function HomePage({ onNavigate }: HomePageProps) {
   }, []);
 
   return (
-    <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 pb-16 px-4 overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 90, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-            className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.2, 1, 1.2],
-              rotate: [90, 0, 90],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-            className="absolute bottom-20 -right-20 w-96 h-96 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-full blur-3xl"
-          />
-          
-          {/* Floating Shapes */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full opacity-20"
-              animate={{
-                y: [0, -30, 0],
-                x: [0, Math.random() * 20 - 10, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: i * 0.5,
-              }}
-              style={{
-                left: `${10 + i * 15}%`,
-                top: `${20 + Math.random() * 60}%`,
-              }}
-            />
-          ))}
-        </div>
+    <div className="overflow-hidden" >
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 pb-16 px-4 overflow-hidden w-[200px] h-[200px];" 
+       >
 
+         <section className="absolute inset-0 bg-cover bg-center h-[70vh] w-[70vh] blur-sm opacity-70" 
+         style={{backgroundImage:"url('/images/mainphoto2.jpg')"}} />
         <motion.div
           style={{ y, opacity }}
           className="relative z-10 max-w-6xl mx-auto text-center"
@@ -102,28 +56,30 @@ export function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 mb-6"
           >
-            <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-sm">Welcome to the Future of Learning</span>
+            <Sparkles className="w-4 h-7 text-blue-900 " />
+            <span className="text-sm ">Welcome to the Future Stars</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+            className="text-2xl md:text-6xl lg:text-4xl font-bold mb-6 text-white bg-clip-text text-transparent"
           >
-            Empowering Minds,
+            Where Every Child's
             <br />
-            Shaping Futures
+            Potential Is Celebrated
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto"
+            className="text-xl text-black md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto text-blue-60"
           >
-            Experience education reimagined. Where innovation meets excellence, and every student's potential is limitless.
+          <Button
+          className="text-2xl "
+          > Empowering Stars, Igniting Futures.</Button>
           </motion.p>
 
           <motion.div
@@ -150,22 +106,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </Button>
           </motion.div>
         </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center p-2"
-          >
-            <motion.div className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full" />
-          </motion.div>
-        </motion.div>
       </section>
 
       {/* Statistics Section */}
@@ -180,6 +120,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* CTA Section */}
       <CTASection onNavigate={onNavigate} />
     </div>
+    
   );
 }
 
@@ -196,15 +137,12 @@ function StatsSection({
 
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/30">
+      
       <div className="max-w-6xl mx-auto">
         {loading ? (
           <div className="flex items-center justify-center py-10">
             <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
           </div>
-        ) : safeStats.length === 0 ? (
-          <Card className="p-10 text-center">
-            <p className="text-muted-foreground">No stats configured.</p>
-          </Card>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {safeStats.map((stat, index) => (
@@ -219,6 +157,7 @@ function StatsSection({
             ))}
           </div>
         )}
+
       </div>
     </section>
   );
@@ -301,9 +240,10 @@ function FeaturesSection({
   const safeFeatures = Array.isArray(features) ? features : [];
 
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 px-4" >
+      <div className="max-w-6xl mx-auto" >
         <motion.div
+
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

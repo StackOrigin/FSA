@@ -75,13 +75,8 @@ export function AdmissionsPage() {
     },
   ];
 
-  const tuitionInfo = [
-    { grade: 'Pre-K & Kindergarten', amount: '$15,000' },
-    { grade: 'Elementary (Grades 1-5)', amount: '$18,000' },
-    { grade: 'Middle School (Grades 6-8)', amount: '$22,000' },
-    { grade: 'High School (Grades 9-12)', amount: '$25,000' },
-  ];
-
+  
+  
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -225,64 +220,10 @@ export function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Tuition & Fees */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Tuition & Financial Aid</h2>
-            <p className="text-lg text-muted-foreground">Annual tuition for 2025-2026</p>
-          </motion.div>
+      {/* Addmission QR */}
+      
 
-          <Card className="p-8 mb-8 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-border/50 backdrop-blur">
-            <div className="space-y-4">
-              {tuitionInfo.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-center justify-between py-3 border-b border-border/30 last:border-0"
-                >
-                  <span className="font-medium">{item.grade}</span>
-                  <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    {item.amount}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </Card>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <Card className="p-6 border-border/50 bg-card/50 backdrop-blur">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
-                  <DollarSign className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">Financial Aid Available</h3>
-                  <p className="text-muted-foreground mb-4">
-                    We believe that every qualified student deserves access to an excellent education. Our financial aid program provides need-based assistance to families. Over 30% of our students receive some form of financial support.
-                  </p>
-                  <Button variant="outline" className="rounded-full">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download Financial Aid Application
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
+     
 
       {/* FAQs */}
       <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">

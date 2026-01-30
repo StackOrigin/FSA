@@ -130,7 +130,7 @@ export function AboutPage() {
 
       {/* Timeline */}
       <section className="py-20 px-4 bg-gradient-to-b from-background via-muted/30 to-background">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +141,8 @@ export function AboutPage() {
             <p className="text-lg text-muted-foreground">Milestones that shaped our legacy</p>
           </motion.div>
 
-          <div className="relative">
+          <div className="grid md:grid-cols-2 gap-17 items-start">
+            <div className="relative">
             {/* Timeline line */}
             <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500" />
 
@@ -186,6 +187,28 @@ export function AboutPage() {
                 </motion.div>
               ))}
             </div>
+            </div>
+
+            {/* Image Section */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex items-center justify-center "
+            >
+              <div className='flex flex-col gap-x-7'>
+              <img src="/images/mainphoto1.jpg" 
+                alt="Journey" 
+                className="w-full h-auto rounded-lg shadow-lg object-cover py-8 rounded-small"
+              />
+              <img src='/images/mainphoto1.jpg' className='py-9' />
+               <img src='/images/mainphoto1.jpg' className='py-8' />
+                <img src='/images/mainphoto1.jpg' className='py-8' />
+                <img src='/images/mainphoto1.jpg' className='py-8' />
+                <img src='/images/mainphoto1.jpg' className='py-8' />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -241,14 +264,25 @@ export function AboutPage() {
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Our dedicated team of administrators, teachers, and staff work tirelessly to create an environment where every student can thrive.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.1 }}
-                  className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-4 border-background shadow-lg"
-                />
-              ))}
+            <div className='flex flex-col gap-8'>
+                <div className='flex gap-4'>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Watching students grow in confidence is the most rewarding part of teaching here."</p>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Witnessing students develop confidence and academic excellence is the most fulfilling aspect of my role as an educator."</p>
+                </div>
+                <div className='flex gap-4'>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Education is not only about imparting knowledge, but about nurturing character and self-belief."</p>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Each student’s success reflects our commitment to quality education."</p>
+              </div>
+              <div className='flex gap-4'>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Supporting students in their personal and academic growth is at the heart of my teaching philosophy."</p>
+                  <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
+                  <p>"Observing students progress with confidence and competence is deeply rewarding."</p>
+              </div>
             </div>
           </motion.div>
         </div>
