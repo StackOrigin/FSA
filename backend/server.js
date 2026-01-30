@@ -20,6 +20,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Import routes
 const apiRoutes = require('./routes/api');
 
+// Initialize database tables
+const initDb = require('./config/initDb');
+initDb();
+
 // Use routes
 app.use('/api', apiRoutes);
 
