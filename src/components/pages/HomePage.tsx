@@ -44,8 +44,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 pb-16 px-4 overflow-hidden w-[200px] h-[200px];" 
        >
 
-         <section className="absolute inset-0 bg-cover bg-center h-[70vh] w-[70vh] blur-sm opacity-70" 
-         style={{backgroundImage:"url('/images/mainphoto2.jpg')"}} />
+         <section className="absolute inset-0 bg-cover bg-center h-[70vh] w-[70vh] blur-sm opacity-70"  />
         <motion.div
           style={{ y, opacity }}
           className="relative z-10 max-w-6xl mx-auto text-center"
@@ -64,7 +63,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl md:text-6xl lg:text-4xl font-bold mb-6 text-white bg-clip-text text-transparent"
+            className="text-2xl md:text-6xl lg:text-4xl font-bold mb-6 text-black bg-clip-text "
           >
             Where Every Child's
             <br />
@@ -317,46 +316,13 @@ function TestimonialsSection({
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Hear From Our Community</h2>
-          <p className="text-lg text-muted-foreground">Real stories from real people</p>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">Message from our Principal</h2>
         </motion.div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-10">
-            <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
-          </div>
-        ) : safeTestimonials.length === 0 ? (
-          <Card className="p-10 text-center">
-            <p className="text-muted-foreground">No testimonials configured.</p>
-          </Card>
-        ) : (
-          <div className="grid md:grid-cols-3 gap-8">
-            {safeTestimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card className="p-6 hover:shadow-lg transition-shadow border-border/50 bg-card/50 backdrop-blur">
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="font-bold">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground italic">"{testimonial.content}"</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        
+        
+
+        
       </div>
     </section>
   );

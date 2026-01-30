@@ -33,60 +33,51 @@ export function AboutPage() {
 
   const values = [
     {
-      icon: Target,
       title: 'Excellence',
       description: 'Striving for the highest standards in everything we do.',
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-blue-500 via-purple-500 to-pink-500',
     },
     {
-      icon: Heart,
       title: 'Compassion',
       description: 'Fostering empathy, kindness, and understanding in our community.',
-      color: 'from-pink-500 to-rose-500',
+      color: 'from-blue-500 via-purple-500 to-pink-500',
     },
     {
-      icon: Lightbulb,
       title: 'Innovation',
       description: 'Embracing creativity and new approaches to learning.',
-      color: 'from-purple-500 to-violet-500',
+      color: 'from-blue-500 via-purple-500 to-pink-500',
     },
     {
-      icon: Users,
       title: 'Collaboration',
       description: 'Building strong partnerships among students, teachers, and families.',
-      color: 'from-orange-500 to-amber-500',
+      color: 'from-blue-500 via-purple-500 to-pink-500',
     },
     {
-      icon: Award,
       title: 'Integrity',
       description: 'Upholding honesty, ethics, and accountability in all our actions.',
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-blue-500 via-purple-500 to-pink-500',
     },
-    {
-      icon: Eye,
-      title: 'Vision',
-      description: 'Looking forward to create lasting positive impact on society.',
-      color: 'from-indigo-500 to-blue-500',
-    },
+    
   ];
 
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="py-20 px-4 text-center bg-gradient-to-b from-background via-muted/30 to-background">
+      <section className="py-20 px-4 text-center bg-gradient-to-b from-background via-muted/30 to-background"
+      style={{backgroundImage:"url('/images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center "}}>
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            About FutureSchool
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white  bg-clip-text text-transparent">
+            About Our Future Stars
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            For over 30 years, we've been at the forefront of educational innovation, nurturing curious minds and empowering students to become leaders, thinkers, and changemakers.
-          </p>
+          
         </motion.div>
+        
       </section>
 
       {/* Mission & Vision */}
@@ -104,7 +95,8 @@ export function AboutPage() {
               </div>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Mission</h2>
               <p className="text-muted-foreground leading-relaxed">
-                To provide a transformative educational experience that empowers every student to reach their full potential, think critically, and make meaningful contributions to society. We are committed to fostering curiosity, creativity, and a lifelong love of learning.
+                To provide a transformative educational experience that empowers every student to reach their full potential, 
+                think critically, and make meaningful contributions to society. 
               </p>
             </Card>
           </motion.div>
@@ -121,7 +113,8 @@ export function AboutPage() {
               </div>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Vision</h2>
               <p className="text-muted-foreground leading-relaxed">
-                To be a global leader in education, recognized for excellence in teaching, innovation in learning, and dedication to developing compassionate, capable individuals who will shape a better future for all. We envision a world where every student thrives.
+                To be a global leader in education, recognized for excellence in teaching, innovation in learning, and dedication to 
+                developing compassionate, capable individuals who will shape a better future for all. 
               </p>
             </Card>
           </motion.div>
@@ -226,7 +219,7 @@ export function AboutPage() {
             <p className="text-lg text-muted-foreground">The principles that guide everything we do</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 ">
             {values.map((value, index) => (
               <motion.div
                 key={index}
@@ -235,15 +228,14 @@ export function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 group cursor-pointer border-border/50 bg-card/50 backdrop-blur">
+                <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 group cursor-pointer border-border/50 bg-card/50 backdrop-blur align-middle text-center">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className={`w-14 h-14 rounded-full bg-gradient-to-br ${value.color} flex items-center justify-center mb-4`}
+                    className={`w-9 h-9 rounded-full bg-gradient-to-br ${value.color} mb-3 mx-auto flex items-center justify-center`}
                   >
-                    <value.icon className="w-7 h-7 text-white" />
                   </motion.div>
-                  <h3 className="text-xl font-bold mb-2">{value.title}</h3>
+                  <h3 className="text-xl font-bold mb-2 ">{value.title}</h3>
                   <p className="text-muted-foreground">{value.description}</p>
                 </Card>
               </motion.div>
@@ -260,11 +252,9 @@ export function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Led by Passionate Educators</h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Our dedicated team of administrators, teachers, and staff work tirelessly to create an environment where every student can thrive.
-            </p>
-            <div className='flex flex-col gap-8'>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Teacher's Testimonial</h2>
+            
+            <div className='flex flex-col gap-8 p-12'>
                 <div className='flex gap-4'>
                   <img className='w-20 h-20 rounded-lg object-cover flex-shrink-0' src='/images/mainphoto1.jpg'/>
                   <p>"Watching students grow in confidence is the most rewarding part of teaching here."</p>
