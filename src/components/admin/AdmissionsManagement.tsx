@@ -4,7 +4,7 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
-import { X, UserPlus, Search, Loader2, Eye } from 'lucide-react';
+import { X, UserPlus, Search, Loader2, Eye, RefreshCw, GraduationCap, Mail, Phone, FileText } from 'lucide-react';
 
 interface Admission {
   id: number;
@@ -23,14 +23,18 @@ const statusOptions = ['pending', 'under_review', 'approved', 'rejected'] as con
 function statusColor(status: string) {
   switch (status) {
     case 'approved':
-      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300';
+      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
     case 'rejected':
-      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300';
+      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border-red-200 dark:border-red-800';
     case 'under_review':
-      return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
+      return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800';
     default:
-      return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300';
+      return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border-amber-200 dark:border-amber-800';
   }
+}
+
+function statusLabel(status: string) {
+  return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
 export function AdmissionsManagement() {
@@ -97,31 +101,75 @@ export function AdmissionsManagement() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Admissions</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Review and update admission applications</p>
+          <motion.h1 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-bold text-gray-900 dark:text-white"
+          >
+            Admissions
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-500 dark:text-gray-400 mt-1"
+          >
+            Review and manage admission applications
+          </motion.p>
         </div>
-        <Button variant="outline" onClick={fetchAdmissions}>Refresh</Button>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Button 
+            variant="outline" 
+            onClick={fetchAdmissions}
+            className="rounded-xl h-11 px-5 hover:bg-gray-50 dark:hover:bg-gray-800"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh
+          </Button>
+        </motion.div>
       </div>
 
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="relative max-w-md"
+      >
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <Input
           placeholder="Search applications..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
+          className="pl-12 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
         />
-      </div>
+      </motion.div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-green-500" />
+        <div className="flex flex-col items-center justify-center py-20">
+          <Loader2 className="w-10 h-10 animate-spin text-emerald-500 mb-4" />
+          <p className="text-gray-500 dark:text-gray-400">Loading applications...</p>
         </div>
       ) : filtered.length === 0 ? (
-        <Card className="p-12 text-center">
-          <UserPlus className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">No applications found.</p>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <Card className="p-16 text-center border-0 bg-white dark:bg-slate-800">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+              <FileText className="w-10 h-10 text-emerald-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {search ? 'No applications found' : 'No applications yet'}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {search ? 'Try adjusting your search terms.' : 'Admission applications will appear here.'}
+            </p>
+          </Card>
+        </motion.div>
       ) : (
         <div className="grid gap-4">
           {filtered.map((a, index) => (
@@ -131,46 +179,68 @@ export function AdmissionsManagement() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.03 }}
             >
-              <Card className="p-6 hover:shadow-lg transition-shadow">
+              <Card className="p-6 hover:shadow-xl transition-all duration-300 border-0 bg-white dark:bg-slate-800 group">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {a.student_name}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold shadow-lg">
+                        {a.student_name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-bold text-gray-900 dark:text-white text-lg">
+                            {a.student_name}
+                          </span>
+                          <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold border ${statusColor(String(a.status))}`}>
+                            {statusLabel(String(a.status))}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          Applied {new Date(a.created_at).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
+                        <GraduationCap className="w-4 h-4 text-emerald-500" />
+                        Grade {a.grade_applying}
                       </span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {new Date(a.created_at).toLocaleString()}
-                      </span>
-                      <span className={`ml-auto lg:ml-0 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${statusColor(String(a.status))}`}>
-                        {String(a.status).replace('_', ' ')}
+                      <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
+                        <UserPlus className="w-4 h-4 text-blue-500" />
+                        {a.parent_name}
                       </span>
                     </div>
 
-                    <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                      Parent: <span className="font-medium">{a.parent_name}</span> • Grade: <span className="font-medium">{a.grade_applying}</span>
-                    </div>
-                    <div className="mt-1 text-sm text-gray-500 dark:text-gray-400 break-all">
-                      {a.email} • {a.phone}
-                    </div>
-                    {a.message ? (
-                      <div className="mt-3 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-                        {a.message}
-                      </div>
-                    ) : null}
+                    {a.message && (
+                      <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 line-clamp-2 italic">
+                        "{a.message}"
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button variant="outline" size="sm" onClick={() => setSelected(a)}>
-                      <Eye className="w-4 h-4 mr-2" /> View
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setSelected(a)}
+                      className="rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 hover:border-blue-200"
+                    >
+                      <Eye className="w-4 h-4 mr-2" /> 
+                      View
                     </Button>
                     <select
                       value={String(a.status)}
                       onChange={(e) => updateStatus(a.id, e.target.value)}
                       disabled={updatingId === a.id}
-                      className="h-9 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 text-sm"
+                      className="h-9 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 px-3 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       {statusOptions.map((s) => (
-                        <option key={s} value={s}>{s.replace('_', ' ')}</option>
+                        <option key={s} value={s}>{statusLabel(s)}</option>
                       ))}
                     </select>
                   </div>
@@ -187,63 +257,118 @@ export function AdmissionsManagement() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl"
+              style={{ backgroundColor: 'white' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    {selected.student_name} — Grade {selected.grade_applying}
-                  </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Parent: {selected.parent_name} • {selected.email} • {selected.phone}
-                  </p>
+              <div className="bg-white dark:bg-slate-800 rounded-2xl">
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                    {selected.student_name.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                      {selected.student_name}
+                    </h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      Applying for Grade {selected.grade_applying}
+                    </p>
+                  </div>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setSelected(null)}>
+                <Button variant="ghost" size="icon" onClick={() => setSelected(null)} className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
                   <X className="w-5 h-5" />
                 </Button>
               </div>
 
-              <div className="flex items-center gap-2 mb-4">
-                <Badge className={statusColor(String(selected.status))}>
-                  {String(selected.status).replace('_', ' ')}
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                <Badge className={`${statusColor(String(selected.status))} px-4 py-1.5 text-sm font-semibold`}>
+                  {statusLabel(String(selected.status))}
                 </Badge>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   Submitted {new Date(selected.created_at).toLocaleString()}
                 </span>
               </div>
 
-              {selected.message ? (
-                <Card className="p-4 bg-gray-50 dark:bg-gray-900/30">
-                  <p className="whitespace-pre-wrap text-gray-800 dark:text-gray-200">{selected.message}</p>
-                </Card>
-              ) : (
-                <Card className="p-4 bg-gray-50 dark:bg-gray-900/30">
-                  <p className="text-gray-500 dark:text-gray-400">No message provided.</p>
-                </Card>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-slate-900/50 rounded-xl">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                    <UserPlus className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Parent/Guardian</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">{selected.parent_name}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-slate-900/50 rounded-xl">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <GraduationCap className="w-5 h-5 text-emerald-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Grade Applying</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">Grade {selected.grade_applying}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-slate-900/50 rounded-xl">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-orange-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="font-semibold text-gray-900 dark:text-white text-sm">{selected.email}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-slate-900/50 rounded-xl">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-purple-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Phone</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">{selected.phone}</p>
+                  </div>
+                </div>
+              </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-6">
-                <select
-                  value={String(selected.status)}
-                  onChange={(e) => updateStatus(selected.id, e.target.value)}
-                  disabled={updatingId === selected.id}
-                  className="h-10 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 text-sm flex-1"
-                >
-                  {statusOptions.map((s) => (
-                    <option key={s} value={s}>{s.replace('_', ' ')}</option>
-                  ))}
-                </select>
-                <Button variant="outline" className="flex-1" onClick={() => setSelected(null)}>
-                  Close
-                </Button>
+              {selected.message ? (
+                <div className="mb-6">
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Additional Message</p>
+                  <Card className="p-4 bg-gray-50 dark:bg-slate-900/50 border-0 rounded-xl">
+                    <p className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 italic">"{selected.message}"</p>
+                  </Card>
+                </div>
+              ) : null}
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Update Status</label>
+                  <select
+                    value={String(selected.status)}
+                    onChange={(e) => updateStatus(selected.id, e.target.value)}
+                    disabled={updatingId === selected.id}
+                    className="w-full h-11 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 px-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    {statusOptions.map((s) => (
+                      <option key={s} value={s}>{statusLabel(s)}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-end">
+                  <Button 
+                    variant="outline" 
+                    className="h-11 rounded-xl px-6" 
+                    onClick={() => setSelected(null)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
               </div>
             </motion.div>
           </motion.div>

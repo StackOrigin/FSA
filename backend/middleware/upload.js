@@ -38,6 +38,21 @@ const galleryStorage = multer.diskStorage({
   }
 });
 
+// Configure storage for features
+const featureStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../uploads/features');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'feature-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
 // File filter for images only
 const imageFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -64,7 +79,14 @@ const uploadGallery = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 }).single('image');
 
+const uploadFeature = multer({
+  storage: featureStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+}).single('image');
+
 module.exports = {
   uploadEvent,
-  uploadGallery
+  uploadGallery,
+  uploadFeature
 };

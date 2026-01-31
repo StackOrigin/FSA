@@ -15,6 +15,7 @@ import {
   X,
   Search,
   Loader2,
+  CalendarDays,
 } from 'lucide-react';
 
 interface Event {
@@ -166,45 +167,85 @@ export function EventsManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Events Management
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
+          <motion.h1 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-bold text-gray-900 dark:text-white"
+          >
+            Events
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-500 dark:text-gray-400 mt-1"
+          >
             Create and manage school events
-          </p>
+          </motion.p>
         </div>
-        <Button
-          onClick={openAddModal}
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
         >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Event
-        </Button>
+          <Button
+            onClick={openAddModal}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-500/25 rounded-xl h-11 px-5"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Add Event
+          </Button>
+        </motion.div>
       </div>
 
       {/* Search */}
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="relative max-w-md"
+      >
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <Input
           placeholder="Search events..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="pl-12 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
         />
-      </div>
+      </motion.div>
 
       {/* Events List */}
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+        <div className="flex flex-col items-center justify-center py-20">
+          <Loader2 className="w-10 h-10 animate-spin text-blue-500 mb-4" />
+          <p className="text-gray-500 dark:text-gray-400">Loading events...</p>
         </div>
       ) : filteredEvents.length === 0 ? (
-        <Card className="p-12 text-center">
-          <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">
-            {searchTerm ? 'No events found matching your search.' : 'No events yet. Add your first event!'}
-          </p>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <Card className="p-16 text-center border-0 bg-white dark:bg-slate-800">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <CalendarDays className="w-10 h-10 text-blue-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {searchTerm ? 'No events found' : 'No events yet'}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              {searchTerm ? 'Try adjusting your search terms.' : 'Get started by adding your first event!'}
+            </p>
+            {!searchTerm && (
+              <Button
+                onClick={openAddModal}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Your First Event
+              </Button>
+            )}
+          </Card>
+        </motion.div>
       ) : (
         <div className="grid gap-4">
           {filteredEvents.map((event, index) => (
@@ -214,31 +255,35 @@ export function EventsManagement() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
             >
-              <Card className="p-6 hover:shadow-lg transition-shadow">
+              <Card className="p-6 hover:shadow-xl transition-all duration-300 border-0 bg-white dark:bg-slate-800 group">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {event.title}
                     </h3>
                     {event.description && (
-                      <p className="text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                      <p className="text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
                         {event.description}
                       </p>
                     )}
-                    <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {new Date(event.event_date).toLocaleDateString()}
+                    <div className="flex flex-wrap gap-4 mt-4">
+                      <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
+                        <Calendar className="w-4 h-4 text-blue-500" />
+                        {new Date(event.event_date).toLocaleDateString('en-US', { 
+                          month: 'short', 
+                          day: 'numeric', 
+                          year: 'numeric' 
+                        })}
                       </span>
                       {event.event_time && (
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
+                        <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
+                          <Clock className="w-4 h-4 text-purple-500" />
                           {event.event_time}
                         </span>
                       )}
                       {event.location && (
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
+                        <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
+                          <MapPin className="w-4 h-4 text-emerald-500" />
                           {event.location}
                         </span>
                       )}
@@ -249,13 +294,15 @@ export function EventsManagement() {
                       variant="outline"
                       size="sm"
                       onClick={() => openEditModal(event)}
+                      className="rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 hover:border-blue-200"
                     >
-                      <Pencil className="w-4 h-4" />
+                      <Pencil className="w-4 h-4 mr-2" />
+                      Edit
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                      className="rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200"
                       onClick={() => handleDelete(event.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -275,53 +322,64 @@ export function EventsManagement() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={closeModal}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
+              style={{ backgroundColor: 'white' }}
               onClick={(e) => e.stopPropagation()}
             >
+              <div className="bg-white dark:bg-slate-800 rounded-2xl">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  {editingEvent ? 'Edit Event' : 'Add New Event'}
-                </h2>
-                <Button variant="ghost" size="icon" onClick={closeModal}>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    {editingEvent ? 'Edit Event' : 'Add New Event'}
+                  </h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {editingEvent ? 'Update the event details below' : 'Fill in the event details below'}
+                  </p>
+                </div>
+                <Button variant="ghost" size="icon" onClick={closeModal} className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
                   <X className="w-5 h-5" />
                 </Button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <Label htmlFor="title">Event Title *</Label>
+                  <Label htmlFor="title" className="text-gray-700 dark:text-gray-300">Event Title *</Label>
                   <Input
                     id="title"
                     value={formData.title}
                     onChange={(e) =>
                       setFormData({ ...formData, title: e.target.value })
                     }
+                    className="mt-1.5 h-11 rounded-xl"
+                    placeholder="Enter event title"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description" className="text-gray-700 dark:text-gray-300">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
+                    className="mt-1.5 rounded-xl"
+                    placeholder="Describe the event..."
                     rows={3}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="date">Date *</Label>
+                    <Label htmlFor="date" className="text-gray-700 dark:text-gray-300">Date *</Label>
                     <Input
                       id="date"
                       type="date"
@@ -329,11 +387,12 @@ export function EventsManagement() {
                       onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                       }
+                      className="mt-1.5 h-11 rounded-xl"
                       required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="time">Time</Label>
+                    <Label htmlFor="time" className="text-gray-700 dark:text-gray-300">Time</Label>
                     <Input
                       id="time"
                       type="text"
@@ -342,12 +401,13 @@ export function EventsManagement() {
                       onChange={(e) =>
                         setFormData({ ...formData, time: e.target.value })
                       }
+                      className="mt-1.5 h-11 rounded-xl"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="location" className="text-gray-700 dark:text-gray-300">Location</Label>
                   <Input
                     id="location"
                     value={formData.location}
@@ -355,11 +415,12 @@ export function EventsManagement() {
                       setFormData({ ...formData, location: e.target.value })
                     }
                     placeholder="e.g., Main Auditorium"
+                    className="mt-1.5 h-11 rounded-xl"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="image">Event Image</Label>
+                  <Label htmlFor="image" className="text-gray-700 dark:text-gray-300">Event Image</Label>
                   <Input
                     id="image"
                     type="file"
@@ -375,13 +436,13 @@ export function EventsManagement() {
                         reader.readAsDataURL(file);
                       }
                     }}
-                    className="cursor-pointer"
+                    className="mt-1.5 cursor-pointer rounded-xl"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1.5">
                     Upload an image from your computer (max 5MB)
                   </p>
                   {imagePreview && (
-                    <div className="mt-2 relative w-full h-32 rounded-lg overflow-hidden border">
+                    <div className="mt-3 relative w-full h-32 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                       <img
                         src={imagePreview}
                         alt="Preview"
@@ -395,18 +456,18 @@ export function EventsManagement() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="flex-1"
+                    className="flex-1 h-11 rounded-xl"
                     onClick={closeModal}
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600"
+                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg"
                     disabled={submitting}
                   >
                     {submitting ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                     ) : editingEvent ? (
                       'Update Event'
                     ) : (
@@ -415,6 +476,7 @@ export function EventsManagement() {
                   </Button>
                 </div>
               </form>
+              </div>
             </motion.div>
           </motion.div>
         )}

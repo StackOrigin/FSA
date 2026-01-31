@@ -6,6 +6,7 @@ import { EventsManagement } from './EventsManagement';
 import { GalleryManagement } from './GalleryManagement';
 import { ContactsManagement } from './ContactsManagement';
 import { AdmissionsManagement } from './AdmissionsManagement';
+import { HomeContentManagement } from './HomeContentManagement';
 
 export function AdminApp() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -49,6 +50,8 @@ export function AdminApp() {
         return <ContactsManagement />;
       case 'admissions':
         return <AdmissionsManagement />;
+      case 'home-content':
+        return <HomeContentManagement />;
       default:
         return <AdminDashboard onNavigate={setCurrentPage} />;
     }
@@ -59,14 +62,14 @@ export function AdminApp() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-900 dark:to-slate-800">
       <AdminNavigation
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         adminUser={adminUser}
         onLogout={handleLogout}
       />
-      <main className="lg:ml-64 min-h-screen">
+      <main className="lg:ml-72 min-h-screen">
         <div className="p-4 lg:p-8">
           {renderPage()}
         </div>

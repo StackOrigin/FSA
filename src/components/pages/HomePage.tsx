@@ -316,22 +316,47 @@ function TestimonialsSection({
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Message from our Principal</h2>
-          
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items center py-8'>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Message from our Principal
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+            A word of inspiration and guidance for our school community
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Card className="p-8 md:p-10 bg-card/50 backdrop-blur border-border/50 hover:shadow-xl transition-shadow duration-300">
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center'>
               <div className='flex justify-center items-center'>
-                <img src='/images/principal.jpg' 
-                className='w-[300px] h-[300px] object-cover rounded-lg shadow-lg'/>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-30" />
+                  <img 
+                    src='/images/principal.jpg' 
+                    className='relative w-[280px] h-[280px] md:w-[300px] md:h-[300px] object-cover rounded-2xl shadow-2xl border-4 border-white/10'
+                    alt="Principal"
+                  />
+                </div>
               </div>
-              <div className='text-lg leading-relaxed text-justify'>
-              <p className='text-2xl'>As the Principal, I am proud to lead a school community
-              that is committed to academic excellence,character development, and the holistic growth of every student. We strive to create a safe, supportive,
-              and inspiring environment where students are encouraged to explore their potential, think critically, and
-              develop lifelong values. Together with our dedicated teachers, supportive parents, and motivated students,
-              we work as a team to shape responsible, confident, and compassionate individuals who are prepared to
-              face the challenges of the future.</p>
+              <div className='space-y-4'>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full" />
+                  <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Principal's Message</span>
+                </div>
+                <p className='text-base md:text-lg leading-relaxed text-muted-foreground text-justify'>
+                  As the Principal, I am proud to lead a school community that is committed to academic excellence, character development, and the holistic growth of every student. We strive to create a safe, supportive, and inspiring environment where students are encouraged to explore their potential, think critically, and develop lifelong values. Together with our dedicated teachers, supportive parents, and motivated students, we work as a team to shape responsible, confident, and compassionate individuals who are prepared to face the challenges of the future.
+                </p>
+                <div className="pt-4 border-t border-border/50">
+                  <p className="font-semibold text-foreground">School Principal</p>
+                  <p className="text-sm text-muted-foreground">Future Stars School</p>
+                </div>
               </div>
             </div>
+          </Card>
           
         </motion.div>
 

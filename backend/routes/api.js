@@ -9,7 +9,7 @@ const galleryController = require('../controllers/galleryController');
 const contentController = require('../controllers/contentController');
 
 // Import upload middleware
-const { uploadEvent, uploadGallery } = require('../middleware/upload');
+const { uploadEvent, uploadGallery, uploadFeature } = require('../middleware/upload');
 
 // Contact routes
 router.post('/contact', contactController.submitContact);
@@ -26,6 +26,15 @@ router.delete('/events/:id', eventsController.deleteEvent);
 // Site content routes
 router.get('/content/:key', contentController.getContent);
 router.put('/content/:key', contentController.upsertContent);
+
+// Feature image upload route
+router.post('/upload/feature', uploadFeature, (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image uploaded' });
+  }
+  const imageUrl = `/uploads/features/${req.file.filename}`;
+  res.json({ imageUrl });
+});
 
 // Admissions routes
 router.post('/admissions', admissionsController.submitApplication);
