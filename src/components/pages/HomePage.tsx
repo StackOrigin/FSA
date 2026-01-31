@@ -317,6 +317,22 @@ function TestimonialsSection({
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Message from our Principal</h2>
+          
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items center py-8'>
+              <div className='flex justify-center items-center'>
+                <img src='/images/principal.jpg' 
+                className='w-[300px] h-[300px] object-cover rounded-lg shadow-lg'/>
+              </div>
+              <div className='text-lg leading-relaxed text-justify'>
+              <p className='text-2xl'>As the Principal, I am proud to lead a school community
+              that is committed to academic excellence,character development, and the holistic growth of every student. We strive to create a safe, supportive,
+              and inspiring environment where students are encouraged to explore their potential, think critically, and
+              develop lifelong values. Together with our dedicated teachers, supportive parents, and motivated students,
+              we work as a team to shape responsible, confident, and compassionate individuals who are prepared to
+              face the challenges of the future.</p>
+              </div>
+            </div>
+          
         </motion.div>
 
         
