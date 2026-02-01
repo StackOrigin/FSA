@@ -17,7 +17,7 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
-    { id: 'academics', label: 'Academics' },
+    { id: 'notice', label: 'Notice' },
     { id: 'admissions', label: 'Admissions' },
     { id: 'events', label: 'Events' },
     { id: 'gallery', label: 'Gallery' },
