@@ -41,16 +41,23 @@ export function NoticePage() {
 
 
       {/* Notices */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 max-w-7xl mx-auto">
-        <div className='p-6 flex'>
-          <img src='/images/vacancy3.jpg' 
-          className='transition-transform duration-300 ease-in-out hover:-translate-y-4'/>
+      <section className="py-20 px-4 bg-gradient-to-b from-background via-muted/30 to-background">
+      <div className='sapce-y-10'>
+        <div className='justify-center gap-2 grid md:grid-cols-3 '>
+          <img src="/images/vacancy3.jpg" 
+          className=''/>
           <img src='/images/vacancy3.jpg'/>
-
-
         </div>
-        
 
+         <div className='justify-center gap-2 grid md:grid-cols-3 '>
+          <img src="/images/vacancy3.jpg" 
+          className=''/>
+          <img src='/images/vacancy3.jpg'/>
+        </div>
+
+       
+       
+        </div>
       </section>
 
       
