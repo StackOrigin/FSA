@@ -221,6 +221,28 @@ export function AdmissionsPage() {
       </section>
 
       {/* Addmission QR */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Quick Access</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Scan the QR code below to access our admissions portal directly from your mobile device.
+            </p>
+            <div className="inline-block p-6 bg-card/50 border-border/50 rounded-lg backdrop-blur hover:shadow-xl transition-shadow">
+              <img
+                src="/path-to-qr-code.png"
+                alt="Admissions QR Code"
+                className="w-48 h-48 mx-auto"
+              />
+              <p className="mt-4 text-sm text-muted-foreground">Scan to Apply Now</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
       
 
      

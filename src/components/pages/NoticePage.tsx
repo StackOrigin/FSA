@@ -1,19 +1,5 @@
 import { motion } from 'motion/react';
 import { Card } from '../ui/card';
-import { 
-  BookOpen, 
-  FlaskConical, 
-  Calculator, 
-  Languages, 
-  Palette, 
-  Music, 
-  Laptop,
-  Globe,
-  Trophy,
-  Users,
-  Clock,
-  GraduationCap
-} from 'lucide-react';
 import { useState } from 'react';
 
 export function NoticePage() {
@@ -50,15 +36,20 @@ export function NoticePage() {
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Our Programs</h2>
             <p className="text-lg text-muted-foreground">Click on any subject to Download notice</p>
           </motion.div>
-
-          
         </div>
       </section>
+
+
       {/* Notices */}
-      <section className=''>
-        <div className='p-6'>
-          <img src='/images/vacancy3.jpg' className='h-20.1'/>
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 max-w-7xl mx-auto">
+        <div className='p-6 flex'>
+          <img src='/images/vacancy3.jpg' 
+          className='transition-transform duration-300 ease-in-out hover:-translate-y-4'/>
+          <img src='/images/vacancy3.jpg'/>
+
+
         </div>
+        
 
       </section>
 
