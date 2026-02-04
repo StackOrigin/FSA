@@ -18,6 +18,7 @@ import {
   Sparkles,
   Layout,
   Upload,
+  ArrowLeft,
 } from 'lucide-react';
 
 interface Feature {
@@ -53,7 +54,11 @@ const gradientOptions = [
   { value: 'from-teal-500 to-cyan-500', label: 'Teal to Cyan' },
 ];
 
-export function HomeContentManagement() {
+interface HomeContentManagementProps {
+  onBack: () => void;
+}
+
+export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
   const [homeContent, setHomeContent] = useState<HomeContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -252,6 +257,14 @@ export function HomeContentManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onBack}
+            className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
           <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
             <Layout className="w-6 h-6 text-white" />
           </div>
