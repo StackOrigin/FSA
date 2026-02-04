@@ -370,63 +370,6 @@ export function EventsPage() {
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Latest News</h2>
-            <p className="text-lg text-muted-foreground">Stay updated with school happenings</p>
-          </motion.div>
-
-          {loadingNews ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
-            </div>
-          ) : newsItems.length === 0 ? (
-            <Card className="p-12 text-center">
-              <Newspaper className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-500 dark:text-gray-400">No news items yet.</p>
-            </Card>
-          ) : (
-            <div className="space-y-8">
-              {newsItems.map((news, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer border-border/50 bg-card/50 backdrop-blur">
-                    <div className="grid md:grid-cols-3">
-                      <div className="relative h-48 md:h-full">
-                        <img
-                          src={news.image}
-                          alt={news.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="md:col-span-2 p-6 md:p-8">
-                        <div className="text-sm text-muted-foreground mb-2">{news.date}</div>
-                        <h3 className="text-2xl font-bold mb-3">{news.title}</h3>
-                        <p className="text-muted-foreground mb-4">{news.excerpt}</p>
-                        <Button variant="outline" className="rounded-full">
-                          Read Full Story
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

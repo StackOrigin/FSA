@@ -91,7 +91,7 @@ export function AdmissionsPage() {
             Join Our Community
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-            We're excited that you're considering FutureSchool for your child's education. Our admissions process is designed to help us get to know your family and ensure the best fit for your child's success.
+          Our admissions process is designed to help us get to know your family and ensure the best fit for your child's success.
           </p>
           <Button
             size="lg"
@@ -221,28 +221,7 @@ export function AdmissionsPage() {
       </section>
 
       {/* Addmission QR */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Quick Access</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Scan the QR code below to access our admissions portal directly from your mobile device.
-            </p>
-            <div className="inline-block p-6 bg-card/50 border-border/50 rounded-lg backdrop-blur hover:shadow-xl transition-shadow">
-              <img
-                src="/path-to-qr-code.png"
-                alt="Admissions QR Code"
-                className="w-48 h-48 mx-auto"
-              />
-              <p className="mt-4 text-sm text-muted-foreground">Scan to Apply Now</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      
       
 
      
@@ -279,35 +258,7 @@ export function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-20 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <Card className="p-12 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 border-border/50 backdrop-blur">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Our admissions team is here to help you through every step
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Email Admissions
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full px-8">
-                <Phone className="w-5 h-5 mr-2" />
-                Call Us
-              </Button>
-            </div>
-          </Card>
-        </motion.div>
-      </section>
+     
     </div>
   );
 }

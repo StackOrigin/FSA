@@ -19,7 +19,7 @@ export function NoticePage() {
             Notice Module
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            "Notices are subject to change. Stay updated for important information.”
+            "Notices are subject to change. Stay updated for important information."
           </p>
         </motion.div>
       </section>
@@ -41,23 +41,24 @@ export function NoticePage() {
 
 
       {/* Notices */}
-      <section className="py-20 px-4 bg-gradient-to-b from-background via-muted/30 to-background">
-      <div className='sapce-y-10'>
-        <div className='justify-center gap-2 grid md:grid-cols-3 '>
-          <img src="/images/vacancy3.jpg" 
-          className=''/>
-          <img src='/images/vacancy3.jpg'/>
+      <section >
+        <li className="md:text-3xl font-bold px-8">Magh Month Updates</li>
+        <div className='flex w-full justify-center gap-4 flex-wrap '>
+          <img src='/images/vacancy3.jpg' 
+          className='p-2 py-8 w-48 md:w-56 lg:w-64 object-cover border-radius:8px'/>
+          <img src='/images/vacancy3.jpg' className='p-2 py-8 w-48 md:w-56 lg:w-64 object-cover'/>
         </div>
 
-         <div className='justify-center gap-2 grid md:grid-cols-3 '>
-          <img src="/images/vacancy3.jpg" 
-          className=''/>
-          <img src='/images/vacancy3.jpg'/>
+        <li className="md:text-3xl font-bold px-8">Falgun Month Updates</li>
+        <div className='flex w-full justify-center gap-4 flex-wrap '>
+          <img src='/images/vacancy3.jpg' 
+          className='p-2 py-8 w-48 md:w-56 lg:w-64 object-cover border-radius:8px'/>
+          <img src='/images/vacancy.jpg' className='p-2 py-8 w-48 md:w-56 lg:w-64 object-cover'/>
         </div>
 
-       
-       
-        </div>
+        
+
+
       </section>
 
       
