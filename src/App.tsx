@@ -5,7 +5,7 @@ import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { HomePage } from './components/pages/HomePage';
 import { AboutPage } from './components/pages/AboutPage';
-import { AcademicsPage } from './components/pages/AcademicsPage';
+import {NoticePage} from './components/pages/NoticePage';
 import { AdmissionsPage } from './components/pages/AdmissionsPage';
 import { EventsPage } from './components/pages/EventsPage';
 import { GalleryPage } from './components/pages/GalleryPage';
@@ -53,8 +53,8 @@ export default function App() {
         return <HomePage onNavigate={handleNavigate} />;
       case 'about':
         return <AboutPage />;
-      case 'academics':
-        return <AcademicsPage />;
+      case 'notice':
+        return <NoticePage />;
       case 'admissions':
         return <AdmissionsPage />;
       case 'events':

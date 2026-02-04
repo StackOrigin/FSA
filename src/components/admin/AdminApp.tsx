@@ -38,20 +38,22 @@ export function AdminApp() {
     localStorage.removeItem('adminUser');
   };
 
+  const goToDashboard = () => setCurrentPage('dashboard');
+
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':
         return <AdminDashboard onNavigate={setCurrentPage} />;
       case 'events':
-        return <EventsManagement />;
+        return <EventsManagement onBack={goToDashboard} />;
       case 'gallery':
-        return <GalleryManagement />;
+        return <GalleryManagement onBack={goToDashboard} />;
       case 'contacts':
-        return <ContactsManagement />;
+        return <ContactsManagement onBack={goToDashboard} />;
       case 'admissions':
-        return <AdmissionsManagement />;
+        return <AdmissionsManagement onBack={goToDashboard} />;
       case 'home-content':
-        return <HomeContentManagement />;
+        return <HomeContentManagement onBack={goToDashboard} />;
       default:
         return <AdminDashboard onNavigate={setCurrentPage} />;
     }
@@ -69,7 +71,7 @@ export function AdminApp() {
         adminUser={adminUser}
         onLogout={handleLogout}
       />
-      <main className="lg:ml-72 min-h-screen">
+      <main className="lg:ml-72 min-h-screen pt-16 lg:pt-0">
         <div className="p-4 lg:p-8">
           {renderPage()}
         </div>

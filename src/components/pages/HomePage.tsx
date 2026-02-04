@@ -1,8 +1,7 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Card } from '../ui/card';
 import { useRef, useEffect, useState } from 'react';
+import '../../styles/pages/HomePage.css';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -40,30 +39,30 @@ export function HomePage({ onNavigate }: HomePageProps) {
   }, []);
 
   return (
-    <div className="overflow-hidden" >
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 pb-16 px-4 overflow-hidden w-[200px] h-[200px];" 
+    <div className="home-page" >
+      <section ref={heroRef} className="hero-section" 
        >
 
-         <section className="absolute inset-0 bg-cover bg-center h-[70vh] w-[70vh] blur-sm opacity-70"  />
+         <section className="hero-bg"  />
         <motion.div
           style={{ y, opacity }}
-          className="relative z-10 max-w-6xl mx-auto text-center"
+          className="hero-content"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 mb-6"
+            className="hero-badge"
           >
-            <Sparkles className="w-4 h-7 text-blue-900 " />
-            <span className="text-sm ">Welcome to the Future Stars</span>
+            <Sparkles />
+            <span>Welcome to the Future Stars</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl md:text-6xl lg:text-4xl font-bold mb-6 text-black bg-clip-text "
+            className="hero-title"
           >
             Where Every Child's
             <br />
@@ -74,35 +73,30 @@ export function HomePage({ onNavigate }: HomePageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl text-black md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto text-blue-60"
+            className="hero-subtitle"
           >
-          <Button
-          className="text-2xl "
-          > Empowering Stars, Igniting Futures.</Button>
+          <button className="hero-tagline">Empowering Stars, Igniting Futures.</button>
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-4"
+            className="hero-actions"
           >
-            <Button
-              size="lg"
+            <button
               onClick={() => onNavigate('admissions')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 group"
+              className="btn-primary-gradient"
             >
               Apply Now
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
+              <ArrowRight />
+            </button>
+            <button
               onClick={() => onNavigate('about')}
-              className="rounded-full px-8"
+              className="btn-outline"
             >
               Learn More
-            </Button>
+            </button>
           </motion.div>
         </motion.div>
       </section>
@@ -135,15 +129,15 @@ function StatsSection({
   const safeStats = Array.isArray(stats) ? stats : [];
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/30">
+    <section className="stats-section">
       
-      <div className="max-w-6xl mx-auto">
+      <div className="stats-container">
         {loading ? (
-          <div className="flex items-center justify-center py-10">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+          <div className="stats-loading">
+            <Loader2 />
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="stats-grid">
             {safeStats.map((stat, index) => (
               <StatCard
                 key={stat.id ?? index}
@@ -210,19 +204,19 @@ function StatCard({ stat, index }: { stat: any; index: number }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Card className="p-6 text-center hover:shadow-lg transition-shadow border-border/50 bg-card/50 backdrop-blur">
+      <div className="stat-card">
         <motion.div
           whileHover={{ scale: 1.1, rotate: 360 }}
           transition={{ duration: 0.5 }}
-          className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+          className="stat-icon"
         >
-          <stat.icon className="w-6 h-6 text-white" />
+          <stat.icon />
         </motion.div>
-        <div className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <div className="stat-value">
           {count}{stat.suffix}
         </div>
-        <div className="text-sm text-muted-foreground">{stat.label}</div>
-      </Card>
+        <div className="stat-label">{stat.label}</div>
+      </div>
     </motion.div>
   );
 }
@@ -239,32 +233,32 @@ function FeaturesSection({
   const safeFeatures = Array.isArray(features) ? features : [];
 
   return (
-    <section className="py-20 px-4" >
-      <div className="max-w-6xl mx-auto" >
+    <section className="features-section" >
+      <div className="features-container" >
         <motion.div
 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="section-header"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Why Choose Us</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="section-title">Why Choose Us</h2>
+          <p className="section-subtitle">
             Discover what makes our school the perfect place for your child's educational journey
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="features-grid">
           {loading ? (
-            <div className="col-span-full flex items-center justify-center py-10">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+            <div className="features-loading">
+              <Loader2 />
             </div>
           ) : safeFeatures.length === 0 ? (
-            <div className="col-span-full">
-              <Card className="p-10 text-center">
+            <div className="features-empty">
+              <div className="features-empty-card">
                 <p className="text-muted-foreground">No features configured.</p>
-              </Card>
+              </div>
             </div>
           ) : (
             safeFeatures.map((feature, index) => (
@@ -275,20 +269,20 @@ function FeaturesSection({
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
-                <Card className="overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300 border-border/50 bg-card/50 backdrop-blur">
-                  <div className="relative h-48 overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-20 group-hover:opacity-30 transition-opacity`} />
+                <div className="feature-card">
+                  <div className="feature-image-container">
+                    <div className="feature-gradient-overlay" style={{background: `linear-gradient(to bottom right, ${feature.gradient})`}} />
                     <img
                       src={feature.image}
                       alt={feature.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="feature-image"
                     />
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description}</p>
+                  <div className="feature-content">
+                    <h3 className="feature-title">{feature.title}</h3>
+                    <p className="feature-description">{feature.description}</p>
                   </div>
-                </Card>
+                </div>
               </motion.div>
             ))
           )}
@@ -308,18 +302,18 @@ function TestimonialsSection({
   const safeTestimonials = Array.isArray(testimonials) ? testimonials : [];
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">
-      <div className="max-w-6xl mx-auto">
+    <section className="testimonials-section">
+      <div className="testimonials-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="testimonials-header"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="testimonials-title">
             Message from our Principal
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="testimonials-subtitle">
             A word of inspiration and guidance for our school community
           </p>
         </motion.div>
@@ -330,33 +324,33 @@ function TestimonialsSection({
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="p-8 md:p-10 bg-card/50 backdrop-blur border-border/50 hover:shadow-xl transition-shadow duration-300">
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center'>
-              <div className='flex justify-center items-center'>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-30" />
+          <div className="principal-card">
+            <div className="principal-grid">
+              <div className="principal-image-container">
+                <div className="principal-image-wrapper">
+                  <div className="principal-image-glow" />
                   <img 
                     src='/images/principal.jpg' 
-                    className='relative w-[280px] h-[280px] md:w-[300px] md:h-[300px] object-cover rounded-2xl shadow-2xl border-4 border-white/10'
+                    className="principal-image"
                     alt="Principal"
                   />
                 </div>
               </div>
-              <div className='space-y-4'>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full" />
-                  <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Principal's Message</span>
+              <div className="principal-content">
+                <div className="principal-label">
+                  <div className="principal-label-line" />
+                  <span className="principal-label-text">Principal's Message</span>
                 </div>
-                <p className='text-base md:text-lg leading-relaxed text-muted-foreground text-justify'>
+                <p className="principal-message">
                   As the Principal, I am proud to lead a school community that is committed to academic excellence, character development, and the holistic growth of every student. We strive to create a safe, supportive, and inspiring environment where students are encouraged to explore their potential, think critically, and develop lifelong values. Together with our dedicated teachers, supportive parents, and motivated students, we work as a team to shape responsible, confident, and compassionate individuals who are prepared to face the challenges of the future.
                 </p>
-                <div className="pt-4 border-t border-border/50">
-                  <p className="font-semibold text-foreground">School Principal</p>
-                  <p className="text-sm text-muted-foreground">Future Stars School</p>
+                <div className="principal-footer">
+                  <p className="principal-name">School Principal</p>
+                  <p className="principal-school">Future Stars School</p>
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
           
         </motion.div>
 
@@ -371,36 +365,33 @@ function TestimonialsSection({
 
 function CTASection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <section className="py-20 px-4">
+    <section className="cta-section">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto text-center"
+        className="cta-container"
       >
-        <Card className="p-12 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 border-border/50 backdrop-blur">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Begin Your Journey?</h2>
-          <p className="text-lg text-muted-foreground mb-8">
+        <div className="cta-card">
+          <h2 className="cta-title">Ready to Begin Your Journey?</h2>
+          <p className="cta-subtitle">
             Join our community of learners and discover your potential
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              size="lg"
+          <div className="cta-actions">
+            <button
               onClick={() => onNavigate('admissions')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8"
+              className="btn-primary-gradient"
             >
               Start Application
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
+            </button>
+            <button
               onClick={() => onNavigate('contact')}
-              className="rounded-full px-8"
+              className="btn-outline"
             >
               Schedule a Visit
-            </Button>
+            </button>
           </div>
-        </Card>
+        </div>
       </motion.div>
     </section>
   );

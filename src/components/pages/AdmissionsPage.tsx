@@ -1,6 +1,4 @@
 import { motion } from 'motion/react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
 import { 
   FileText, 
   UserCheck, 
@@ -14,6 +12,7 @@ import {
   Download
 } from 'lucide-react';
 import { useState } from 'react';
+import '../../styles/pages/AdmissionsPage.css';
 
 export function AdmissionsPage() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -80,42 +79,39 @@ export function AdmissionsPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="py-20 px-4 text-center bg-gradient-to-b from-background via-muted/30 to-background">
+      <section className="admissions-hero">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
+          className="admissions-hero-content"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="admissions-hero-title">
             Join Our Community
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-            We're excited that you're considering FutureSchool for your child's education. Our admissions process is designed to help us get to know your family and ensure the best fit for your child's success.
+          <p className="admissions-hero-description">
+          Our admissions process is designed to help us get to know your family and ensure the best fit for your child's success.
           </p>
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8"
-          >
+          <button className="admissions-hero-btn">
             Start Your Application
-          </Button>
+          </button>
         </motion.div>
       </section>
 
       {/* Application Process */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
+      <section className="admissions-process-section">
+        <div className="admissions-process-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="admissions-process-header"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Application Process</h2>
-            <p className="text-lg text-muted-foreground">Five simple steps to enrollment</p>
+            <h2 className="admissions-process-title">Application Process</h2>
+            <p className="admissions-process-subtitle">Five simple steps to enrollment</p>
           </motion.div>
 
-          <div className="space-y-6">
+          <div className="admissions-steps">
             {steps.map((step, index) => (
               <motion.div
                 key={index}
@@ -124,32 +120,30 @@ export function AdmissionsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card
-                  className={`overflow-hidden cursor-pointer transition-all duration-300 border-border/50 bg-card/50 backdrop-blur ${
-                    activeStep === index ? 'shadow-2xl ring-2 ring-primary' : 'hover:shadow-xl'
-                  }`}
+                <div
+                  className={`admissions-step-card ${activeStep === index ? 'active' : ''}`}
                   onClick={() => setActiveStep(activeStep === index ? null : index)}
                 >
-                  <div className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
+                  <div className="admissions-step-content">
+                    <div className="admissions-step-header">
+                      <div className="admissions-step-icon-wrapper" style={{ background: `linear-gradient(to bottom right, ${step.color.replace('from-', '').replace(' to-', ', ')})` }}>
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 360 }}
                           transition={{ duration: 0.5 }}
-                          className={`w-14 h-14 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center`}
                         >
-                          <step.icon className="w-7 h-7 text-white" />
+                          <step.icon className="admissions-step-icon" />
                         </motion.div>
                       </div>
                       
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className={`text-sm font-bold px-3 py-1 rounded-full bg-gradient-to-r ${step.color} text-white`}>
-                            Step {index + 1}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                        <p className="text-muted-foreground">{step.description}</p>
+                      <div className="admissions-step-info">
+                        <span 
+                          className="admissions-step-badge"
+                          style={{ background: `linear-gradient(to right, ${step.color.replace('from-', '').replace(' to-', ', ')})` }}
+                        >
+                          Step {index + 1}
+                        </span>
+                        <h3 className="admissions-step-title">{step.title}</h3>
+                        <p className="admissions-step-description">{step.description}</p>
 
                         <motion.div
                           initial={false}
@@ -158,10 +152,10 @@ export function AdmissionsPage() {
                             opacity: activeStep === index ? 1 : 0,
                           }}
                           transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
+                          style={{ overflow: 'hidden' }}
                         >
-                          <div className="mt-4 pt-4 border-t border-border/50">
-                            <p className="text-sm text-muted-foreground leading-relaxed">
+                          <div className="admissions-step-details">
+                            <p className="admissions-step-details-text">
                               {step.details}
                             </p>
                           </div>
@@ -169,7 +163,7 @@ export function AdmissionsPage() {
                       </div>
                     </div>
                   </div>
-                </Card>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -177,19 +171,19 @@ export function AdmissionsPage() {
       </section>
 
       {/* Important Dates */}
-      <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">
-        <div className="max-w-6xl mx-auto">
+      <section className="admissions-dates-section">
+        <div className="admissions-dates-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="admissions-dates-header"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Important Dates</h2>
-            <p className="text-lg text-muted-foreground">Mark your calendar</p>
+            <h2 className="admissions-dates-title">Important Dates</h2>
+            <p className="admissions-dates-subtitle">Mark your calendar</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="admissions-dates-grid">
             {[
               { date: 'February 1', event: 'Priority Application Deadline', icon: Clock },
               { date: 'March 15', event: 'Admission Decisions Released', icon: Mail },
@@ -202,18 +196,18 @@ export function AdmissionsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="p-6 text-center hover:shadow-xl transition-shadow border-border/50 bg-card/50 backdrop-blur">
+                <div className="admissions-date-card">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+                    className="admissions-date-icon-wrapper"
                   >
-                    <item.icon className="w-6 h-6 text-white" />
+                    <item.icon className="admissions-date-icon" />
                   </motion.div>
-                  <div className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <div className="admissions-date-value">
                     {item.date}
                   </div>
-                  <div className="text-sm text-muted-foreground">{item.event}</div>
-                </Card>
+                  <div className="admissions-date-event">{item.event}</div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -222,23 +216,24 @@ export function AdmissionsPage() {
 
       {/* Addmission QR */}
       
+      
 
      
 
       {/* FAQs */}
-      <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">
-        <div className="max-w-4xl mx-auto">
+      <section className="admissions-faq-section">
+        <div className="admissions-faq-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="admissions-faq-header"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-lg text-muted-foreground">Got questions? We've got answers</p>
+            <h2 className="admissions-faq-title">Frequently Asked Questions</h2>
+            <p className="admissions-faq-subtitle">Got questions? We've got answers</p>
           </motion.div>
 
-          <div className="space-y-4">
+          <div className="admissions-faq-list">
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
@@ -247,45 +242,17 @@ export function AdmissionsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="p-6 hover:shadow-xl transition-shadow border-border/50 bg-card/50 backdrop-blur">
-                  <h3 className="text-lg font-bold mb-2">{faq.question}</h3>
-                  <p className="text-muted-foreground">{faq.answer}</p>
-                </Card>
+                <div className="admissions-faq-card">
+                  <h3 className="admissions-faq-question">{faq.question}</h3>
+                  <p className="admissions-faq-answer">{faq.answer}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-20 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <Card className="p-12 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 border-border/50 backdrop-blur">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Our admissions team is here to help you through every step
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Email Admissions
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full px-8">
-                <Phone className="w-5 h-5 mr-2" />
-                Call Us
-              </Button>
-            </div>
-          </Card>
-        </motion.div>
-      </section>
+     
     </div>
   );
 }

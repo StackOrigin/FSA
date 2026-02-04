@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
@@ -6,7 +6,6 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import {
-  Plus,
   Trash2,
   Image as ImageIcon,
   X,
@@ -16,6 +15,9 @@ import {
   ImagePlus,
   Filter,
   Sparkles,
+  ArrowLeft,
+  Upload,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface GalleryImage {
@@ -27,7 +29,11 @@ interface GalleryImage {
   created_at: string;
 }
 
-export function GalleryManagement() {
+interface GalleryManagementProps {
+  onBack?: () => void;
+}
+
+export function GalleryManagement({ onBack }: GalleryManagementProps) {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +47,11 @@ export function GalleryManagement() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [fullScreenPreview, setFullScreenPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const categories = ['all', 'academics', 'facilities', 'arts', 'sports', 'events', 'campus'];
 
@@ -61,9 +71,39 @@ export function GalleryManagement() {
     }
   };
 
+  const handleFileSelect = useCallback((file: File) => {
+    if (file && file.type.startsWith('image/')) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      setFormData(prev => ({ ...prev, imageUrl: '' }));
+    }
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileSelect(file);
+  }, [handleFileSelect]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setUploadProgress(0);
 
     try {
       const submitData = new FormData();
@@ -77,19 +117,30 @@ export function GalleryManagement() {
         submitData.append('imageUrl', formData.imageUrl);
       }
 
+      // Simulate progress for better UX
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => Math.min(prev + 10, 90));
+      }, 100);
+
       const response = await fetch('/api/gallery', {
         method: 'POST',
         body: submitData,
       });
 
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+
       if (response.ok) {
-        fetchImages();
-        closeModal();
+        setTimeout(() => {
+          fetchImages();
+          closeModal();
+        }, 500);
       }
     } catch (error) {
       console.error('Error adding image:', error);
     } finally {
       setSubmitting(false);
+      setUploadProgress(0);
     }
   };
 
@@ -131,6 +182,15 @@ export function GalleryManagement() {
     });
     setSelectedFile(null);
     setPreviewImage(null);
+    setUploadProgress(0);
+  };
+
+  const clearSelectedFile = () => {
+    setSelectedFile(null);
+    setPreviewImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const filteredImages = images.filter((image) => {
@@ -147,69 +207,80 @@ export function GalleryManagement() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl shadow-lg">
-            <ImageIcon className="w-6 h-6 text-white" />
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onBack}
+              className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          )}
+          <div className="p-2.5 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl shadow-lg">
+            <ImageIcon className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Gallery Management
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              Gallery
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-0.5">
-              Manage gallery images for the website
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Manage your images
             </p>
           </div>
         </div>
         <Button
           onClick={openAddModal}
-          className="!bg-black hover:!bg-gray-800 !text-white rounded-xl h-11 px-5 shadow-md hover:shadow-lg transition-all"
+          className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-xl h-10 px-4 shadow-md"
         >
-          <ImagePlus className="w-5 h-5 mr-2" />
+          <ImagePlus className="w-4 h-4 mr-2" />
           Add Image
         </Button>
       </div>
 
-      {/* Stats Badge */}
+      {/* Stats */}
       {images.length > 0 && (
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 rounded-full text-sm font-medium">
-            <Sparkles className="w-4 h-4" />
-            {images.length} Image{images.length !== 1 ? 's' : ''} in Gallery
+            <Sparkles className="w-3.5 h-3.5" />
+            {images.length} Image{images.length !== 1 ? 's' : ''}
           </span>
         </div>
       )}
 
       {/* Filters */}
-      <Card className="p-4 rounded-xl border-0 shadow-md bg-white dark:bg-gray-800">
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <Input
-              placeholder="Search images..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-11 h-11 rounded-xl border-gray-200 focus:border-pink-500 focus:ring-pink-500"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-400 mr-1" />
-            <div className="flex gap-2 flex-wrap">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-xl transition-all ${
-                    selectedCategory === category
-                      ? 'bg-gradient-to-r from-pink-600 to-rose-600 border-0 shadow-md'
-                      : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50'
-                  }`}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </Button>
-              ))}
+      <Card className="p-3 rounded-xl border-0 shadow-sm bg-white dark:bg-gray-800">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+          <div className="flex-1 w-full sm:max-w-xs">
+            <div className="flex items-center h-10 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 px-3 gap-2 focus-within:ring-2 focus-within:ring-pink-500 focus-within:border-pink-500 focus-within:bg-white">
+              <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="flex-1 h-full bg-transparent outline-none text-sm text-gray-900 dark:text-white placeholder:text-gray-400"
+              />
             </div>
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <Filter className="w-4 h-4 text-gray-400 flex-shrink-0" />
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-lg text-xs h-8 px-3 flex-shrink-0 ${
+                  selectedCategory === category
+                    ? 'bg-pink-500 hover:bg-pink-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </Button>
+            ))}
           </div>
         </div>
       </Card>
@@ -217,47 +288,44 @@ export function GalleryManagement() {
       {/* Images Grid */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="text-center">
-            <Loader2 className="w-10 h-10 animate-spin text-pink-500 mx-auto mb-4" />
-            <p className="text-gray-500">Loading gallery...</p>
-          </div>
+          <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
         </div>
       ) : filteredImages.length === 0 ? (
-        <Card className="p-12 text-center rounded-xl border-0 shadow-md bg-white dark:bg-gray-800">
-          <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <ImageIcon className="w-8 h-8 text-pink-500" />
+        <Card className="p-10 text-center rounded-xl border-0 shadow-sm bg-white dark:bg-gray-800">
+          <div className="w-14 h-14 bg-pink-50 dark:bg-pink-900/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <ImageIcon className="w-7 h-7 text-pink-500" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             {searchTerm || selectedCategory !== 'all' ? 'No images found' : 'No images yet'}
           </h3>
-          <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-5 max-w-xs mx-auto">
             {searchTerm || selectedCategory !== 'all'
-              ? 'Try adjusting your search or filter to find what you\'re looking for.'
-              : 'Start building your gallery by adding your first image.'}
+              ? 'Try adjusting your search or filter.'
+              : 'Add your first image to get started.'}
           </p>
           {!searchTerm && selectedCategory === 'all' && (
             <Button
               onClick={openAddModal}
-              className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white rounded-xl px-6"
+              className="bg-pink-500 hover:bg-pink-600 text-white rounded-xl"
             >
               <ImagePlus className="w-4 h-4 mr-2" />
-              Add Your First Image
+              Add Image
             </Button>
           )}
         </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredImages.map((image, index) => (
             <motion.div
               key={image.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.03 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.02 }}
             >
-              <Card className="overflow-hidden group hover:shadow-xl transition-all rounded-xl border-0 shadow-md bg-white dark:bg-gray-800">
+              <Card className="overflow-hidden group hover:shadow-lg transition-all rounded-xl border-0 shadow-sm bg-white dark:bg-gray-800">
                 <div
-                  className="aspect-video relative cursor-pointer overflow-hidden"
-                  onClick={() => setPreviewImage(image.image_url)}
+                  className="aspect-square relative cursor-pointer overflow-hidden"
+                  onClick={() => setFullScreenPreview(image.image_url)}
                 >
                   <img
                     src={image.image_url}
@@ -265,38 +333,30 @@ export function GalleryManagement() {
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
-                        'https://via.placeholder.com/400x300?text=Image+Not+Found';
+                        'https://via.placeholder.com/300?text=Error';
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-                    <span className="flex items-center gap-2 text-white text-sm font-medium">
-                      <ExternalLink className="w-4 h-4" />
-                      View Full Size
-                    </span>
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <ExternalLink className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+                <div className="p-3">
+                  <h3 className="font-medium text-sm text-gray-900 dark:text-white truncate">
                     {image.title}
                   </h3>
-                  {image.description && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">
-                      {image.description}
-                    </p>
-                  )}
-                  <div className="mt-3 flex items-center justify-between">
+                  <div className="mt-2 flex items-center justify-between">
                     {image.category && (
-                      <span className="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 text-pink-600 dark:text-pink-400 border border-pink-200 dark:border-pink-800">
+                      <span className="text-xs text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20 px-2 py-0.5 rounded-full">
                         {image.category}
                       </span>
                     )}
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       size="sm"
-                      className="rounded-xl h-9 w-9 p-0 border-gray-200 hover:border-red-300 hover:bg-red-50 text-red-500 transition-all ml-auto"
+                      className="h-7 w-7 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg ml-auto"
                       onClick={() => handleDelete(image.id)}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </div>
@@ -313,145 +373,172 @@ export function GalleryManagement() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={closeModal}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
-              style={{ backgroundColor: 'white' }}
+              className="rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col"
+              style={{ backgroundColor: '#ffffff', maxHeight: '85vh' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl">
               {/* Modal Header */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between p-4 border-b border-gray-100 flex-shrink-0" style={{ backgroundColor: '#ffffff' }}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500">
-                    <ImagePlus className="w-5 h-5 text-white" />
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500">
+                    <ImagePlus className="w-4 h-4 text-white" />
                   </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Add New Image
-                    </h2>
-                    <p className="text-sm text-gray-500">Upload to your gallery</p>
-                  </div>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Add Image
+                  </h2>
                 </div>
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   onClick={closeModal}
-                  className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="rounded-lg h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </Button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Modal Body */}
+              <div 
+                className="overflow-y-auto flex-1 min-h-0" 
+                style={{ 
+                  backgroundColor: '#ffffff',
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#e5e7eb #f9fafb'
+                }}
+              >
+                <form onSubmit={handleSubmit} className="p-5 space-y-4">
+                {/* Title */}
                 <div>
-                  <Label htmlFor="title" className="text-sm font-medium text-gray-700 dark:text-gray-300">Image Title *</Label>
+                  <Label htmlFor="title" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Title *
+                  </Label>
                   <Input
                     id="title"
                     value={formData.title}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     required
-                    className="mt-1.5 h-12 rounded-xl border-gray-200 focus:border-pink-500 focus:ring-pink-500"
-                    placeholder="Give your image a title"
+                    className="mt-1.5 h-10 rounded-lg"
+                    placeholder="Image title"
                   />
                 </div>
 
+                {/* Image Upload */}
                 <div>
-                  <Label htmlFor="imageFile" className="text-sm font-medium text-gray-700 dark:text-gray-300">Upload Image</Label>
-                  <div className="mt-1.5">
-                    <Input
-                      id="imageFile"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setSelectedFile(file);
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setPreviewImage(reader.result as string);
-                          };
-                          reader.readAsDataURL(file);
-                          setFormData({ ...formData, imageUrl: '' });
-                        }
-                      }}
-                      className="cursor-pointer h-12 rounded-xl border-gray-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-pink-50 file:text-pink-700 file:font-medium hover:file:bg-pink-100"
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1.5">
-                    Upload an image from your computer (max 5MB)
-                  </p>
-                  {previewImage && (
-                    <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                      <img
-                        src={previewImage}
-                        alt="Preview"
-                        className="w-full h-36 object-cover"
-                      />
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Image *
+                  </Label>
+                  
+                  {!selectedFile && !previewImage ? (
+                    <div
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                      className={`mt-1.5 border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
+                        isDragging
+                          ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-pink-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                      }`}
+                    >
+                      <Upload className={`w-8 h-8 mx-auto mb-2 ${isDragging ? 'text-pink-500' : 'text-gray-400'}`} />
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Drop image here or click to browse
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        PNG, JPG up to 5MB
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mt-1.5 space-y-2">
+                      <div className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                        <div className="w-full" style={{ maxHeight: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '150px' }}>
+                          <img
+                            src={previewImage || ''}
+                            alt="Preview"
+                            className="w-full object-contain"
+                            style={{ maxHeight: '200px' }}
+                          />
+                        </div>
+                        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            onClick={clearSelectedFile}
+                            className="rounded-lg bg-white hover:bg-gray-100 text-gray-900"
+                          >
+                            <X className="w-4 h-4 mr-1" />
+                            Change Image
+                          </Button>
+                        </div>
+                      </div>
+                      {selectedFile && (
+                        <div className="flex items-center gap-2 px-3 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                          <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+                          <span className="text-sm text-green-700 dark:text-green-300 truncate">{selectedFile.name}</span>
+                          <span className="text-xs text-green-600 dark:text-green-400 ml-auto flex-shrink-0">
+                            {(selectedFile.size / 1024).toFixed(1)} KB
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-
-                <div className="relative py-2">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-gray-200" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white dark:bg-gray-800 px-3 text-gray-400 font-medium">
-                      Or provide a URL
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="imageUrl" className="text-sm font-medium text-gray-700 dark:text-gray-300">Image URL</Label>
-                  <Input
-                    id="imageUrl"
-                    type="url"
-                    value={formData.imageUrl}
+                  
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
                     onChange={(e) => {
-                      setFormData({ ...formData, imageUrl: e.target.value });
-                      if (e.target.value) {
-                        setSelectedFile(null);
-                        setPreviewImage(null);
-                      }
+                      const file = e.target.files?.[0];
+                      if (file) handleFileSelect(file);
                     }}
-                    placeholder="https://example.com/image.jpg"
-                    disabled={!!selectedFile}
-                    className="mt-1.5 h-12 rounded-xl border-gray-200 focus:border-pink-500 focus:ring-pink-500"
+                    className="hidden"
                   />
-                  {formData.imageUrl && !selectedFile && (
-                    <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                      <img
-                        src={formData.imageUrl}
-                        alt="Preview"
-                        className="w-full h-36 object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  )}
                 </div>
 
+                {/* OR URL */}
+                {!selectedFile && (
+                  <>
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-gray-200 dark:border-gray-700" />
+                      </div>
+                      <div className="relative flex justify-center">
+                        <span className="bg-white dark:bg-gray-800 px-3 text-xs text-gray-400">
+                          or paste URL
+                        </span>
+                      </div>
+                    </div>
+
+                    <Input
+                      type="url"
+                      value={formData.imageUrl}
+                      onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                      placeholder="https://example.com/image.jpg"
+                      className="h-10 rounded-lg"
+                    />
+                  </>
+                )}
+
+                {/* Category */}
                 <div>
-                  <Label htmlFor="category" className="text-sm font-medium text-gray-700 dark:text-gray-300">Category</Label>
+                  <Label htmlFor="category" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Category
+                  </Label>
                   <select
                     id="category"
                     value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                    className="w-full mt-1.5 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full mt-1.5 h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   >
-                    <option value="">Select a category</option>
+                    <option value="">Select category</option>
                     <option value="academics">Academics</option>
                     <option value="facilities">Facilities</option>
                     <option value="arts">Arts</option>
@@ -461,80 +548,101 @@ export function GalleryManagement() {
                   </select>
                 </div>
 
+                {/* Description */}
                 <div>
-                  <Label htmlFor="description" className="text-sm font-medium text-gray-700 dark:text-gray-300">Description</Label>
+                  <Label htmlFor="description" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Description
+                  </Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
-                    rows={3}
-                    className="mt-1.5 rounded-xl border-gray-200 focus:border-pink-500 focus:ring-pink-500 resize-none"
-                    placeholder="Add a description for this image..."
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={2}
+                    className="mt-1.5 rounded-lg resize-none text-sm"
+                    placeholder="Optional description..."
                   />
                 </div>
 
-                <div className="flex gap-3 pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="flex-1 h-12 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white shadow-md hover:shadow-lg transition-all"
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Uploading...
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Image
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
+                {/* Upload Progress */}
+                {submitting && uploadProgress > 0 && (
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-xs text-gray-600">
+                      <span>Uploading...</span>
+                      <span>{uploadProgress}%</span>
+                    </div>
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-pink-500 to-rose-500"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${uploadProgress}%` }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                  </div>
+                )}
+                </form>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex gap-3 p-4 border-t border-gray-100 flex-shrink-0" style={{ backgroundColor: '#f9fafb' }}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1 h-10 rounded-lg"
+                  onClick={closeModal}
+                  disabled={submitting}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  className="flex-1 h-10 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white"
+                  disabled={submitting || (!selectedFile && !formData.imageUrl) || !formData.title}
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Uploading
+                    </>
+                  ) : (
+                    'Add Image'
+                  )}
+                </Button>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Image Preview Modal */}
+      {/* Full Screen Image Preview Modal */}
       <AnimatePresence>
-        {previewImage && !showModal && (
+        {fullScreenPreview && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4"
-            onClick={() => setPreviewImage(null)}
+            onClick={() => setFullScreenPreview(null)}
+            className="fixed inset-0 bg-black z-[9999] flex items-center justify-center p-4 cursor-pointer"
           >
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-6 right-6 text-white hover:bg-white/10 rounded-xl h-12 w-12"
-              onClick={() => setPreviewImage(null)}
+              className="absolute top-4 right-4 text-white hover:bg-white/10 rounded-xl z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                setFullScreenPreview(null);
+              }}
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </Button>
-            <motion.img
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              src={previewImage}
-              alt="Preview"
-              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              <img
+                src={fullScreenPreview}
+                alt="Preview"
+                className="max-w-full max-h-full object-contain rounded-lg"
+                style={{ maxWidth: '90vw', maxHeight: '90vh' }}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

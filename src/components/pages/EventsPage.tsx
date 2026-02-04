@@ -1,8 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
 import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, Tag, Loader2, Newspaper } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import '../../styles/pages/EventsPage.css';
 
 type FeaturedEvent = {
   title: string;
@@ -148,45 +147,45 @@ export function EventsPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="py-20 px-4 text-center bg-gradient-to-b from-background via-muted/30 to-background">
+      <section className="events-hero">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
+          className="events-hero-content"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="events-hero-title">
             Events & News
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+          <p className="events-hero-description">
             Stay connected with what's happening at FutureSchool. From academic showcases to community celebrations, there's always something exciting going on!
           </p>
         </motion.div>
       </section>
 
       {/* Featured Events Carousel */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+      <section className="events-featured-section">
+        <div className="events-featured-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="events-featured-header"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Featured Events</h2>
-            <p className="text-lg text-muted-foreground">Don't miss these upcoming highlights</p>
+            <h2 className="events-featured-title">Featured Events</h2>
+            <p className="events-featured-subtitle">Don't miss these upcoming highlights</p>
           </motion.div>
 
-          <div className="relative">
+          <div className="events-carousel-wrapper">
             {loadingFeatured ? (
-              <div className="flex items-center justify-center py-16">
-                <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+              <div className="events-loading">
+                <Loader2 className="events-loading-icon" />
               </div>
             ) : featuredEvents.length === 0 ? (
-              <Card className="p-12 text-center">
-                <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-500 dark:text-gray-400">No featured events yet. Mark events as featured in the admin panel.</p>
-              </Card>
+              <div className="events-empty-card">
+                <Calendar className="events-empty-icon" />
+                <p className="events-empty-text">No featured events yet. Mark events as featured in the admin panel.</p>
+              </div>
             ) : (
               <>
                 <AnimatePresence mode="wait">
@@ -197,80 +196,84 @@ export function EventsPage() {
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur">
-                      <div className="grid md:grid-cols-2">
-                        <div className="relative h-64 md:h-full">
-                          <div className={`absolute inset-0 bg-gradient-to-br ${featuredEvents[currentSlide].gradient} opacity-20`} />
+                    <div className="events-carousel-card">
+                      <div className="events-carousel-grid">
+                        <div className="events-carousel-image-wrapper">
+                          <div 
+                            className="events-carousel-gradient"
+                            style={{ background: `linear-gradient(to bottom right, ${featuredEvents[currentSlide].gradient.replace('from-', '').replace(' to-', ', ')})` }}
+                          />
                           {featuredEvents[currentSlide].image ? (
                             <img
                               src={featuredEvents[currentSlide].image ?? ''}
                               alt={featuredEvents[currentSlide].title}
-                              className="w-full h-full object-cover"
+                              className="events-carousel-image"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-muted/30">
-                              <Calendar className="w-12 h-12 text-muted-foreground/50" />
+                            <div className="events-carousel-placeholder">
+                              <Calendar className="events-carousel-placeholder-icon" />
                             </div>
                           )}
-                          <div className={`absolute top-4 left-4 px-4 py-2 rounded-full bg-gradient-to-r ${featuredEvents[currentSlide].gradient} text-white text-sm font-bold`}>
+                          <div 
+                            className="events-carousel-badge"
+                            style={{ background: `linear-gradient(to right, ${featuredEvents[currentSlide].gradient.replace('from-', '').replace(' to-', ', ')})` }}
+                          >
                             {featuredEvents[currentSlide].category}
                           </div>
                         </div>
-                        <div className="p-8 md:p-12 flex flex-col justify-center">
-                          <h3 className="text-3xl font-bold mb-4">{featuredEvents[currentSlide].title}</h3>
-                          <div className="space-y-2 mb-6">
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Calendar className="w-5 h-5" />
+                        <div className="events-carousel-content">
+                          <h3 className="events-carousel-title">{featuredEvents[currentSlide].title}</h3>
+                          <div className="events-carousel-details">
+                            <div className="events-carousel-detail">
+                              <Calendar className="events-carousel-detail-icon" />
                               <span>{featuredEvents[currentSlide].date}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Clock className="w-5 h-5" />
+                            <div className="events-carousel-detail">
+                              <Clock className="events-carousel-detail-icon" />
                               <span>{featuredEvents[currentSlide].time}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <MapPin className="w-5 h-5" />
+                            <div className="events-carousel-detail">
+                              <MapPin className="events-carousel-detail-icon" />
                               <span>{featuredEvents[currentSlide].location}</span>
                             </div>
                           </div>
-                          <p className="text-muted-foreground mb-6">{featuredEvents[currentSlide].description}</p>
-                          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full w-fit">
+                          <p className="events-carousel-description">{featuredEvents[currentSlide].description}</p>
+                          <button className="events-carousel-btn">
                             Learn More
-                          </Button>
+                          </button>
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
 
                 {/* Carousel Controls */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4 pointer-events-none">
+                <div className="events-carousel-controls">
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={prevSlide}
-                    className="pointer-events-auto w-12 h-12 rounded-full bg-background/80 backdrop-blur border border-border/50 flex items-center justify-center hover:shadow-lg transition-shadow"
+                    className="events-carousel-nav-btn"
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="events-carousel-nav-icon" />
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={nextSlide}
-                    className="pointer-events-auto w-12 h-12 rounded-full bg-background/80 backdrop-blur border border-border/50 flex items-center justify-center hover:shadow-lg transition-shadow"
+                    className="events-carousel-nav-btn"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="events-carousel-nav-icon" />
                   </motion.button>
                 </div>
 
                 {/* Carousel Indicators */}
-                <div className="flex justify-center gap-2 mt-6">
+                <div className="events-carousel-indicators">
                   {featuredEvents.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
-                      className={`h-2 rounded-full transition-all ${
-                        index === currentSlide ? 'w-8 bg-primary' : 'w-2 bg-muted-foreground/30'
-                      }`}
+                      className={`events-carousel-indicator ${index === currentSlide ? 'active' : ''}`}
                     />
                   ))}
                 </div>
@@ -281,30 +284,26 @@ export function EventsPage() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background">
-        <div className="max-w-6xl mx-auto">
+      <section className="events-upcoming-section">
+        <div className="events-upcoming-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="events-upcoming-header"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Upcoming Events</h2>
-            <p className="text-lg text-muted-foreground mb-8">Filter by category</p>
+            <h2 className="events-upcoming-title">Upcoming Events</h2>
+            <p className="events-upcoming-subtitle">Filter by category</p>
             
             {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="events-filter-buttons">
               {categories.map((category) => (
                 <motion.button
                   key={category}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                      : 'bg-muted hover:bg-muted/80 text-muted-foreground'
-                  }`}
+                  className={`events-filter-btn ${selectedCategory === category ? 'active' : ''}`}
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </motion.button>
@@ -312,17 +311,17 @@ export function EventsPage() {
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="events-grid">
             {loadingUpcoming ? (
-              <div className="col-span-full flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+              <div className="events-grid-loading">
+                <Loader2 className="events-grid-loading-icon" />
               </div>
             ) : filteredEvents.length === 0 ? (
-              <div className="col-span-full">
-                <Card className="p-12 text-center">
-                  <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p className="text-gray-500 dark:text-gray-400">No upcoming events yet.</p>
-                </Card>
+              <div className="events-grid-empty">
+                <div className="events-empty-card">
+                  <Calendar className="events-empty-icon" />
+                  <p className="events-empty-text">No upcoming events yet.</p>
+                </div>
               </div>
             ) : (
               <AnimatePresence mode="popLayout">
@@ -335,33 +334,33 @@ export function EventsPage() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Card className="p-6 hover:shadow-xl transition-shadow cursor-pointer border-border/50 bg-card/50 backdrop-blur h-full">
-                      <div className="flex items-start gap-4">
-                        <div className="text-center flex-shrink-0">
-                          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-1">
-                            <div className="text-white font-bold text-lg">{String(event.date).split(' ')[1] ?? ''}</div>
+                    <div className="events-card">
+                      <div className="events-card-content">
+                        <div className="events-card-date-wrapper">
+                          <div className="events-card-date-badge">
+                            <div className="events-card-date-number">{String(event.date).split(' ')[1] ?? ''}</div>
                           </div>
-                          <div className="text-xs text-muted-foreground">{String(event.date).split(' ')[0] ?? ''}</div>
+                          <div className="events-card-date-month">{String(event.date).split(' ')[0] ?? ''}</div>
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Tag className="w-4 h-4 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">{event.category}</span>
+                        <div className="events-card-info">
+                          <div className="events-card-category">
+                            <Tag className="events-card-category-icon" />
+                            <span className="events-card-category-text">{event.category}</span>
                           </div>
-                          <h3 className="font-bold mb-2">{event.title}</h3>
-                          <div className="space-y-1 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
+                          <h3 className="events-card-title">{event.title}</h3>
+                          <div className="events-card-details">
+                            <div className="events-card-detail">
+                              <Clock className="events-card-detail-icon" />
                               <span>{event.time}</span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <MapPin className="w-4 h-4" />
+                            <div className="events-card-detail">
+                              <MapPin className="events-card-detail-icon" />
                               <span>{event.location}</span>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -370,63 +369,6 @@ export function EventsPage() {
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Latest News</h2>
-            <p className="text-lg text-muted-foreground">Stay updated with school happenings</p>
-          </motion.div>
-
-          {loadingNews ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
-            </div>
-          ) : newsItems.length === 0 ? (
-            <Card className="p-12 text-center">
-              <Newspaper className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-500 dark:text-gray-400">No news items yet.</p>
-            </Card>
-          ) : (
-            <div className="space-y-8">
-              {newsItems.map((news, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer border-border/50 bg-card/50 backdrop-blur">
-                    <div className="grid md:grid-cols-3">
-                      <div className="relative h-48 md:h-full">
-                        <img
-                          src={news.image}
-                          alt={news.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="md:col-span-2 p-6 md:p-8">
-                        <div className="text-sm text-muted-foreground mb-2">{news.date}</div>
-                        <h3 className="text-2xl font-bold mb-3">{news.title}</h3>
-                        <p className="text-muted-foreground mb-4">{news.excerpt}</p>
-                        <Button variant="outline" className="rounded-full">
-                          Read Full Story
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

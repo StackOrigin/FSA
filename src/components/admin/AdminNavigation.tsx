@@ -47,11 +47,12 @@ export function AdminNavigation({
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 z-50 flex items-center justify-between px-4">
+      <div 
+        className="lg:hidden fixed top-0 left-0 right-0 h-16 border-b border-gray-200 dark:border-gray-700 z-50 flex items-center justify-between px-4"
+        style={{ backgroundColor: '#f9fafb' }}
+      >
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <GraduationCap className="w-5 h-5 text-white" />
-          </div>
+
           <span className="font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin</span>
         </div>
         <Button
@@ -76,7 +77,7 @@ export function AdminNavigation({
       )}
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block fixed top-0 left-0 h-full w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 z-30">
+      <aside className="hidden lg:block fixed top-0 left-0 h-full w-72 bg-gray-50 dark:bg-slate-950 border-r border-gray-200 dark:border-gray-700 z-30">
         <SidebarContent
           navItems={navItems}
           currentPage={currentPage}
