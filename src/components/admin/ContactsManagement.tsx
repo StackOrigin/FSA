@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { X, Mail, Search, Loader2, Trash2, Eye, Phone, RefreshCw, Inbox } from 'lucide-react';
+import { X, Mail, Search, Loader2, Trash2, Eye, Phone, RefreshCw, Inbox, ArrowLeft } from 'lucide-react';
 
 interface ContactMessage {
   id: number;
@@ -15,7 +15,11 @@ interface ContactMessage {
   created_at: string;
 }
 
-export function ContactsManagement() {
+interface ContactsManagementProps {
+  onBack: () => void;
+}
+
+export function ContactsManagement({ onBack }: ContactsManagementProps) {
   const [items, setItems] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -71,22 +75,32 @@ export function ContactsManagement() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <motion.h1 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-bold text-gray-900 dark:text-white"
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onBack}
+            className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            Messages
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-gray-500 dark:text-gray-400 mt-1"
-          >
-            View and manage contact form submissions
-          </motion.p>
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <motion.h1 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-3xl font-bold text-gray-900 dark:text-white"
+            >
+              Messages
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-gray-500 dark:text-gray-400 mt-1"
+            >
+              View and manage contact form submissions
+            </motion.p>
+          </div>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -108,15 +122,18 @@ export function ContactsManagement() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="relative max-w-md"
+        className="max-w-md"
       >
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-        <Input
-          placeholder="Search by name, email, subject..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-12 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
-        />
+        <div className="flex items-center h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 px-3 gap-2 focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500">
+          <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by name, email, subject..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 h-full bg-transparent outline-none text-gray-900 dark:text-white placeholder:text-gray-400"
+          />
+        </div>
       </motion.div>
 
       {loading ? (
