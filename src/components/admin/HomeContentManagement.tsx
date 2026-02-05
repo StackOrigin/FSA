@@ -1,17 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
 import {
   Plus,
   Pencil,
   Trash2,
   X,
   Loader2,
-  Save,
   Image as ImageIcon,
   ChevronUp,
   ChevronDown,
@@ -46,13 +40,18 @@ interface HomeContent {
 }
 
 const gradientOptions = [
-  { value: 'from-blue-500 to-cyan-500', label: 'Blue to Cyan' },
-  { value: 'from-purple-500 to-pink-500', label: 'Purple to Pink' },
-  { value: 'from-orange-500 to-red-500', label: 'Orange to Red' },
-  { value: 'from-green-500 to-emerald-500', label: 'Green to Emerald' },
-  { value: 'from-indigo-500 to-violet-500', label: 'Indigo to Violet' },
-  { value: 'from-teal-500 to-cyan-500', label: 'Teal to Cyan' },
+  { value: 'from-blue-500 to-cyan-500', label: 'Blue to Cyan', colors: 'linear-gradient(to right, #3b82f6, #06b6d4)' },
+  { value: 'from-purple-500 to-pink-500', label: 'Purple to Pink', colors: 'linear-gradient(to right, #a855f7, #ec4899)' },
+  { value: 'from-orange-500 to-red-500', label: 'Orange to Red', colors: 'linear-gradient(to right, #f97316, #ef4444)' },
+  { value: 'from-green-500 to-emerald-500', label: 'Green to Emerald', colors: 'linear-gradient(to right, #22c55e, #10b981)' },
+  { value: 'from-indigo-500 to-violet-500', label: 'Indigo to Violet', colors: 'linear-gradient(to right, #6366f1, #8b5cf6)' },
+  { value: 'from-teal-500 to-cyan-500', label: 'Teal to Cyan', colors: 'linear-gradient(to right, #14b8a6, #06b6d4)' },
 ];
+
+function getGradientStyle(gradientValue: string): string {
+  const found = gradientOptions.find(g => g.value === gradientValue);
+  return found?.colors || 'linear-gradient(to right, #3b82f6, #06b6d4)';
+}
 
 interface HomeContentManagementProps {
   onBack: () => void;
@@ -243,61 +242,49 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto mb-4" />
-          <p className="text-gray-500">Loading content...</p>
-        </div>
+      <div className="admin-loading">
+        <Loader2 className="admin-loading-icon feature-loading" />
+        <p className="admin-loading-text">Loading content...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="admin-management">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
-            <Layout className="w-6 h-6 text-white" />
+      <div className="admin-management-header">
+        <div className="admin-management-header-left">
+          <button onClick={onBack} className="admin-back-btn">
+            <ArrowLeft />
+          </button>
+          <div className="feature-header-icon">
+            <Layout />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Home Page Content
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-0.5">
+            <h1 className="admin-management-title">Home Page Content</h1>
+            <p className="admin-management-subtitle">
               Manage the "Why Choose Us" section features
             </p>
           </div>
         </div>
-        <Button
-          onClick={openAddFeatureModal}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl h-11 px-5 shadow-md hover:shadow-lg transition-all"
-        >
-          <Plus className="w-5 h-5 mr-2" />
+        <button onClick={openAddFeatureModal} className="admin-add-btn feature-add-btn">
+          <Plus />
           Add Feature
-        </Button>
+        </button>
       </div>
 
       {/* Features Count Badge */}
       {homeContent && homeContent.features.length > 0 && (
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
-            <Sparkles className="w-4 h-4" />
+        <div className="feature-stats">
+          <span className="feature-stats-badge">
+            <Sparkles />
             {homeContent.features.length} Feature{homeContent.features.length !== 1 ? 's' : ''}
           </span>
         </div>
       )}
 
       {/* Features List */}
-      <div className="grid gap-4">
+      <div className="feature-list">
         {homeContent?.features.map((feature, index) => (
           <motion.div
             key={index}
@@ -305,111 +292,92 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
           >
-            <Card className="p-5 rounded-xl border-0 shadow-md hover:shadow-lg transition-all bg-white dark:bg-gray-800">
-              <div className="flex items-start gap-4">
+            <div className="feature-card">
+              <div className="feature-card-inner">
                 {/* Order Controls */}
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-xs font-medium text-gray-400 mb-1">#{index + 1}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
+                <div className="feature-order-controls">
+                  <span className="feature-order-number">#{index + 1}</span>
+                  <button
                     onClick={() => moveFeature(index, 'up')}
                     disabled={index === 0 || saving}
-                    className="h-8 w-8 p-0 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="feature-order-btn"
                   >
-                    <ChevronUp className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
+                    <ChevronUp />
+                  </button>
+                  <button
                     onClick={() => moveFeature(index, 'down')}
                     disabled={index === homeContent!.features.length - 1 || saving}
-                    className="h-8 w-8 p-0 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="feature-order-btn"
                   >
-                    <ChevronDown className="w-4 h-4" />
-                  </Button>
+                    <ChevronDown />
+                  </button>
                 </div>
 
                 {/* Image Preview */}
-                <div className="relative w-36 h-28 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-20`}
+                <div className="feature-image-preview">
+                  <div 
+                    className="feature-image-gradient"
+                    style={{ background: getGradientStyle(feature.gradient) }}
                   />
                   {feature.image ? (
                     <img
                       src={feature.image}
                       alt={feature.title}
-                      className="w-full h-full object-cover"
+                      className="feature-image"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-                      <ImageIcon className="w-10 h-10 text-gray-400" />
+                    <div className="feature-image-placeholder">
+                      <ImageIcon />
                     </div>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 min-w-0 py-1">
-                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white truncate">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mt-1.5 leading-relaxed">
-                    {feature.description}
-                  </p>
-                  <div className="flex items-center gap-2 mt-3">
-                    <span
-                      className={`inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r ${feature.gradient} text-white shadow-sm`}
-                    >
-                      <span className="w-2 h-2 bg-white/40 rounded-full" />
-                      {gradientOptions.find((g) => g.value === feature.gradient)?.label ||
-                        'Custom'}
-                    </span>
+                <div className="feature-content">
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className="feature-description">{feature.description}</p>
+                  <div className="feature-gradient-badge" style={{ background: getGradientStyle(feature.gradient) }}>
+                    <span className="feature-gradient-dot" />
+                    {gradientOptions.find((g) => g.value === feature.gradient)?.label || 'Custom'}
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
+                <div className="feature-actions">
+                  <button
                     onClick={() => openEditFeatureModal(index)}
                     disabled={saving}
-                    className="rounded-xl h-10 w-10 p-0 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
+                    className="feature-edit-btn"
                   >
-                    <Pencil className="w-4 h-4 text-gray-600" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                    <Pencil />
+                  </button>
+                  <button
                     onClick={() => handleDeleteFeature(index)}
                     disabled={saving}
-                    className="rounded-xl h-10 w-10 p-0 border-gray-200 hover:border-red-300 hover:bg-red-50 text-red-600 transition-all"
+                    className="feature-delete-btn"
                   >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                    <Trash2 />
+                  </button>
                 </div>
               </div>
-            </Card>
+            </div>
           </motion.div>
         ))}
 
         {homeContent?.features.length === 0 && (
-          <Card className="p-12 text-center rounded-xl border-0 shadow-md bg-white dark:bg-gray-800">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Layout className="w-8 h-8 text-purple-500" />
+          <div className="admin-empty-state">
+            <div className="feature-empty-icon">
+              <Layout />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No features yet</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
+            <h3 className="admin-empty-title">No features yet</h3>
+            <p className="admin-empty-text">
               Add features to showcase in the "Why Choose Us" section of your homepage.
             </p>
-            <Button
-              onClick={openAddFeatureModal}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl px-6"
-            >
-              <Plus className="w-4 h-4 mr-2" />
+            <button onClick={openAddFeatureModal} className="admin-add-btn feature-add-btn" style={{ marginTop: '1.5rem' }}>
+              <Plus />
               Add Your First Feature
-            </Button>
-          </Card>
+            </button>
+          </div>
         )}
       </div>
 
@@ -421,175 +389,155 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+              className="feature-modal-backdrop"
               onClick={closeFeatureModal}
             />
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-2 pointer-events-none">
+            <div className="feature-modal-container">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="w-full max-w-xs max-h-[70vh] overflow-y-auto rounded-lg shadow-2xl pointer-events-auto"
-                style={{ backgroundColor: 'white' }}
+                className="feature-modal"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="p-2.5 bg-white dark:bg-gray-800 rounded-lg">
-                  {/* Modal Header */}
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-sm font-bold text-gray-900 dark:text-white">
-                      {editingIndex !== null ? 'Edit Feature' : 'Add Feature'}
-                    </h2>
-                    <button 
-                      type="button"
-                      onClick={closeFeatureModal}
-                      className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
+                {/* Modal Header */}
+                <div className="feature-modal-header">
+                  <h2 className="feature-modal-title">
+                    {editingIndex !== null ? 'Edit Feature' : 'Add Feature'}
+                  </h2>
+                  <button type="button" onClick={closeFeatureModal} className="feature-modal-close">
+                    <X />
+                  </button>
+                </div>
+
+                <form onSubmit={handleFeatureSubmit} className="feature-modal-form">
+                  <div className="feature-modal-field">
+                    <label htmlFor="title" className="feature-modal-label">Title</label>
+                    <input
+                      id="title"
+                      value={featureForm.title}
+                      onChange={(e) => setFeatureForm({ ...featureForm, title: e.target.value })}
+                      placeholder="e.g., Modern Curriculum"
+                      required
+                      className="feature-modal-input"
+                    />
                   </div>
 
-                  <form onSubmit={handleFeatureSubmit} className="space-y-1.5">
-                    <div>
-                      <Label htmlFor="title" className="text-[11px] font-medium text-gray-700 dark:text-gray-300">Title</Label>
-                      <Input
-                        id="title"
-                        value={featureForm.title}
-                        onChange={(e) =>
-                          setFeatureForm({ ...featureForm, title: e.target.value })
-                        }
-                        placeholder="e.g., Modern Curriculum"
-                        required
-                        className="mt-0.5 h-7 rounded text-xs px-2"
-                      />
-                    </div>
+                  <div className="feature-modal-field">
+                    <label htmlFor="description" className="feature-modal-label">Description</label>
+                    <textarea
+                      id="description"
+                      value={featureForm.description}
+                      onChange={(e) => setFeatureForm({ ...featureForm, description: e.target.value })}
+                      placeholder="Describe this feature..."
+                      rows={2}
+                      required
+                      className="feature-modal-textarea"
+                    />
+                  </div>
 
-                    <div>
-                      <Label htmlFor="description" className="text-[11px] font-medium text-gray-700 dark:text-gray-300">Description</Label>
-                      <Textarea
-                        id="description"
-                        value={featureForm.description}
-                        onChange={(e) =>
-                          setFeatureForm({ ...featureForm, description: e.target.value })
-                        }
-                        placeholder="Describe this feature..."
-                        rows={2}
-                        required
-                        className="mt-0.5 rounded text-[11px] px-2 py-1 resize-none"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="image" className="text-[11px] font-medium text-gray-700 dark:text-gray-300">Image</Label>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden"
-                      />
-                      <div className="mt-0.5">
-                        {(imagePreview || featureForm.image) ? (
-                          <div className="relative w-full h-16 rounded overflow-hidden border border-gray-200 dark:border-gray-700 group">
-                            <img
-                              src={imagePreview || featureForm.image}
-                              alt="Preview"
-                              className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
-                              <button
-                                type="button"
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={uploading}
-                                className="bg-white text-gray-900 hover:bg-gray-100 rounded h-6 px-2 text-[10px] flex items-center"
-                              >
-                                {uploading ? (
-                                  <Loader2 className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  <Upload className="w-3 h-3" />
-                                )}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setImagePreview(null);
-                                  setFeatureForm({ ...featureForm, image: '' });
-                                  if (fileInputRef.current) fileInputRef.current.value = '';
-                                }}
-                                className="bg-red-500 text-white hover:bg-red-600 rounded h-6 px-2 text-[10px]"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </button>
-                            </div>
-                            {uploading && (
-                              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                <Loader2 className="w-4 h-4 animate-spin text-white" />
-                              </div>
-                            )}
+                  <div className="feature-modal-field">
+                    <label htmlFor="image" className="feature-modal-label">Image</label>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      style={{ display: 'none' }}
+                    />
+                    <div className="feature-upload-area">
+                      {(imagePreview || featureForm.image) ? (
+                        <div className="feature-upload-preview">
+                          <img
+                            src={imagePreview || featureForm.image}
+                            alt="Preview"
+                            className="feature-upload-image"
+                          />
+                          <div className="feature-upload-overlay">
+                            <button
+                              type="button"
+                              onClick={() => fileInputRef.current?.click()}
+                              disabled={uploading}
+                              className="feature-upload-change-btn"
+                            >
+                              {uploading ? <Loader2 className="feature-spinner" /> : <Upload />}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setImagePreview(null);
+                                setFeatureForm({ ...featureForm, image: '' });
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                              }}
+                              className="feature-upload-remove-btn"
+                            >
+                              <Trash2 />
+                            </button>
                           </div>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={uploading}
-                            className="w-full h-16 rounded border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-purple-400 transition-colors flex items-center justify-center gap-2 bg-gray-50 dark:bg-gray-800/50"
-                          >
-                            {uploading ? (
-                              <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
-                            ) : (
-                              <>
-                                <Upload className="w-4 h-4 text-purple-500" />
-                                <span className="text-[10px] text-gray-500">Upload image</span>
-                              </>
-                            )}
-                          </button>
-                        )}
-                      </div>
+                          {uploading && (
+                            <div className="feature-upload-loading">
+                              <Loader2 className="feature-spinner" />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={uploading}
+                          className="feature-upload-btn"
+                        >
+                          {uploading ? (
+                            <Loader2 className="feature-spinner" />
+                          ) : (
+                            <>
+                              <Upload />
+                              <span>Upload image</span>
+                            </>
+                          )}
+                        </button>
+                      )}
                     </div>
+                  </div>
 
-                    <div>
-                      <Label htmlFor="gradient" className="text-[11px] font-medium text-gray-700 dark:text-gray-300">Color</Label>
-                      <select
-                        id="gradient"
-                        value={featureForm.gradient}
-                        onChange={(e) =>
-                          setFeatureForm({ ...featureForm, gradient: e.target.value })
-                        }
-                        className="w-full mt-0.5 px-2 py-1 text-[11px] border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
-                      >
-                        {gradientOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                      <div
-                        className={`mt-0.5 h-2 rounded bg-gradient-to-r ${featureForm.gradient}`}
-                      />
-                    </div>
+                  <div className="feature-modal-field">
+                    <label htmlFor="gradient" className="feature-modal-label">Color</label>
+                    <select
+                      id="gradient"
+                      value={featureForm.gradient}
+                      onChange={(e) => setFeatureForm({ ...featureForm, gradient: e.target.value })}
+                      className="feature-modal-select"
+                    >
+                      {gradientOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div 
+                      className="feature-gradient-preview"
+                      style={{ background: getGradientStyle(featureForm.gradient) }}
+                    />
+                  </div>
 
-                    <div className="flex gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={closeFeatureModal}
-                        className="flex-1 h-7 rounded border border-gray-200 hover:bg-gray-50 text-[11px]"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={saving || uploading || !featureForm.image}
-                        className="flex-1 h-7 rounded bg-purple-600 hover:bg-purple-700 text-white text-[11px] disabled:opacity-50 flex items-center justify-center"
-                      >
-                        {saving ? (
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                        ) : (
-                          editingIndex !== null ? 'Update' : 'Add'
-                        )}
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  <div className="feature-modal-actions">
+                    <button type="button" onClick={closeFeatureModal} className="feature-modal-cancel-btn">
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={saving || uploading || !featureForm.image}
+                      className="feature-modal-submit-btn"
+                    >
+                      {saving ? (
+                        <Loader2 className="feature-spinner" />
+                      ) : (
+                        editingIndex !== null ? 'Update' : 'Add'
+                      )}
+                    </button>
+                  </div>
+                </form>
               </motion.div>
             </div>
           </>
@@ -603,10 +551,10 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3"
+            className="saving-indicator"
           >
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span className="font-medium">Saving changes...</span>
+            <Loader2 />
+            <span>Saving changes...</span>
           </motion.div>
         )}
       </AnimatePresence>

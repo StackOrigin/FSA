@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { X, Mail, Search, Loader2, Trash2, Eye, Phone, RefreshCw, Inbox, ArrowLeft } from 'lucide-react';
 
 interface ContactMessage {
@@ -73,22 +70,18 @@ export function ContactsManagement({ onBack }: ContactsManagementProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
+    <div className="admin-management">
+      {/* Header */}
+      <div className="admin-management-header">
+        <div className="admin-management-header-left">
+          <button onClick={onBack} className="admin-back-btn">
+            <ArrowLeft />
+          </button>
           <div>
             <motion.h1 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-bold text-gray-900 dark:text-white"
+              className="admin-management-title"
             >
               Messages
             </motion.h1>
@@ -96,7 +89,7 @@ export function ContactsManagement({ onBack }: ContactsManagementProps) {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-gray-500 dark:text-gray-400 mt-1"
+              className="admin-management-subtitle"
             >
               View and manage contact form submissions
             </motion.p>
@@ -107,59 +100,55 @@ export function ContactsManagement({ onBack }: ContactsManagementProps) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <Button 
-            variant="outline" 
-            onClick={fetchContacts}
-            className="rounded-xl h-11 px-5 hover:bg-gray-50 dark:hover:bg-gray-800"
-          >
-            <RefreshCw className="w-4 h-4 mr-2" />
+          <button onClick={fetchContacts} className="contacts-refresh-btn">
+            <RefreshCw />
             Refresh
-          </Button>
+          </button>
         </motion.div>
       </div>
 
+      {/* Search */}
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="max-w-md"
+        className="admin-search-wrapper contacts-search"
       >
-        <div className="flex items-center h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 px-3 gap-2 focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500">
-          <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-          <input
-            type="text"
-            placeholder="Search by name, email, subject..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 h-full bg-transparent outline-none text-gray-900 dark:text-white placeholder:text-gray-400"
-          />
-        </div>
+        <Search className="admin-search-icon" />
+        <input
+          type="text"
+          placeholder="Search by name, email, subject..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="admin-search-input"
+        />
       </motion.div>
 
+      {/* Content */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="w-10 h-10 animate-spin text-orange-500 mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">Loading messages...</p>
+        <div className="admin-loading">
+          <Loader2 className="admin-loading-icon contacts-loading" />
+          <p className="admin-loading-text">Loading messages...</p>
         </div>
       ) : filtered.length === 0 ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <Card className="p-16 text-center border-0 bg-white dark:bg-slate-800">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-orange-500/10 flex items-center justify-center">
-              <Inbox className="w-10 h-10 text-orange-500" />
+          <div className="admin-empty-state">
+            <div className="contacts-empty-icon">
+              <Inbox />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="admin-empty-title">
               {search ? 'No messages found' : 'No messages yet'}
             </h3>
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="admin-empty-text">
               {search ? 'Try adjusting your search terms.' : 'Messages from the contact form will appear here.'}
             </p>
-          </Card>
+          </div>
         </motion.div>
       ) : (
-        <div className="grid gap-4">
+        <div className="contacts-grid">
           {filtered.map((c, index) => (
             <motion.div
               key={c.id}
@@ -167,16 +156,16 @@ export function ContactsManagement({ onBack }: ContactsManagementProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.03 }}
             >
-              <Card className="p-6 hover:shadow-xl transition-all duration-300 border-0 bg-white dark:bg-slate-800 group">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold shadow-lg">
+              <div className="contacts-card">
+                <div className="contacts-card-inner">
+                  <div className="contacts-card-content">
+                    <div className="contacts-card-header">
+                      <div className="contacts-avatar">
                         {c.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <span className="font-bold text-gray-900 dark:text-white">{c.name}</span>
-                        <span className="ml-3 text-xs text-gray-500 dark:text-gray-400">
+                        <span className="contacts-name">{c.name}</span>
+                        <span className="contacts-date">
                           {new Date(c.created_at).toLocaleDateString('en-US', { 
                             month: 'short', 
                             day: 'numeric',
@@ -186,128 +175,115 @@ export function ContactsManagement({ onBack }: ContactsManagementProps) {
                         </span>
                       </div>
                     </div>
-                    <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
-                      <span className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
-                        <Mail className="w-4 h-4 text-orange-500" />
+                    <div className="contacts-info">
+                      <span className="contacts-info-badge">
+                        <Mail className="contacts-icon-orange" />
                         {c.email}
                       </span>
                       {c.phone && (
-                        <span className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 py-1.5 rounded-lg">
-                          <Phone className="w-4 h-4 text-blue-500" />
+                        <span className="contacts-info-badge">
+                          <Phone className="contacts-icon-blue" />
                           {c.phone}
                         </span>
                       )}
                     </div>
-                    <div className="mt-3">
-                      <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <div className="contacts-message-preview">
+                      <div className="contacts-subject">
                         {c.subject || 'General Inquiry'}
                       </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-1">
+                      <div className="contacts-message-text">
                         {c.message}
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => setSelected(c)}
-                      className="rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 hover:border-blue-200"
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
+                  <div className="contacts-actions">
+                    <button className="contacts-view-btn" onClick={() => setSelected(c)}>
+                      <Eye />
                       View
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200"
+                    </button>
+                    <button
+                      className="contacts-delete-btn"
                       onClick={() => deleteContact(c.id)}
                       disabled={deletingId === c.id}
                     >
                       {deletingId === c.id ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className="contacts-spinner" />
                       ) : (
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 />
                       )}
-                    </Button>
+                    </button>
                   </div>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </div>
       )}
 
+      {/* Detail Modal */}
       <AnimatePresence>
         {selected && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="admin-modal-overlay"
             onClick={() => setSelected(null)}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl"
-              style={{ backgroundColor: 'white' }}
+              className="admin-modal contacts-modal"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bg-white dark:bg-slate-800 rounded-2xl">
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+              <div className="contacts-modal-header">
+                <div className="contacts-modal-header-left">
+                  <div className="contacts-modal-avatar">
                     {selected.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="admin-modal-title">
                       {selected.subject || 'General Inquiry'}
                     </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      From <span className="font-medium text-gray-700 dark:text-gray-300">{selected.name}</span> • {new Date(selected.created_at).toLocaleString()}
+                    <p className="contacts-modal-meta">
+                      From <span className="contacts-modal-name">{selected.name}</span> • {new Date(selected.created_at).toLocaleString()}
                     </p>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setSelected(null)} className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <X className="w-5 h-5" />
-                </Button>
+                <button className="admin-modal-close" onClick={() => setSelected(null)}>
+                  <X />
+                </button>
               </div>
 
-              <div className="flex flex-wrap gap-3 mb-6">
-                <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-4 py-2 rounded-xl">
-                  <Mail className="w-4 h-4 text-orange-500" />
+              <div className="contacts-modal-info">
+                <span className="contacts-modal-badge">
+                  <Mail className="contacts-icon-orange" />
                   {selected.email}
                 </span>
                 {selected.phone && (
-                  <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-4 py-2 rounded-xl">
-                    <Phone className="w-4 h-4 text-blue-500" />
+                  <span className="contacts-modal-badge">
+                    <Phone className="contacts-icon-blue" />
                     {selected.phone}
                   </span>
                 )}
               </div>
 
-              <Card className="p-5 bg-gray-50 dark:bg-slate-900/50 border-0 rounded-xl">
-                <p className="whitespace-pre-wrap text-gray-800 dark:text-gray-200 leading-relaxed">{selected.message}</p>
-              </Card>
+              <div className="contacts-modal-message">
+                <p>{selected.message}</p>
+              </div>
 
-              <div className="flex gap-3 pt-6">
-                <Button 
-                  variant="outline" 
-                  className="flex-1 h-11 rounded-xl" 
-                  onClick={() => setSelected(null)}
-                >
+              <div className="contacts-modal-footer">
+                <button className="admin-modal-cancel-btn" onClick={() => setSelected(null)}>
                   Close
-                </Button>
-                <Button
-                  className="flex-1 h-11 rounded-xl bg-red-500 hover:bg-red-600 text-white"
+                </button>
+                <button
+                  className="contacts-modal-delete-btn"
                   onClick={() => deleteContact(selected.id)}
                 >
-                  <Trash2 className="w-4 h-4 mr-2" />
+                  <Trash2 />
                   Delete Message
-                </Button>
-              </div>
+                </button>
               </div>
             </motion.div>
           </motion.div>

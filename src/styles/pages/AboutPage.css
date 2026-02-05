@@ -1,0 +1,408 @@
+/* AboutPage.css - About page styles */
+
+.about-page {
+  padding-top: 5rem;
+}
+
+/* Hero Section */
+.about-hero {
+  padding: 5rem 1rem;
+  text-align: center;
+  background: linear-gradient(to bottom, var(--background), rgba(241, 245, 249, 0.3), var(--background));
+  background-size: cover;
+  background-position: center;
+}
+
+.about-hero-content {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.about-hero-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .about-hero-title {
+    font-size: 3.75rem;
+  }
+}
+
+/* Mission & Vision */
+.mission-vision-section {
+  padding: 5rem 1rem;
+}
+
+.mission-vision-grid {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .mission-vision-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mission-card,
+.vision-card {
+  padding: 2rem;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-radius: 0.75rem;
+}
+
+.mission-card {
+  background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+}
+
+.vision-card {
+  background: linear-gradient(to bottom right, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+}
+
+.dark .mission-card,
+.dark .vision-card {
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
+.card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.card-icon.blue {
+  background: linear-gradient(to bottom right, #3b82f6, #9333ea);
+}
+
+.card-icon.purple {
+  background: linear-gradient(to bottom right, #a855f7, #ec4899);
+}
+
+.card-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: white;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .card-title {
+    font-size: 1.875rem;
+  }
+}
+
+.card-description {
+  color: var(--muted-foreground);
+  line-height: 1.75;
+}
+
+/* Timeline Section */
+.timeline-section {
+  padding: 5rem 1rem;
+  background: linear-gradient(to bottom, var(--background), rgba(241, 245, 249, 0.3), var(--background));
+}
+
+.timeline-container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.timeline-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.timeline-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-title {
+    font-size: 3rem;
+  }
+}
+
+.timeline-subtitle {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+}
+
+.timeline-grid {
+  display: grid;
+  gap: 4.25rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .timeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.timeline-wrapper {
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #3b82f6, #a855f7, #ec4899);
+}
+
+@media (min-width: 768px) {
+  .timeline-line {
+    left: 50%;
+  }
+}
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .timeline-item.even {
+    flex-direction: row-reverse;
+  }
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 2rem;
+  width: 1rem;
+  height: 1rem;
+  margin-left: -0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom right, #3b82f6, #9333ea);
+  border: 4px solid var(--background);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .timeline-dot {
+    left: 50%;
+  }
+}
+
+.timeline-content {
+  width: 100%;
+  padding-left: 5rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-content {
+    width: 50%;
+    padding-left: 0;
+    padding-right: 3rem;
+  }
+
+  .timeline-item.even .timeline-content {
+    padding-right: 0;
+    padding-left: 3rem;
+  }
+}
+
+.milestone-card {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-radius: 0.75rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.dark .milestone-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
+.milestone-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.milestone-year {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.milestone-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.milestone-description {
+  color: var(--muted-foreground);
+}
+
+/* Journey Images */
+.journey-images {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.journey-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  padding: 2rem 0;
+}
+
+/* Values Section */
+.values-section {
+  padding: 5rem 1rem;
+}
+
+.values-container {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.values-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.values-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .values-title {
+    font-size: 3rem;
+  }
+}
+
+.values-subtitle {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.values-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.value-card {
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dark .value-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
+.value-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-4px);
+}
+
+.value-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.value-icon svg {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.value-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.value-description {
+  color: var(--muted-foreground);
+}
+
+/* Teacher Testimonials */
+.teacher-testimonials {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem;
+}
+
+.testimonial-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.testimonial-img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}

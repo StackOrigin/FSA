@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { Button } from '../ui/button';
 import {
   LayoutDashboard,
   Calendar,
@@ -47,22 +46,16 @@ export function AdminNavigation({
   return (
     <>
       {/* Mobile Header */}
-      <div 
-        className="lg:hidden fixed top-0 left-0 right-0 h-16 border-b border-gray-200 dark:border-gray-700 z-50 flex items-center justify-between px-4"
-        style={{ backgroundColor: '#f9fafb' }}
-      >
-        <div className="flex items-center gap-3">
-
-          <span className="font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin</span>
+      <div className="admin-mobile-header">
+        <div className="admin-mobile-logo">
+          <span className="admin-mobile-logo-text">Admin</span>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
+        <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="admin-mobile-menu-btn"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </Button>
+          {mobileMenuOpen ? <X className="admin-mobile-menu-icon" /> : <Menu className="admin-mobile-menu-icon" />}
+        </button>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -71,13 +64,13 @@ export function AdminNavigation({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+          className="admin-mobile-overlay"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block fixed top-0 left-0 h-full w-72 bg-gray-50 dark:bg-slate-950 border-r border-gray-200 dark:border-gray-700 z-30">
+      <aside className="admin-sidebar">
         <SidebarContent
           navItems={navItems}
           currentPage={currentPage}
@@ -92,22 +85,19 @@ export function AdminNavigation({
         initial={{ x: '-100%' }}
         animate={{ x: mobileMenuOpen ? 0 : '-100%' }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="lg:hidden fixed top-0 left-0 h-full w-72 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-gray-700 z-50 shadow-2xl"
-        style={{ backgroundColor: 'white' }}
+        className="admin-mobile-sidebar"
       >
-        <div className="h-full bg-white dark:bg-slate-900">
-          <SidebarContent
-            navItems={navItems}
-            currentPage={currentPage}
-            onNavigate={handleNavigate}
-            adminUser={adminUser}
-            onLogout={onLogout}
-          />
-        </div>
+        <SidebarContent
+          navItems={navItems}
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          adminUser={adminUser}
+          onLogout={onLogout}
+        />
       </motion.aside>
 
       {/* Mobile top padding */}
-      <div className="lg:hidden h-16" />
+      <div className="admin-mobile-spacer" />
     </>
   );
 }
@@ -128,29 +118,23 @@ function SidebarContent({
   onLogout,
 }: SidebarContentProps) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="admin-sidebar-content">
       {/* Logo */}
-      <div className="p-6">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-            <GraduationCap className="w-7 h-7 text-white" />
+      <div className="admin-sidebar-logo">
+        <div className="admin-sidebar-logo-inner">
+          <div className="admin-sidebar-logo-icon">
+            <GraduationCap />
           </div>
           <div>
-            <h2 className="font-bold text-xl text-gray-900 dark:text-white">
-              FutureSchool
-            </h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-              Admin Panel
-            </p>
+            <h2 className="admin-sidebar-logo-title">FutureSchool</h2>
+            <p className="admin-sidebar-logo-subtitle">Admin Panel</p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
-        <p className="px-4 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Menu
-        </p>
+      <nav className="admin-sidebar-nav">
+        <p className="admin-sidebar-nav-label">Menu</p>
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentPage === item.id;
@@ -160,41 +144,31 @@ function SidebarContent({
               onClick={() => onNavigate(item.id)}
               whileHover={{ x: 4 }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                isActive
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50'
-              }`}
+              className={`admin-nav-item ${isActive ? 'active' : ''}`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-blue-500'}`} />
-              <span className="font-medium flex-1 text-left">{item.label}</span>
-              {isActive && <ChevronRight className="w-4 h-4 text-white/70" />}
+              <Icon className="admin-nav-item-icon" />
+              <span className="admin-nav-item-label">{item.label}</span>
+              {isActive && <ChevronRight className="admin-nav-item-chevron" />}
             </motion.button>
           );
         })}
       </nav>
 
       {/* User & Logout */}
-      <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/50">
-        <div className="flex items-center gap-3 px-3 py-3 mb-2 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
+      <div className="admin-sidebar-footer">
+        <div className="admin-user-info">
+          <div className="admin-user-avatar">
             {adminUser?.charAt(0).toUpperCase()}
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
-              {adminUser}
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Administrator</p>
+          <div className="admin-user-details">
+            <p className="admin-user-name">{adminUser}</p>
+            <p className="admin-user-role">Administrator</p>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl h-11"
-          onClick={onLogout}
-        >
-          <LogOut className="w-5 h-5 mr-3" />
+        <button className="admin-logout-btn" onClick={onLogout}>
+          <LogOut className="admin-logout-icon" />
           Sign Out
-        </Button>
+        </button>
       </div>
     </div>
   );
