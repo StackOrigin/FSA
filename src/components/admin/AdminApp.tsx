@@ -7,6 +7,7 @@ import { GalleryManagement } from './GalleryManagement';
 import { ContactsManagement } from './ContactsManagement';
 import { AdmissionsManagement } from './AdmissionsManagement';
 import { HomeContentManagement } from './HomeContentManagement';
+import '../../styles/admin/Admin.css';
 
 export function AdminApp() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -64,15 +65,15 @@ export function AdminApp() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="admin-app">
       <AdminNavigation
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         adminUser={adminUser}
         onLogout={handleLogout}
       />
-      <main className="lg:ml-72 min-h-screen pt-16 lg:pt-0">
-        <div className="p-4 lg:p-8">
+      <main className="admin-main">
+        <div className="admin-main-content">
           {renderPage()}
         </div>
       </main>
