@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Home,
   ChevronRight,
+  Bell,
 } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
 
@@ -33,6 +34,7 @@ export function AdminNavigation({
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'home-content', label: 'Home Content', icon: Home },
     { id: 'events', label: 'Events', icon: Calendar },
+    { id: 'notices', label: 'Notices', icon: Bell },
     { id: 'gallery', label: 'Gallery', icon: Image },
     { id: 'contacts', label: 'Messages', icon: Mail },
     { id: 'admissions', label: 'Admissions', icon: UserPlus },
