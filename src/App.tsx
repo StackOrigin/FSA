@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
@@ -14,15 +15,11 @@ import { AdminApp } from './components/admin/AdminApp';
 import './styles/App.css';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
   const [darkMode, setDarkMode] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Check if URL has admin path
-    if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
-      setCurrentPage('admin');
-    }
-    
     // Check for saved dark mode preference
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setDarkMode(savedDarkMode);
@@ -44,51 +41,43 @@ export default function App() {
   };
 
   const handleNavigate = (page: string) => {
-    setCurrentPage(page);
+    const path = page === 'home' ? '/' : `/${page}`;
+    navigate(path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage onNavigate={handleNavigate} />;
-      case 'about':
-        return <AboutPage />;
-      case 'notice':
-        return <NoticePage />;
-      case 'admissions':
-        return <AdmissionsPage />;
-      case 'events':
-        return <EventsPage />;
-      case 'gallery':
-        return <GalleryPage />;
-      case 'contact':
-        return <ContactPage />;
-      case 'admin':
-        return <AdminApp />;
-      default:
-        return <HomePage onNavigate={handleNavigate} />;
-    }
+  // Get current page from path
+  const getCurrentPage = () => {
+    const path = location.pathname;
+    if (path === '/') return 'home';
+    return path.slice(1); // Remove leading slash
   };
 
   // If on admin page, render only the admin app
-  if (currentPage === 'admin') {
+  if (location.pathname === '/admin') {
     return <AdminApp />;
   }
 
   return (
     <div className="app-container">
       <Navigation
-        currentPage={currentPage}
+        currentPage={getCurrentPage()}
         onNavigate={handleNavigate}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
       />
       
       <AnimatePresence mode="wait">
-        <div key={currentPage}>
-          {renderPage()}
-        </div>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<HomePage onNavigate={handleNavigate} />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/notice" element={<NoticePage />} />
+          <Route path="/admissions" element={<AdmissionsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin" element={<AdminApp />} />
+        </Routes>
       </AnimatePresence>
       
       <Footer onNavigate={handleNavigate} />
