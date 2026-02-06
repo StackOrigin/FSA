@@ -10,8 +10,8 @@ type FeaturedEvent = {
   location: string;
   description: string;
   image: string | null;
-  category: string;
   gradient: string;
+  category: string;
 };
 
 type UpcomingEvent = {
@@ -20,6 +20,8 @@ type UpcomingEvent = {
   time: string;
   location: string;
   category: string;
+  month: string;
+  parsedDate: Date;
 };
 
 type NewsItem = {
@@ -31,7 +33,6 @@ type NewsItem = {
 
 export function EventsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([]);
@@ -39,7 +40,7 @@ export function EventsPage() {
 
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [loadingUpcoming, setLoadingUpcoming] = useState(true);
-  const [loadingNews, setLoadingNews] = useState(true);
+  
 
   useEffect(() => {
     const loadFeatured = async () => {
@@ -62,8 +63,8 @@ export function EventsPage() {
                 location: String(e.location ?? 'TBA'),
                 description: String(e.description ?? ''),
                 image: e.image_url ? String(e.image_url) : null,
-                category: String(e.category ?? 'Community'),
                 gradient: String(e.gradient ?? 'from-blue-500 to-purple-600'),
+                category: String(e.category ?? 'Community'),
               };
             })
           : [];
@@ -90,6 +91,9 @@ export function EventsPage() {
               const shortDate = isNaN(parsed.getTime())
                 ? rawDate
                 : parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+              const month = isNaN(parsed.getTime())
+                ? 'Unknown'
+                : parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long' });
 
               return {
                 date: shortDate,
@@ -97,8 +101,10 @@ export function EventsPage() {
                 time: String(e.event_time ?? 'TBA'),
                 location: String(e.location ?? 'TBA'),
                 category: String(e.category ?? 'Community'),
+                month,
+                parsedDate: parsed,
               };
-            })
+            }).sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime())
           : [];
 
         setUpcomingEvents(mapped);
@@ -110,29 +116,24 @@ export function EventsPage() {
       }
     };
 
-    const loadNews = async () => {
-      try {
-        const res = await fetch('/api/content/events_news');
-        const data = await res.json();
-        setNewsItems(Array.isArray(data?.newsItems) ? data.newsItems : []);
-      } catch (err) {
-        console.error('Failed to load events news content', err);
-        setNewsItems([]);
-      } finally {
-        setLoadingNews(false);
-      }
-    };
-
     loadFeatured();
     loadUpcoming();
-    loadNews();
   }, []);
 
-  const categories = ['all', ...Array.from(new Set(upcomingEvents.map((e) => e.category).filter(Boolean)))];
+  const groupedEvents = upcomingEvents.reduce((acc, event) => {
+    const month = event.month;
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(event);
+    return acc;
+  }, {} as Record<string, UpcomingEvent[]>);
 
-  const filteredEvents = selectedCategory === 'all' 
-    ? upcomingEvents 
-    : upcomingEvents.filter(event => event.category === selectedCategory);
+  const sortedMonths = Object.keys(groupedEvents).sort((a, b) => {
+    const dateA = groupedEvents[a][0]?.parsedDate;
+    const dateB = groupedEvents[b][0]?.parsedDate;
+    return dateA.getTime() - dateB.getTime();
+  });
 
   const nextSlide = () => {
     if (featuredEvents.length === 0) return;
@@ -158,7 +159,7 @@ export function EventsPage() {
             Events & News
           </h1>
           <p className="events-hero-description">
-            Stay connected with what's happening at FutureSchool. From academic showcases to community celebrations, there's always something exciting going on!
+            Stay connected with what's happening at FutureSchool.
           </p>
         </motion.div>
       </section>
@@ -293,79 +294,68 @@ export function EventsPage() {
             className="events-upcoming-header"
           >
             <h2 className="events-upcoming-title">Upcoming Events</h2>
-            <p className="events-upcoming-subtitle">Filter by category</p>
-            
-            {/* Category Filter */}
-            <div className="events-filter-buttons">
-              {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`events-filter-btn ${selectedCategory === category ? 'active' : ''}`}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </motion.button>
-              ))}
-            </div>
           </motion.div>
 
-          <div className="events-grid">
-            {loadingUpcoming ? (
-              <div className="events-grid-loading">
-                <Loader2 className="events-grid-loading-icon" />
+          {loadingUpcoming ? (
+            <div className="events-grid-loading">
+              <Loader2 className="events-grid-loading-icon" />
+            </div>
+          ) : upcomingEvents.length === 0 ? (
+            <div className="events-grid-empty">
+              <div className="events-empty-card">
+                <Calendar className="events-empty-icon" />
+                <p className="events-empty-text">No upcoming events yet.</p>
               </div>
-            ) : filteredEvents.length === 0 ? (
-              <div className="events-grid-empty">
-                <div className="events-empty-card">
-                  <Calendar className="events-empty-icon" />
-                  <p className="events-empty-text">No upcoming events yet.</p>
+            </div>
+          ) : (
+            sortedMonths.map((month) => (
+              <div key={month} className="events-month-section">
+                <h3 className="events-month-title">{month}</h3>
+                <div className="events-grid">
+                  <AnimatePresence mode="popLayout">
+                    {groupedEvents[month].map((event) => (
+                      <motion.div
+                        key={event.title}
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="events-card">
+                          <div className="events-card-content">
+                            <div className="events-card-date-wrapper">
+                              <div className="events-card-date-badge">
+                                <div className="events-card-date-number">{String(event.date).split(' ')[1] ?? ''}</div>
+                              </div>
+                              <div className="events-card-date-month">{String(event.date).split(' ')[0] ?? ''}</div>
+                            </div>
+                            <div className="events-card-info">
+                              <div className="events-card-category">
+                                <Tag className="events-card-category-icon" />
+                                <span className="events-card-category-text">{event.category}</span>
+                              </div>
+                              <h3 className="events-card-title">{event.title}</h3>
+                              <div className="events-card-details">
+                                <div className="events-card-detail">
+                                  <Clock className="events-card-detail-icon" />
+                                  <span>{event.time}</span>
+                                </div>
+                                <div className="events-card-detail">
+                                  <MapPin className="events-card-detail-icon" />
+                                  <span>{event.location}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
               </div>
-            ) : (
-              <AnimatePresence mode="popLayout">
-                {filteredEvents.map((event) => (
-                  <motion.div
-                    key={event.title}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="events-card">
-                      <div className="events-card-content">
-                        <div className="events-card-date-wrapper">
-                          <div className="events-card-date-badge">
-                            <div className="events-card-date-number">{String(event.date).split(' ')[1] ?? ''}</div>
-                          </div>
-                          <div className="events-card-date-month">{String(event.date).split(' ')[0] ?? ''}</div>
-                        </div>
-                        <div className="events-card-info">
-                          <div className="events-card-category">
-                            <Tag className="events-card-category-icon" />
-                            <span className="events-card-category-text">{event.category}</span>
-                          </div>
-                          <h3 className="events-card-title">{event.title}</h3>
-                          <div className="events-card-details">
-                            <div className="events-card-detail">
-                              <Clock className="events-card-detail-icon" />
-                              <span>{event.time}</span>
-                            </div>
-                            <div className="events-card-detail">
-                              <MapPin className="events-card-detail-icon" />
-                              <span>{event.location}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            )}
-          </div>
+            ))
+          )}
         </div>
       </section>
 

@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Sparkles,
   Home,
+  Bell,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -21,6 +22,7 @@ interface Stats {
   gallery: number;
   contacts: number;
   admissions: number;
+  notices: number;
 }
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
@@ -29,6 +31,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     gallery: 0,
     contacts: 0,
     admissions: 0,
+    notices: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -38,23 +41,26 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
   const fetchStats = async () => {
     try {
-      const [eventsRes, contactsRes, admissionsRes, galleryRes] = await Promise.all([
+      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes] = await Promise.all([
         fetch('/api/events'),
         fetch('/api/contact'),
         fetch('/api/admissions'),
         fetch('/api/gallery'),
+        fetch('/api/notices'),
       ]);
 
       const events = await eventsRes.json();
       const contacts = await contactsRes.json();
       const admissions = await admissionsRes.json();
       const gallery = await galleryRes.json();
+      const notices = await noticesRes.json();
 
       setStats({
         events: Array.isArray(events) ? events.length : 0,
         gallery: Array.isArray(gallery) ? gallery.length : 0,
         contacts: Array.isArray(contacts) ? contacts.length : 0,
         admissions: Array.isArray(admissions) ? admissions.length : 0,
+        notices: Array.isArray(notices) ? notices.length : 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -71,6 +77,14 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       icon: Calendar,
       gradient: 'linear-gradient(to bottom right, #3b82f6, #22d3ee)',
       iconBg: '#3b82f6',
+    },
+    {
+      id: 'notices',
+      title: 'Active Notices',
+      value: stats.notices,
+      icon: Bell,
+      gradient: 'linear-gradient(to bottom right, #eab308, #f59e0b)',
+      iconBg: '#eab308',
     },
     {
       id: 'gallery',
@@ -101,6 +115,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
   const quickActions = [
     { id: 'home-content', label: 'Edit Home Page', icon: Home, gradient: 'linear-gradient(to bottom right, #6366f1, #a855f7)' },
     { id: 'events', label: 'Add Event', icon: Calendar, gradient: 'linear-gradient(to bottom right, #3b82f6, #06b6d4)' },
+    { id: 'notices', label: 'Post Notice', icon: Bell, gradient: 'linear-gradient(to bottom right, #eab308, #f59e0b)' },
     { id: 'gallery', label: 'Upload Image', icon: Image, gradient: 'linear-gradient(to bottom right, #a855f7, #ec4899)' },
     { id: 'contacts', label: 'View Messages', icon: Mail, gradient: 'linear-gradient(to bottom right, #f97316, #fbbf24)' },
     { id: 'admissions', label: 'Review Applications', icon: UserPlus, gradient: 'linear-gradient(to bottom right, #10b981, #14b8a6)' },

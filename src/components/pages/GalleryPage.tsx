@@ -44,10 +44,7 @@ export function GalleryPage() {
 
   const images = apiImages;
 
-  const categories = useMemo(() => {
-    const fromData = Array.from(new Set(images.map((img) => img.category).filter(Boolean)));
-    return ['all', ...fromData];
-  }, [images]);
+  const categories = ['all', 'classroom activity', 'sports', 'events', 'extra excursion', 'school program'];
 
   const filteredImages = selectedCategory === 'all'
     ? images
@@ -67,7 +64,7 @@ export function GalleryPage() {
             Gallery
           </h1>
           <p className="gallery-hero-description">
-            Explore life at FutureSchool through images that capture our vibrant community, state-of-the-art facilities, and memorable moments.
+            Explore life at FutureSchool through images that capture our vibrant community.
           </p>
         </motion.div>
       </section>

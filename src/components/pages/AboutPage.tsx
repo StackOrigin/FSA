@@ -143,7 +143,7 @@ export function AboutPage() {
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: 100 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, delay: index * 0.2 }}
@@ -193,7 +193,7 @@ export function AboutPage() {
                 src="/images/mainphoto1.jpg" 
                 alt="Journey" 
                 className="journey-image"
-                initial={{ opacity: 0, x: 100 }}
+                initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, delay: 0 }}
@@ -209,7 +209,7 @@ export function AboutPage() {
               <motion.img 
                 src='/images/mainphoto1.jpg' 
                 className='journey-image'
-                initial={{ opacity: 0, x: 100 }}
+                initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, delay: 0.4 }}
@@ -225,7 +225,7 @@ export function AboutPage() {
               <motion.img 
                 src='/images/mainphoto1.jpg' 
                 className='journey-image'
-                initial={{ opacity: 0, x: 100 }}
+                initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, delay: 0.8 }}
