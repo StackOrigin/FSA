@@ -55,13 +55,15 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
             className="nav-logo"
           >
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="nav-logo-icon">
-                <span>FS</span>
+            <div className='nav-logoo'>
+              <div className="nav-logo-icon"> 
+                <img src='/images/logo.png'></img>
               </div>
-              <div>
-                <div className="nav-logo-text">FutureSchool</div>
-                <div className="nav-logo-subtitle">Shaping Tomorrow</div>
+              
+                <div className="nav-logo-text">Future Stars Academy</div>
+                
               </div>
+
             </Link>
           </motion.div>
 

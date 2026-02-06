@@ -132,7 +132,7 @@ export function ContactPage() {
             Get in Touch
           </h1>
           <p className="contact-hero-description">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Send us a message and we'll respond as soon as possible.
           </p>
         </motion.div>
       </section>
@@ -178,8 +178,12 @@ export function ContactPage() {
               })
             )}
           </div>
+        </div>
+      </section>
 
-          {/* Contact Form and Map */}
+      {/* Contact Form and Map */}
+      <section className="contact-form-section">
+        <div className="contact-form-container">
           <div className="contact-form-map-grid">
             {/* Contact Form */}
             <motion.div
@@ -376,43 +380,46 @@ export function ContactPage() {
                 )}
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
 
-            {/* Map Placeholder */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="contact-map-card">
-                <div className="contact-map-container">
-                  <div className="contact-map-gradient" />
-                  <div className="contact-map-content">
-                    <div className="contact-map-inner">
-                      <MapPin className="contact-map-icon" />
-                      <h3 className="contact-map-title">Visit Our Campus</h3>
-                      <p className="contact-map-address">
-                        123 Education Lane<br />
-                        Innovation City, ST 12345
-                      </p>
-                      <button className="contact-directions-btn">
-                        Get Directions
-                      </button>
-                    </div>
+      {/* Map Section */}
+      <section className="contact-map-section">
+        <div className="contact-map-container">
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="contact-map-card">
+              <div className="contact-map-container">
+                <div className="contact-map-gradient" />
+                <div className="contact-map-content">
+                  <div className="contact-map-inner">
+                    <MapPin className="contact-map-icon" />
+                    <h3 className="contact-map-title">Visit Our Campus</h3>
+                    <p className="contact-map-address">
+                      123 Education Lane<br />
+                      Innovation City, ST 12345
+                    </p>
+                    <button className="contact-directions-btn">
+                      Get Directions
+                    </button>
                   </div>
-                  
-                  {/* Decorative grid */}
-                  <div className="contact-map-grid">
-                    <div className="contact-map-grid-inner">
-                      {[...Array(64)].map((_, i) => (
-                        <div key={i} className="contact-map-grid-cell" />
-                      ))}
-                    </div>
+                </div>
+                
+                {/* Decorative grid */}
+                <div className="contact-map-grid">
+                  <div className="contact-map-grid-inner">
+                    {[...Array(64)].map((_, i) => (
+                      <div key={i} className="contact-map-grid-cell" />
+                    ))}
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

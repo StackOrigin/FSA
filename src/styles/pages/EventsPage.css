@@ -511,6 +511,25 @@
   padding-top: 5rem;
 }
 
+/* Monthly Events Section */
+.events-month-section {
+  margin-bottom: 4rem;
+}
+
+.events-month-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--foreground);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .events-month-title {
+    font-size: 2rem;
+  }
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
