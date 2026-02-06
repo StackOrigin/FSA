@@ -7,9 +7,10 @@ const eventsController = require('../controllers/eventsController');
 const admissionsController = require('../controllers/admissionsController');
 const galleryController = require('../controllers/galleryController');
 const contentController = require('../controllers/contentController');
+const noticesController = require('../controllers/noticesController');
 
 // Import upload middleware
-const { uploadEvent, uploadGallery, uploadFeature } = require('../middleware/upload');
+const { uploadEvent, uploadGallery, uploadFeature, uploadNotice } = require('../middleware/upload');
 
 // Contact routes
 router.post('/contact', contactController.submitContact);
@@ -45,5 +46,12 @@ router.patch('/admissions/:id/status', admissionsController.updateStatus);
 router.get('/gallery', galleryController.getGallery);
 router.post('/gallery', uploadGallery, galleryController.addImage);
 router.delete('/gallery/:id', galleryController.deleteImage);
+
+// Notices routes
+router.get('/notices', noticesController.getNotices);
+router.get('/notices/:id', noticesController.getNoticeById);
+router.post('/notices', uploadNotice, noticesController.createNotice);
+router.put('/notices/:id', uploadNotice, noticesController.updateNotice);
+router.delete('/notices/:id', noticesController.deleteNotice);
 
 module.exports = router;

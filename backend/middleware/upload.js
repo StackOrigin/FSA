@@ -53,6 +53,21 @@ const featureStorage = multer.diskStorage({
   }
 });
 
+// Configure storage for notices
+const noticeStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../uploads/notices');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'notice-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
 // File filter for images only
 const imageFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -85,8 +100,15 @@ const uploadFeature = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 }).single('image');
 
+const uploadNotice = multer({
+  storage: noticeStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+}).single('image');
+
 module.exports = {
   uploadEvent,
   uploadGallery,
-  uploadFeature
+  uploadFeature,
+  uploadNotice
 };

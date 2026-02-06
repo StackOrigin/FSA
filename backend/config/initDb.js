@@ -98,6 +98,22 @@ const createTables = async () => {
     `);
     console.log('✅ Gallery table ready');
 
+    // 6. Create notices table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS notices (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        category VARCHAR(100) DEFAULT 'General',
+        priority VARCHAR(50) DEFAULT 'medium',
+        image_url TEXT,
+        download_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅ Notices table ready');
+
     // ==========================================
     // SEED INITIAL DATA (only if tables are empty)
     // ==========================================
@@ -250,6 +266,72 @@ const createTables = async () => {
       console.log('  ✅ Events & News content added');
     } else {
       console.log('  ℹ️  Events/News content already exists, skipping seed');
+    }
+
+    // Seed sample notices
+    const checkNotices = await pool.query('SELECT COUNT(*) FROM notices');
+    if (parseInt(checkNotices.rows[0].count) === 0) {
+      await pool.query(`
+        INSERT INTO notices (title, description, category, priority, image_url, download_url, created_at)
+        VALUES 
+          (
+            'Mid-Term Examination Schedule',
+            'The mid-term examinations will commence from March 1st, 2026. Students are required to check their individual schedules on the school portal. Make sure to prepare well and follow the examination guidelines.',
+            'Exam',
+            'high',
+            '/images/vacancy3.jpg',
+            '#',
+            '2026-02-05'
+          ),
+          (
+            'Annual Sports Day Event',
+            'Annual Sports Day will be held on February 20th, 2026. All students are encouraged to participate in various sporting activities. Registration forms are available at the sports office.',
+            'Event',
+            'medium',
+            '/images/vacancy3.jpg',
+            '#',
+            '2026-02-04'
+          ),
+          (
+            'Library Hours Extended',
+            'Library will remain open until 8 PM during the examination period starting from February 15th. Students can utilize this extended time for study and research purposes.',
+            'Administrative',
+            'low',
+            NULL,
+            '#',
+            '2026-02-03'
+          ),
+          (
+            'Parent-Teacher Meeting',
+            'Parent-teacher meetings are scheduled for all grades on February 15th, 2026. Parents are requested to attend and discuss their child''s academic progress with respective class teachers.',
+            'Academic',
+            'high',
+            '/images/vacancy.jpg',
+            '#',
+            '2026-02-02'
+          ),
+          (
+            'Holiday Notice - Maha Shivaratri',
+            'The school will remain closed on February 26th, 2026, on the occasion of Maha Shivaratri. Regular classes will resume on February 27th, 2026.',
+            'Holiday',
+            'medium',
+            NULL,
+            '#',
+            '2026-02-01'
+          ),
+          (
+            'Science Exhibition Registration',
+            'Registration is now open for the Annual Science Exhibition scheduled for March 15th, 2026. Students interested in participating should submit their project proposals by February 12th. Last date for registration.',
+            'Academic',
+            'medium',
+            NULL,
+            '#',
+            '2026-01-30'
+          )
+      `);
+      console.log('  ✅ Sample notices added');
+    } else {
+      console.log('  ℹ️  Notices already exist, skipping seed');
     }
 
     console.log('');

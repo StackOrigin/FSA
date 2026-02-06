@@ -7,6 +7,7 @@ import { GalleryManagement } from './GalleryManagement';
 import { ContactsManagement } from './ContactsManagement';
 import { AdmissionsManagement } from './AdmissionsManagement';
 import { HomeContentManagement } from './HomeContentManagement';
+import { NoticesManagement } from './NoticesManagement';
 import '../../styles/admin/Admin.css';
 
 export function AdminApp() {
@@ -55,6 +56,8 @@ export function AdminApp() {
         return <AdmissionsManagement onBack={goToDashboard} />;
       case 'home-content':
         return <HomeContentManagement onBack={goToDashboard} />;
+      case 'notices':
+        return <NoticesManagement onBack={goToDashboard} />;
       default:
         return <AdminDashboard onNavigate={setCurrentPage} />;
     }
