@@ -143,10 +143,10 @@ export function AboutPage() {
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  initial={{ opacity: 0, x: 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 1.2, delay: index * 0.2 }}
                   className={`timeline-item ${index % 2 !== 0 ? 'even' : ''}`}
                 >
                   {/* Timeline dot */}
@@ -189,15 +189,47 @@ export function AboutPage() {
               className="journey-images"
             >
               <div className="journey-images">
-              <img src="/images/mainphoto1.jpg" 
+              <motion.img 
+                src="/images/mainphoto1.jpg" 
                 alt="Journey" 
                 className="journey-image"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0 }}
               />
-              <img src='/images/mainphoto1.jpg' className='journey-image' />
-               <img src='/images/mainphoto1.jpg' className='journey-image' />
-                <img src='/images/mainphoto1.jpg' className='journey-image' />
-                <img src='/images/mainphoto1.jpg' className='journey-image' />
-                <img src='/images/mainphoto1.jpg' className='journey-image' />
+              <motion.img 
+                src='/images/mainphoto1.jpg' 
+                className='journey-image'
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.2 }}
+              />
+              <motion.img 
+                src='/images/mainphoto1.jpg' 
+                className='journey-image'
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.4 }}
+              />
+              <motion.img 
+                src='/images/mainphoto1.jpg' 
+                className='journey-image'
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.6 }}
+              />
+              <motion.img 
+                src='/images/mainphoto1.jpg' 
+                className='journey-image'
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.8 }}
+              />
               </div>
             </motion.div>
           </div>

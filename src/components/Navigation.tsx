@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import '../styles/Navigation.css';
@@ -13,16 +14,24 @@ interface NavigationProps {
 export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'notice', label: 'Notice' },
-    { id: 'admissions', label: 'Admissions' },
-    { id: 'events', label: 'Events' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'home', label: 'Home', path: '/' },
+    { id: 'about', label: 'About', path: '/about' },
+    { id: 'notice', label: 'Notice', path: '/notice' },
+    { id: 'admissions', label: 'Admissions', path: '/admissions' },
+    { id: 'events', label: 'Events', path: '/events' },
+    { id: 'gallery', label: 'Gallery', path: '/gallery' },
+    { id: 'contact', label: 'Contact', path: '/contact' }
   ];
+
+  const isActive = (item: { id: string; path: string }) => {
+    if (item.path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname === item.path;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,37 +53,42 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="nav-logo"
-            onClick={() => onNavigate('home')}
           >
-            <div className="nav-logo-icon">
-              <span>FS</span>
-            </div>
-            <div>
-              <div className="nav-logo-text">FutureSchool</div>
-              <div className="nav-logo-subtitle">Shaping Tomorrow</div>
-            </div>
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="nav-logo-icon">
+                <span>FS</span>
+              </div>
+              <div>
+                <div className="nav-logo-text">FutureSchool</div>
+                <div className="nav-logo-subtitle">Shaping Tomorrow</div>
+              </div>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <div className="nav-desktop">
             {navItems.map((item) => (
-              <motion.button
+              <motion.div
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>{item.label}</span>
-                {currentPage === item.id && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="nav-item-bg"
-                    initial={false}
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </motion.button>
+                <Link
+                  to={item.path}
+                  className={`nav-item ${isActive(item) ? 'active' : ''}`}
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                  <span>{item.label}</span>
+                  {isActive(item) && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="nav-item-bg"
+                      initial={false}
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
@@ -134,19 +148,23 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
             >
               <div className="nav-mobile-inner">
                 {navItems.map((item, index) => (
-                  <motion.button
+                  <motion.div
                     key={item.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    onClick={() => {
-                      onNavigate(item.id);
-                      setIsMenuOpen(false);
-                    }}
-                    className={`nav-mobile-item ${currentPage === item.id ? 'active' : ''}`}
                   >
-                    {item.label}
-                  </motion.button>
+                    <Link
+                      to={item.path}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className={`nav-mobile-item ${isActive(item) ? 'active' : ''}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>

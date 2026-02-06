@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import '../styles/Footer.css';
 
@@ -9,16 +10,16 @@ interface FooterProps {
 export function Footer({ onNavigate }: FooterProps) {
   const footerLinks = {
     'Quick Links': [
-      { label: 'Home', page: 'home' },
-      { label: 'About Us', page: 'about' },
-      { label: 'Academics', page: 'academics' },
-      { label: 'Admissions', page: 'admissions' },
+      { label: 'Home', path: '/' },
+      { label: 'About Us', path: '/about' },
+      { label: 'Academics', path: '/about' },
+      { label: 'Admissions', path: '/admissions' },
     ],
     'Resources': [
-      { label: 'Events', page: 'events' },
-      { label: 'Gallery', page: 'gallery' },
-      { label: 'Contact', page: 'contact' },
-      { label: 'Parent Portal', page: 'home' },
+      { label: 'Events', path: '/events' },
+      { label: 'Gallery', path: '/gallery' },
+      { label: 'Contact', path: '/contact' },
+      { label: 'Parent Portal', path: '/' },
     ],
   };
 
@@ -37,12 +38,13 @@ export function Footer({ onNavigate }: FooterProps) {
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="footer-logo"
-              onClick={() => onNavigate('home')}
             >
-              <div className="footer-logo-icon">
-                <span>FS</span>
-              </div>
-              <div className="footer-logo-text">FutureSchool</div>
+              <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                <div className="footer-logo-icon">
+                  <span>FS</span>
+                </div>
+                <div className="footer-logo-text">FutureSchool</div>
+              </Link>
             </motion.div>
             <p className="footer-description">
               Empowering minds and shaping futures through innovative education.
@@ -70,13 +72,15 @@ export function Footer({ onNavigate }: FooterProps) {
               <ul className="footer-links-list">
                 {links.map((link, index) => (
                   <li key={index}>
-                    <motion.button
-                      onClick={() => onNavigate(link.page)}
-                      whileHover={{ x: 5 }}
-                      className="footer-link"
-                    >
-                      {link.label}
-                    </motion.button>
+                    <motion.div whileHover={{ x: 5 }}>
+                      <Link
+                        to={link.path}
+                        className="footer-link"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
                   </li>
                 ))}
               </ul>
