@@ -11,7 +11,7 @@ type FeaturedEvent = {
   description: string;
   image: string | null;
   gradient: string;
-  category: string;
+  
 };
 
 type UpcomingEvent = {
@@ -19,7 +19,7 @@ type UpcomingEvent = {
   title: string;
   time: string;
   location: string;
-  category: string;
+  
   month: string;
   parsedDate: Date;
 };
@@ -146,24 +146,7 @@ export function EventsPage() {
   };
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="events-hero">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="events-hero-content"
-        >
-          <h1 className="events-hero-title">
-            Events & News
-          </h1>
-          <p className="events-hero-description">
-            Stay connected with what's happening at FutureSchool.
-          </p>
-        </motion.div>
-      </section>
-
+    <div className="pt-18">
       {/* Featured Events Carousel */}
       <section className="events-featured-section">
         <div className="events-featured-container">
@@ -219,7 +202,7 @@ export function EventsPage() {
                             className="events-carousel-badge"
                             style={{ background: `linear-gradient(to right, ${featuredEvents[currentSlide].gradient.replace('from-', '').replace(' to-', ', ')})` }}
                           >
-                            {featuredEvents[currentSlide].category}
+                            
                           </div>
                         </div>
                         <div className="events-carousel-content">
@@ -332,8 +315,8 @@ export function EventsPage() {
                             </div>
                             <div className="events-card-info">
                               <div className="events-card-category">
-                                <Tag className="events-card-category-icon" />
-                                <span className="events-card-category-text">{event.category}</span>
+                                
+                               
                               </div>
                               <h3 className="events-card-title">{event.title}</h3>
                               <div className="events-card-details">

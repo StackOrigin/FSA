@@ -119,7 +119,7 @@ export function ContactPage() {
   }, []);
 
   return (
-    <div className="pt-20">
+    <div className="pt-16">
       {/* Hero Section */}
       <section className="contact-hero">
         <motion.div
