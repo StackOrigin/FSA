@@ -410,11 +410,11 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
                 </div>
 
                 <div className="admin-form-group">
-                  <label className="admin-form-label">Image (Optional)</label>
+                  <label className="admin-form-label">Attachment (Image/Document)</label>
                   <div className="admin-upload-area">
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
                       onChange={handleImageChange}
                       className="admin-upload-input"
                       id="notice-image"
@@ -422,17 +422,20 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
                     <label htmlFor="notice-image" className="admin-upload-label">
                       {imagePreview ? (
                         <div className="admin-upload-preview">
-                          <img src={imagePreview} alt="Preview" />
+                          <img src={imagePreview} alt="Preview" onError={(e) => {
+                            // Fallback for non-image previews
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x300?text=Document';
+                          }} />
                           <div className="admin-upload-overlay">
                             <Upload size={24} />
-                            <span>Change Image</span>
+                            <span>Change File</span>
                           </div>
                         </div>
                       ) : (
                         <div className="admin-upload-placeholder">
                           <ImageIcon size={32} />
-                          <span>Click to upload image</span>
-                          <span className="admin-upload-hint">PNG, JPG up to 5MB</span>
+                          <span>Click to upload file</span>
+                          <span className="admin-upload-hint">Images, PDF, DOC up to 10MB</span>
                         </div>
                       )}
                     </label>

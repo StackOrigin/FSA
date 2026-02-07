@@ -154,18 +154,21 @@ export function NoticePage() {
                           <span>{formatDate(notice.created_at)}</span>
                         </div>
                         
-                        {(notice.download_url || notice.image_url) && (
-                          <a 
-                            href={notice.download_url || notice.image_url}
-                            target="_blank"
-                            rel="noopener noreferrer" 
-                            className="notice-download-btn"
-                            download
-                          >
-                            <Download size={18} />
-                            <span>Download</span>
-                          </a>
-                        )}
+                        <a 
+                          href={notice.download_url || notice.image_url || '#'}
+                          target={notice.download_url || notice.image_url ? "_blank" : "_self"}
+                          rel="noopener noreferrer" 
+                          className="notice-download-btn"
+                          download={!!(notice.download_url || notice.image_url)}
+                          onClick={(e) => {
+                            if (!notice.download_url && !notice.image_url) {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          <Download size={18} />
+                          <span>Download</span>
+                        </a>
                       </div>
                     </div>
                   </motion.div>

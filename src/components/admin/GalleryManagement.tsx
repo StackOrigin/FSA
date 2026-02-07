@@ -48,7 +48,7 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const categories = ['all', 'academics', 'facilities', 'arts', 'sports', 'events', 'campus'];
+  const categories = ['all', 'classroom activity', 'sports', 'events', 'extra excursion', 'school program'];
 
   useEffect(() => {
     fetchImages();
@@ -466,12 +466,11 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
                       className="admin-form-select"
                     >
                       <option value="">Select category</option>
-                      <option value="academics">Academics</option>
-                      <option value="facilities">Facilities</option>
-                      <option value="arts">Arts</option>
-                      <option value="sports">Sports</option>
-                      <option value="events">Events</option>
-                      <option value="campus">Campus</option>
+                      {categories.filter(c => c !== 'all').map(cat => (
+                        <option key={cat} value={cat}>
+                          {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
