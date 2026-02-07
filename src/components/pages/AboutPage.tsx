@@ -57,7 +57,16 @@ export function AboutPage() {
       description: 'Upholding honesty, ethics, and accountability in all our actions.',
       color: 'from-blue-500 via-purple-500 to-pink-500',
     },
-    
+
+  ];
+
+  const testimonials = [
+    { img: '/images/mainphoto1.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
+    { img: '/images/mainphoto1.jpg', text: '"Witnessing students develop confidence and academic excellence is the most fulfilling aspect of my role as an educator."' },
+    { img: '/images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
+    { img: '/images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
+    { img: '/images/mainphoto1.jpg', text: '"Supporting students in their personal and academic growth is at the heart of my teaching philosophy."' },
+    { img: '/images/mainphoto1.jpg', text: '"Observing students progress with confidence and competence is deeply rewarding."' },
   ];
 
   return (
@@ -286,24 +295,21 @@ export function AboutPage() {
             <h2 className="testimonials-title">Teacher's Testimonial</h2>
             
             <div className='teacher-testimonials'>
-                <div className='testimonial-row'>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Watching students grow in confidence is the most rewarding part of teaching here."</p>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Witnessing students develop confidence and academic excellence is the most fulfilling aspect of my role as an educator."</p>
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className='testimonial-row'>
+                  {index % 2 === 0 ? (
+                    <>
+                      <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                      <p>{testimonial.text}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p>{testimonial.text}</p>
+                      <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                    </>
+                  )}
                 </div>
-                <div className='testimonial-row'>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Education is not only about imparting knowledge, but about nurturing character and self-belief."</p>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Each student’s success reflects our commitment to quality education."</p>
-              </div>
-              <div className='testimonial-row'>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Supporting students in their personal and academic growth is at the heart of my teaching philosophy."</p>
-                  <img className='testimonial-img' src='/images/mainphoto1.jpg'/>
-                  <p>"Observing students progress with confidence and competence is deeply rewarding."</p>
-              </div>
+              ))}
             </div>
           </motion.div>
         </div>
