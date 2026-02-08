@@ -387,31 +387,35 @@ export function ContactPage() {
               transition={{ duration: 0.6 }}
             >
               <div className="contact-map-card">
-                <div className="contact-map-container">
-                  <div className="contact-map-gradient" />
-                  <div className="contact-map-content">
-                    <div className="contact-map-inner">
-                      <MapPin className="contact-map-icon" />
-                      <h3 className="contact-map-title">Visit Our Campus</h3>
-                      <p className="contact-map-address">
-                        123 Education Lane<br />
-                        Innovation City, ST 12345
-                      </p>
-                      <button className="contact-directions-btn">
-                        Get Directions
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Decorative grid */}
-                  <div className="contact-map-grid">
-                    <div className="contact-map-grid-inner">
-                      {[...Array(64)].map((_, i) => (
-                        <div key={i} className="contact-map-grid-cell" />
-                      ))}
-                    </div>
+                <div className="contact-map-header">
+                  <MapPin className="contact-map-header-icon" />
+                  <div>
+                    <h3 className="contact-map-title">Visit Our Campus</h3>
+                    <p className="contact-map-address">
+                      Lubhu-Dandathok-Dharachour Rd, 44708
+                    </p>
                   </div>
                 </div>
+                <div className="contact-map-iframe-container">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.4535636671753!2d85.37270517379054!3d27.64143557839849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb10be18a95d87%3A0x2e3fe2b9bb2ed289!2sJ9RG%2BJ43%20Future%20Star%20Secondary%20School%2C%20Lubhu-%20Dandathok-%20Dharachour%20Rd%2C%2044708!5e0!3m2!1sen!2snp!4v1770560562182!5m2!1sen!2snp"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, borderRadius: '0.75rem' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Future Star Secondary School Location"
+                  />
+                </div>
+                <a 
+                  href="https://www.google.com/maps/place/Future+Star+Secondary+School/@27.6414356,85.3727052,17z" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="contact-directions-btn"
+                >
+                  Get Directions
+                </a>
               </div>
             </motion.div>
           </div>

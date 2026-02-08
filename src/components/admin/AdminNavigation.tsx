@@ -12,6 +12,7 @@ import {
   Home,
   ChevronRight,
   Bell,
+  Cake,
 } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
 
@@ -35,6 +36,7 @@ export function AdminNavigation({
     { id: 'home-content', label: 'Home Content', icon: Home },
     { id: 'events', label: 'Events', icon: Calendar },
     { id: 'notices', label: 'Notices', icon: Bell },
+    { id: 'birthdays', label: 'Birthdays', icon: Cake },
     { id: 'gallery', label: 'Gallery', icon: Image },
     { id: 'contacts', label: 'Messages', icon: Mail },
     { id: 'admissions', label: 'Admissions', icon: UserPlus },

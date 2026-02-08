@@ -8,9 +8,10 @@ const admissionsController = require('../controllers/admissionsController');
 const galleryController = require('../controllers/galleryController');
 const contentController = require('../controllers/contentController');
 const noticesController = require('../controllers/noticesController');
+const birthdayController = require('../controllers/birthdayController');
 
 // Import upload middleware
-const { uploadEvent, uploadGallery, uploadFeature, uploadNotice } = require('../middleware/upload');
+const { uploadEvent, uploadGallery, uploadFeature, uploadNotice, uploadBirthday } = require('../middleware/upload');
 
 // Contact routes
 router.post('/contact', contactController.submitContact);
@@ -53,5 +54,12 @@ router.get('/notices/:id', noticesController.getNoticeById);
 router.post('/notices', uploadNotice, noticesController.createNotice);
 router.put('/notices/:id', uploadNotice, noticesController.updateNotice);
 router.delete('/notices/:id', noticesController.deleteNotice);
+
+// Birthday routes
+router.get('/birthdays', birthdayController.getBirthdays);
+router.get('/birthdays/today', birthdayController.getTodayBirthdays);
+router.post('/birthdays', uploadBirthday, birthdayController.createBirthday);
+router.put('/birthdays/:id', uploadBirthday, birthdayController.updateBirthday);
+router.delete('/birthdays/:id', birthdayController.deleteBirthday);
 
 module.exports = router;

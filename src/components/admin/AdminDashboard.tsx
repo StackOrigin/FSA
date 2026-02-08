@@ -10,6 +10,7 @@ import {
   Sparkles,
   Home,
   Bell,
+  Cake,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -23,6 +24,7 @@ interface Stats {
   contacts: number;
   admissions: number;
   notices: number;
+  birthdays: number;
 }
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
@@ -32,6 +34,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     contacts: 0,
     admissions: 0,
     notices: 0,
+    birthdays: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -41,12 +44,13 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
   const fetchStats = async () => {
     try {
-      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes] = await Promise.all([
+      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes, birthdaysRes] = await Promise.all([
         fetch('/api/events'),
         fetch('/api/contact'),
         fetch('/api/admissions'),
         fetch('/api/gallery'),
         fetch('/api/notices'),
+        fetch('/api/birthdays'),
       ]);
 
       const events = await eventsRes.json();
@@ -54,6 +58,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       const admissions = await admissionsRes.json();
       const gallery = await galleryRes.json();
       const notices = await noticesRes.json();
+      const birthdays = await birthdaysRes.json();
 
       setStats({
         events: Array.isArray(events) ? events.length : 0,
@@ -61,6 +66,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
         contacts: Array.isArray(contacts) ? contacts.length : 0,
         admissions: Array.isArray(admissions) ? admissions.length : 0,
         notices: Array.isArray(notices) ? notices.length : 0,
+        birthdays: Array.isArray(birthdays) ? birthdays.length : 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -110,6 +116,14 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       gradient: 'linear-gradient(to bottom right, #10b981, #14b8a6)',
       iconBg: '#10b981',
     },
+    {
+      id: 'birthdays',
+      title: 'Birthdays',
+      value: stats.birthdays,
+      icon: Cake,
+      gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)',
+      iconBg: '#ec4899',
+    },
   ];
 
   const quickActions = [
@@ -119,6 +133,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     { id: 'gallery', label: 'Upload Image', icon: Image, gradient: 'linear-gradient(to bottom right, #a855f7, #ec4899)' },
     { id: 'contacts', label: 'View Messages', icon: Mail, gradient: 'linear-gradient(to bottom right, #f97316, #fbbf24)' },
     { id: 'admissions', label: 'Review Applications', icon: UserPlus, gradient: 'linear-gradient(to bottom right, #10b981, #14b8a6)' },
+    { id: 'birthdays', label: 'Manage Birthdays', icon: Cake, gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)' },
   ];
 
   return (

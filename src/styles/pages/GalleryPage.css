@@ -1,11 +1,23 @@
 /* GalleryPage.css - Styles for Gallery Page */
 
+:root {
+  --muted-30: rgba(0, 0, 0, 0.03);
+  --background: #ffffff;
+  --muted-foreground: #6b7280;
+  --border-50: rgba(0, 0, 0, 0.1);
+  --muted: #f3f4f6;
+  --border: #e5e7eb;
+  --card: #ffffff;
+  --card-50: rgba(255, 255, 255, 0.5);
+}
+
 /* Hero Section */
 .gallery-hero {
   padding: 5rem 1rem;
   text-align: center;
-  background: linear-gradient(to bottom, var(--background), var(--muted-30), var(--background));
-  background-image: url(images/Sports.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/Sports.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .gallery-hero-content {
