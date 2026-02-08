@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Mail, Phone, MapPin} from 'lucide-react';
 import '../styles/Footer.css';
 
 interface FooterProps {
@@ -12,21 +12,20 @@ export function Footer({ onNavigate }: FooterProps) {
     'Quick Links': [
       { label: 'Home', path: '/' },
       { label: 'About Us', path: '/about' },
-      { label: 'Academics', path: '/about' },
+      { label: 'Notices', path: '/notices' },   
       { label: 'Admissions', path: '/admissions' },
     ],
     'Resources': [
       { label: 'Events', path: '/events' },
       { label: 'Gallery', path: '/gallery' },
       { label: 'Contact', path: '/contact' },
-      { label: 'Parent Portal', path: '/' },
     ],
   };
 
   const socialLinks = [
     { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/futurestars.acdmy' },
-    { icon: Twitter, label: 'Tiktok', href: '#' },
     { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/futurestarsacademylalitpur/' },
+    { icon: Youtube, label: 'YouTube', href: 'https://www.youtube.com/@futurestarsacademy1727' },
   ];
 
   return (
@@ -92,11 +91,11 @@ export function Footer({ onNavigate }: FooterProps) {
             <h3>Contact Us</h3>
             <div className="footer-contact-item">
               <MapPin />
-              <span>123 Education Lane<br />Innovation City, ST 12345</span>
+              <span>Lubhu,Lalitpur</span>
             </div>
             <div className="footer-contact-item">
               <Phone />
-              <span>+1 (555) 123-4567</span>
+              <span>+977 980000000</span>
             </div>
             <div className="footer-contact-item">
               <Mail />
@@ -108,12 +107,7 @@ export function Footer({ onNavigate }: FooterProps) {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p>© 2026 FutureSchool. All rights reserved.</p>
-            <div className="footer-bottom-links">
-              <button className="footer-bottom-link">Privacy Policy</button>
-              <button className="footer-bottom-link">Terms of Service</button>
-              <button className="footer-bottom-link">Accessibility</button>
-            </div>
+            <p>© 2026 FutureStarSchool. All rights reserved.</p>
           </div>
         </div>
       </div>

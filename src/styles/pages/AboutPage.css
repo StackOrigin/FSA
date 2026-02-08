@@ -384,25 +384,104 @@
 }
 
 /* Teacher Testimonials */
+.testimonials-section {
+  padding: 5rem 1rem;
+  background: linear-gradient(to bottom, var(--background), rgba(241, 245, 249, 0.3), var(--background));
+}
+
+.testimonials-container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.testimonials-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (min-width: 768px) {
+  .testimonials-title {
+    font-size: 3rem;
+  }
+}
+
 .teacher-testimonials {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 3rem;
+  gap: 2.5rem;
+  padding: 1rem 0;
 }
 
 .testimonial-row {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.dark .testimonial-row {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
+.testimonial-row:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.testimonial-row:nth-child(odd) {
+  flex-direction: row;
+}
+
+.testimonial-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 640px) {
+  .testimonial-row,
+  .testimonial-row:nth-child(odd),
+  .testimonial-row:nth-child(even) {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .testimonial-img {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.5rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 3px solid #9333ea;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.testimonial-row p {
+  flex: 1;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+  font-style: italic;
+  text-align: left;
+}
+
+.testimonial-row:nth-child(even) p {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .testimonial-row p,
+  .testimonial-row:nth-child(even) p {
+    text-align: center;
+  }
 }

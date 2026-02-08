@@ -45,11 +45,12 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
+  padding-left: 10%;
   cursor: pointer;
 }
 
 .footer-logo-icon {
-  width: 2rem;
+    width: 2rem;
   height: 2rem;
   border-radius: 0.75rem;
   gap: 1rem;

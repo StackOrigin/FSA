@@ -286,7 +286,7 @@ export function AboutPage() {
 
       {/* Team Preview */}
       <section className="testimonials-section">
-        <div className="testimonials-container" style={{textAlign: 'center'}}>
+        <div className="testimonials-container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -296,19 +296,17 @@ export function AboutPage() {
             
             <div className='teacher-testimonials'>
               {testimonials.map((testimonial, index) => (
-                <div key={index} className='testimonial-row'>
-                  {index % 2 === 0 ? (
-                    <>
-                      <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
-                      <p>{testimonial.text}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p>{testimonial.text}</p>
-                      <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
-                    </>
-                  )}
-                </div>
+                <motion.div 
+                  key={index} 
+                  className='testimonial-row'
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                  <p>{testimonial.text}</p>
+                </motion.div>
               ))}
             </div>
           </motion.div>

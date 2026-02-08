@@ -11,7 +11,6 @@ import {
   Bell,
   Calendar,
   Tag,
-  AlertCircle,
   Upload,
   Image as ImageIcon,
 } from 'lucide-react';
@@ -38,7 +37,6 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
   const [showModal, setShowModal] = useState(false);
   const [editingNotice, setEditingNotice] = useState<Notice | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState('all');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -167,8 +165,7 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
     const matchesSearch =
       notice.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       notice.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterCategory === 'all' || notice.category === filterCategory;
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
   const getPriorityColor = (priority: string) => {
@@ -193,129 +190,135 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
   };
 
   return (
-    <div className="admin-page">
+    <div className="admin-management">
       {/* Header */}
-      <div className="admin-page-header">
-        <button onClick={onBack} className="admin-back-btn">
-          <ArrowLeft />
-          <span>Back to Dashboard</span>
-        </button>
-        <div className="admin-page-header-content">
-          <div>
-            <h1 className="admin-page-title">
-              <Bell className="admin-page-icon" />
-              Notices Management
-            </h1>
-            <p className="admin-page-subtitle">
-              Create and manage school notices and announcements
-            </p>
-          </div>
-          <button onClick={() => setShowModal(true)} className="admin-btn-primary">
-            <Plus />
-            <span>Add Notice</span>
+      <div className="admin-management-header">
+        <div className="admin-management-header-left">
+          <button onClick={onBack} className="admin-back-btn">
+            <ArrowLeft />
           </button>
+          <div>
+            <motion.h1 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="admin-management-title"
+            >
+              Notices
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="admin-management-subtitle"
+            >
+              Create and manage school notices
+            </motion.p>
+          </div>
         </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <button onClick={() => setShowModal(true)} className="admin-add-btn">
+            <Plus />
+            Add Notice
+          </button>
+        </motion.div>
       </div>
 
-      {/* Filters */}
-      <div className="admin-filters">
-        <div className="admin-search-box">
-          <Search className="admin-search-icon" />
-          <input
-            type="text"
-            placeholder="Search notices..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="admin-search-input"
-          />
-        </div>
-        <div className="admin-filter-group">
-          <label className="admin-filter-label">Category:</label>
-          <select
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-            className="admin-filter-select"
-          >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      {/* Search */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="admin-search-wrapper"
+      >
+        <Search className="admin-search-icon" />
+        <input
+          type="text"
+          placeholder="Search notices..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="admin-search-input"
+        />
+      </motion.div>
 
       {/* Notices List */}
-      <div className="admin-content">
-        {loading ? (
-          <div className="admin-loading">
-            <Loader2 className="admin-loading-spinner" />
-            <p>Loading notices...</p>
-          </div>
-        ) : filteredNotices.length === 0 ? (
-          <div className="admin-empty">
-            <Bell size={64} />
-            <h3>No notices found</h3>
-            <p>
-              {searchTerm || filterCategory !== 'all'
-                ? 'Try adjusting your filters'
-                : 'Get started by creating your first notice'}
+      {loading ? (
+        <div className="admin-loading">
+          <Loader2 className="admin-loading-icon" />
+        </div>
+      ) : filteredNotices.length === 0 ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <div className="admin-empty-state">
+            <Bell className="admin-empty-icon" />
+            <h3 className="admin-empty-title">
+              {searchTerm ? 'No notices found' : 'No notices yet'}
+            </h3>
+            <p className="admin-empty-text">
+              {searchTerm ? 'Try adjusting your search terms.' : 'Get started by adding your first notice!'}
             </p>
+            {!searchTerm && (
+              <button onClick={() => setShowModal(true)} className="admin-add-btn" style={{ marginTop: '1.5rem' }}>
+                <Plus />
+                Add Your First Notice
+              </button>
+            )}
           </div>
-        ) : (
-          <div className="admin-cards-grid">
-            {filteredNotices.map((notice, index) => (
-              <motion.div
-                key={notice.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="admin-notice-card"
-              >
-                {notice.image_url && (
-                  <div className="admin-notice-image">
-                    <img src={notice.image_url} alt={notice.title} />
-                  </div>
-                )}
-                <div className="admin-notice-content">
-                  <div className="admin-notice-header">
-                    <span className={`admin-priority-badge ${notice.priority}`}>
+        </motion.div>
+      ) : (
+        <div className="admin-cards-grid" style={{ gridTemplateColumns: '1fr' }}>
+          {filteredNotices.map((notice, index) => (
+            <motion.div
+              key={notice.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <div className="admin-item-card">
+                <div className="admin-item-content">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <span className={`notice-priority-badge ${notice.priority}`}>
                       {notice.priority === 'high' ? 'Urgent' : notice.priority}
                     </span>
-                    <span className="admin-category-badge">
-                      <Tag size={14} />
+                    <span className="contacts-info-badge">
+                      <Tag style={{ width: '0.875rem', height: '0.875rem' }} />
                       {notice.category}
                     </span>
                   </div>
-                  <h3 className="admin-notice-title">{notice.title}</h3>
-                  <p className="admin-notice-description">{notice.description}</p>
-                  <div className="admin-notice-footer">
-                    <div className="admin-notice-date">
-                      <Calendar size={14} />
-                      <span>{formatDate(notice.created_at)}</span>
-                    </div>
-                    <div className="admin-notice-actions">
-                      <button
-                        onClick={() => handleEdit(notice)}
-                        className="admin-icon-btn admin-icon-btn-edit"
-                      >
-                        <Pencil size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(notice.id)}
-                        className="admin-icon-btn admin-icon-btn-delete"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+                  <h3 className="admin-item-title" style={{ fontSize: '1.125rem' }}>
+                    {notice.title}
+                  </h3>
+                  {notice.description && (
+                    <p className="admin-item-meta" style={{ marginTop: '0.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {notice.description}
+                    </p>
+                  )}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem' }}>
+                    <span className="contacts-info-badge">
+                      <Calendar style={{ width: '1rem', height: '1rem', color: '#3b82f6' }} />
+                      {formatDate(notice.created_at)}
+                    </span>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </div>
+                <div className="admin-item-actions">
+                  <button className="admin-item-btn edit" onClick={() => handleEdit(notice)}>
+                    <Pencil />
+                    Edit
+                  </button>
+                  <button className="admin-item-btn delete" onClick={() => handleDelete(notice.id)}>
+                    <Trash2 />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Modal */}
       <AnimatePresence>
@@ -336,109 +339,119 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
             >
               <div className="admin-modal-header">
                 <h2 className="admin-modal-title">
-                  {editingNotice ? 'Edit Notice' : 'Create New Notice'}
+                  {editingNotice ? 'Edit Notice' : 'Add New Notice'}
                 </h2>
                 <button onClick={closeModal} className="admin-modal-close">
                   <X />
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="admin-modal-form">
-                <div className="admin-form-group">
-                  <label className="admin-form-label">Title *</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="admin-form-input"
-                    required
-                  />
-                </div>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+                <div className="admin-modal-body">
+                  <div className="admin-modal-form">
+                    <div className="admin-form-field">
+                      <label htmlFor="title" className="admin-form-label">Notice Title *</label>
+                      <input
+                        id="title"
+                        type="text"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        className="admin-form-input"
+                        placeholder="Enter notice title"
+                        required
+                      />
+                    </div>
 
-                <div className="admin-form-group">
-                  <label className="admin-form-label">Description *</label>
-                  <textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="admin-form-textarea"
-                    rows={4}
-                    required
-                  />
-                </div>
+                    <div className="admin-form-field">
+                      <label htmlFor="description" className="admin-form-label">Description *</label>
+                      <textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        className="admin-form-textarea"
+                        placeholder="Describe the notice..."
+                        rows={4}
+                        required
+                      />
+                    </div>
 
-                <div className="admin-form-row">
-                  <div className="admin-form-group">
-                    <label className="admin-form-label">Category</label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="admin-form-select"
-                    >
-                      {categories.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div className="admin-form-field">
+                        <label htmlFor="category" className="admin-form-label">Category</label>
+                        <select
+                          id="category"
+                          value={formData.category}
+                          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                          className="admin-form-input"
+                        >
+                          {categories.map((cat) => (
+                            <option key={cat} value={cat}>
+                              {cat}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-                  <div className="admin-form-group">
-                    <label className="admin-form-label">Priority</label>
-                    <select
-                      value={formData.priority}
-                      onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                      className="admin-form-select"
-                    >
-                      {priorities.map((priority) => (
-                        <option key={priority} value={priority}>
-                          {priority.charAt(0).toUpperCase() + priority.slice(1)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                      <div className="admin-form-field">
+                        <label htmlFor="priority" className="admin-form-label">Priority</label>
+                        <select
+                          id="priority"
+                          value={formData.priority}
+                          onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                          className="admin-form-input"
+                        >
+                          {priorities.map((priority) => (
+                            <option key={priority} value={priority}>
+                              {priority.charAt(0).toUpperCase() + priority.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-                <div className="admin-form-group">
-                  <label className="admin-form-label">Download URL (Optional)</label>
-                  <input
-                    type="text"
-                    value={formData.download_url}
-                    onChange={(e) => setFormData({ ...formData, download_url: e.target.value })}
-                    className="admin-form-input"
-                    placeholder="https://..."
-                  />
-                </div>
+                    <div className="admin-form-field">
+                      <label htmlFor="download_url" className="admin-form-label">Download URL (Optional)</label>
+                      <input
+                        id="download_url"
+                        type="text"
+                        value={formData.download_url}
+                        onChange={(e) => setFormData({ ...formData, download_url: e.target.value })}
+                        className="admin-form-input"
+                        placeholder="https://..."
+                      />
+                    </div>
 
-                <div className="admin-form-group">
-                  <label className="admin-form-label">Attachment (Image/Document)</label>
-                  <div className="admin-upload-area">
-                    <input
-                      type="file"
-                      accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
-                      onChange={handleImageChange}
-                      className="admin-upload-input"
-                      id="notice-image"
-                    />
-                    <label htmlFor="notice-image" className="admin-upload-label">
-                      {imagePreview ? (
-                        <div className="admin-upload-preview">
-                          <img src={imagePreview} alt="Preview" onError={(e) => {
-                            // Fallback for non-image previews
-                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x300?text=Document';
-                          }} />
-                          <div className="admin-upload-overlay">
-                            <Upload size={24} />
-                            <span>Change File</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="admin-upload-placeholder">
-                          <ImageIcon size={32} />
-                          <span>Click to upload file</span>
-                          <span className="admin-upload-hint">Images, PDF, DOC up to 10MB</span>
-                        </div>
-                      )}
-                    </label>
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Attachment (Image/Document)</label>
+                      <div className="admin-upload-area">
+                        <input
+                          type="file"
+                          accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+                          onChange={handleImageChange}
+                          className="admin-upload-input"
+                          id="notice-image"
+                        />
+                        <label htmlFor="notice-image" className="admin-upload-label">
+                          {imagePreview ? (
+                            <div className="admin-upload-preview">
+                              <img src={imagePreview} alt="Preview" onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://placehold.co/400x300?text=Document';
+                              }} />
+                              <div className="admin-upload-overlay">
+                                <Upload size={24} />
+                                <span>Change File</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="admin-upload-placeholder">
+                              <ImageIcon size={32} />
+                              <span>Click to upload file</span>
+                              <span className="admin-upload-hint">Images, PDF, DOC up to 10MB</span>
+                            </div>
+                          )}
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -446,19 +459,19 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="admin-btn-secondary"
+                    className="admin-modal-cancel-btn"
                     disabled={submitting}
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="admin-btn-primary" disabled={submitting}>
+                  <button type="submit" className="admin-modal-submit-btn" disabled={submitting}>
                     {submitting ? (
                       <>
-                        <Loader2 className="admin-btn-spinner" />
+                        <Loader2 className="animate-spin" size={18} />
                         <span>Saving...</span>
                       </>
                     ) : (
-                      <span>{editingNotice ? 'Update Notice' : 'Create Notice'}</span>
+                      <span>{editingNotice ? 'Update Notice' : 'Add Notice'}</span>
                     )}
                   </button>
                 </div>
