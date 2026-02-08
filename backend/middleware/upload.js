@@ -81,6 +81,29 @@ const imageFilter = (req, file, cb) => {
   }
 };
 
+// File filter for documents and images (for notices)
+const documentFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif|webp|pdf|doc|docx|xls|xlsx|txt/;
+  // Check extension
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase().replace('.', ''));
+  // mimetypes can be complex for docs, checking common ones
+  const allowedMimeTypes = [
+    'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'text/plain'
+  ];
+  
+  if (allowedMimeTypes.includes(file.mimetype) || extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Only images and documents (PDF, DOC, XLS) are allowed'));
+  }
+};
+
 // Upload middleware instances
 const uploadEvent = multer({
   storage: eventStorage,
@@ -102,9 +125,10 @@ const uploadFeature = multer({
 
 const uploadNotice = multer({
   storage: noticeStorage,
-  fileFilter: imageFilter,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  fileFilter: documentFilter,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit for docs
 }).single('image');
+
 
 module.exports = {
   uploadEvent,

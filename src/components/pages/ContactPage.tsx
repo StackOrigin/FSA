@@ -119,7 +119,7 @@ export function ContactPage() {
   }, []);
 
   return (
-    <div className="pt-20">
+    <div className="pt-16">
       {/* Hero Section */}
       <section className="contact-hero">
         <motion.div
@@ -128,9 +128,7 @@ export function ContactPage() {
           transition={{ duration: 0.6 }}
           className="contact-hero-content"
         >
-          <h1 className="contact-hero-title">
-            Get in Touch
-          </h1>
+          
           <p className="contact-hero-description">
             Send us a message and we'll respond as soon as possible.
           </p>
@@ -157,7 +155,7 @@ export function ContactPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <div className="contact-card">
+                    <div className={`contact-card ${['Phone', 'Mail', 'MapPin', 'Clock'].includes(info.icon) ? 'special-card' : ''}`}>
                       <motion.div
                         whileHover={{ scale: 1.1, rotate: 360 }}
                         transition={{ duration: 0.5 }}
@@ -200,7 +198,7 @@ export function ContactPage() {
                     {submitError}
                   </div>
                 )}
-                
+
                 {submitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -380,99 +378,47 @@ export function ContactPage() {
                 )}
               </div>
             </motion.div>
-          </div>
-        </div>
-      </section>
 
-      {/* Map Section */}
-      <section className="contact-map-section">
-        <div className="contact-map-container">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="contact-map-card">
-              <div className="contact-map-container">
-                <div className="contact-map-gradient" />
-                <div className="contact-map-content">
-                  <div className="contact-map-inner">
-                    <MapPin className="contact-map-icon" />
-                    <h3 className="contact-map-title">Visit Our Campus</h3>
-                    <p className="contact-map-address">
-                      123 Education Lane<br />
-                      Innovation City, ST 12345
-                    </p>
-                    <button className="contact-directions-btn">
-                      Get Directions
-                    </button>
+            {/* Map */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="contact-map-card">
+                <div className="contact-map-container">
+                  <div className="contact-map-gradient" />
+                  <div className="contact-map-content">
+                    <div className="contact-map-inner">
+                      <MapPin className="contact-map-icon" />
+                      <h3 className="contact-map-title">Visit Our Campus</h3>
+                      <p className="contact-map-address">
+                        123 Education Lane<br />
+                        Innovation City, ST 12345
+                      </p>
+                      <button className="contact-directions-btn">
+                        Get Directions
+                      </button>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Decorative grid */}
-                <div className="contact-map-grid">
-                  <div className="contact-map-grid-inner">
-                    {[...Array(64)].map((_, i) => (
-                      <div key={i} className="contact-map-grid-cell" />
-                    ))}
+
+                  {/* Decorative grid */}
+                  <div className="contact-map-grid">
+                    <div className="contact-map-grid-inner">
+                      {[...Array(64)].map((_, i) => (
+                        <div key={i} className="contact-map-grid-cell" />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="contact-faq-section">
-        <div className="contact-faq-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="contact-faq-header"
-          >
-            <h2 className="contact-faq-title">Quick Answers</h2>
-            <p className="contact-faq-subtitle">
-              Common questions about contacting us
-            </p>
-          </motion.div>
-
-          <div className="contact-faq-grid">
-            {[
-              {
-                question: 'How quickly will I get a response?',
-                answer: 'We typically respond to inquiries within 24-48 hours during business days.',
-              },
-              {
-                question: 'Can I schedule a campus tour?',
-                answer: 'Yes! Contact our admissions office to schedule a personalized tour.',
-              },
-              {
-                question: 'Who should I contact for emergencies?',
-                answer: 'For emergencies during school hours, call our main office at +1 (555) 123-4567.',
-              },
-              {
-                question: 'Do you accept walk-in visits?',
-                answer: 'While appointments are preferred, our reception is open during office hours.',
-              },
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="contact-faq-card">
-                  <h3 className="contact-faq-question">{faq.question}</h3>
-                  <p className="contact-faq-answer">{faq.answer}</p>
-                </div>
-              </motion.div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </section>
+
+      
     </div>
   );
 }

@@ -63,16 +63,31 @@ exports.getNoticeById = async (req, res) => {
 // Create new notice
 exports.createNotice = async (req, res) => {
   try {
-    const { title, description, category, priority, download_url } = req.body;
+    const { title, description, category, priority, download_url: manual_download_url } = req.body;
     
-    // Handle uploaded image
-    const image_url = req.file ? `/uploads/notices/${req.file.filename}` : null;
+    let image_url = null;
+    let download_url = manual_download_url || null;
+
+    if (req.file) {
+      const filePath = `/uploads/notices/${req.file.filename}`;
+      const ext = path.extname(req.file.originalname).toLowerCase();
+      const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+      
+      if (imageExts.includes(ext)) {
+        image_url = filePath;
+        // Also allow downloading the image if no other download link
+        if (!download_url) download_url = filePath;
+      } else {
+        // It's a document (PDF, etc.)
+        download_url = filePath;
+      }
+    }
     
     const result = await db.query(
       `INSERT INTO notices (title, description, category, priority, image_url, download_url) 
        VALUES ($1, $2, $3, $4, $5, $6) 
        RETURNING *`,
-      [title, description, category || 'General', priority || 'medium', image_url, download_url || null]
+      [title, description, category || 'General', priority || 'medium', image_url, download_url]
     );
     
     res.status(201).json(result.rows[0]);
@@ -86,7 +101,7 @@ exports.createNotice = async (req, res) => {
 exports.updateNotice = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, category, priority, download_url } = req.body;
+    const { title, description, category, priority, download_url: manual_download_url } = req.body;
     
     // Check if notice exists
     const existingNotice = await db.query('SELECT * FROM notices WHERE id = $1', [id]);
@@ -94,17 +109,35 @@ exports.updateNotice = async (req, res) => {
       return res.status(404).json({ error: 'Notice not found' });
     }
     
-    // Handle new uploaded image
     let image_url = existingNotice.rows[0].image_url;
+    let download_url = manual_download_url || existingNotice.rows[0].download_url;
+
     if (req.file) {
-      // Delete old image if it exists
-      if (image_url) {
-        const oldImagePath = path.join(__dirname, '..', image_url);
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
+      // Determine if file is image or doc
+      const filePath = `/uploads/notices/${req.file.filename}`;
+      const ext = path.extname(req.file.originalname).toLowerCase();
+      const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+      if (imageExts.includes(ext)) {
+        // It's an image
+        // Delete old image if it exists
+        if (image_url) {
+          try {
+            const oldImagePath = path.join(__dirname, '..', image_url);
+            if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
+          } catch(e) { console.error("Error deleting old image", e); }
         }
+        image_url = filePath;
+        // Optionally update download_url if it was pointing to the old image or empty
+        if (!download_url) download_url = filePath;
+      } else {
+        // It's a document
+        // Just update download_url. 
+        // Should we delete old image? Maybe not, maybe they want to keep the image and change the doc.
+        // But the previous logic deleted the old file.
+        // Let's safe update download_url.
+        download_url = filePath;
       }
-      image_url = `/uploads/notices/${req.file.filename}`;
     }
     
     const result = await db.query(

@@ -128,7 +128,7 @@ function SidebarContent({
             <GraduationCap />
           </div>
           <div>
-            <h2 className="admin-sidebar-logo-title">FutureSchool</h2>
+            <h2 className="admin-sidebar-logo-title">FSA</h2>
             <p className="admin-sidebar-logo-subtitle">Admin Panel</p>
           </div>
         </div>

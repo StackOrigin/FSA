@@ -1,6 +1,9 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { Download, Calendar, Tag, Search, Filter, Bell, Loader2 } from 'lucide-react';
+import { toPng } from 'html-to-image';
+import { toast } from 'sonner';
+import { Toaster } from '../ui/sonner';
 import '../../styles/pages/NoticePage.css';
 
 interface Notice {
@@ -19,6 +22,7 @@ export function NoticePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchNotices();
@@ -65,49 +69,56 @@ export function NoticePage() {
     });
   };
 
+  const handleDownloadNotice = async (e: React.MouseEvent, noticeId: number, noticeTitle: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (downloadingId) return;
+
+    const element = document.getElementById(`notice-card-${noticeId}`);
+    if (!element) {
+      toast.error("Notice element not found");
+      return;
+    }
+
+    try {
+      setDownloadingId(noticeId);
+      toast.info("Preparing download...");
+      
+      // Small delay to allow toast to render and UI to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const dataUrl = await toPng(element, {
+        pixelRatio: 2,
+        backgroundColor: '#ffffff',
+        filter: (node) => {
+          // Filter out the download button from the image
+          if (node instanceof HTMLElement && node.classList.contains('notice-download-btn')) {
+            return false;
+          }
+          return true;
+        }
+      });
+      
+      const link = document.createElement('a');
+      link.download = `${noticeTitle.replace(/\s+/g, '-').toLowerCase()}-notice.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Notice downloaded successfully");
+    } catch (error: any) {
+      console.error('Error generating notice image:', error);
+      toast.error(`Failed to generate: ${error?.message || 'Unknown error'}`);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
   return (
     <div className="notice-page">
-
-      {/* Filter and Search Section */}
-      <section className="notice-filter-section">
-        <div className="notice-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="notice-filter-wrapper"
-          >
-            {/* Search Bar */}
-            <div className="notice-search-bar">
-              <Search className="notice-search-icon" size={20} />
-              <input
-                type="text"
-                placeholder="Search notices..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="notice-search-input"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <div className="notice-category-filter">
-              <Filter size={20} className="notice-filter-icon" />
-              <div className="notice-category-buttons">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`notice-category-btn ${selectedCategory === category ? 'active' : ''}`}
-                  >
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
+      <Toaster />
+      <div className="notice-text">Notice</div>
       {/* Notices Grid */}
       <section className="notice-grid-section">
         <div className="notice-container">
@@ -122,6 +133,7 @@ export function NoticePage() {
                 {filteredNotices.map((notice, index) => (
                   <motion.div
                     key={notice.id}
+                    id={`notice-card-${notice.id}`}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -130,7 +142,7 @@ export function NoticePage() {
                   >
                     {notice.image_url && (
                       <div className="notice-card-image">
-                        <img src={notice.image_url} alt={notice.title} />
+                        <img src={notice.image_url} alt={notice.title} crossOrigin="anonymous" />
                       </div>
                     )}
                     
@@ -154,18 +166,19 @@ export function NoticePage() {
                           <span>{formatDate(notice.created_at)}</span>
                         </div>
                         
-                        {(notice.download_url || notice.image_url) && (
-                          <a 
-                            href={notice.download_url || notice.image_url}
-                            target="_blank"
-                            rel="noopener noreferrer" 
-                            className="notice-download-btn"
-                            download
-                          >
+                        <button 
+                          className="notice-download-btn"
+                          type="button"
+                          disabled={downloadingId === notice.id}
+                          onClick={(e) => handleDownloadNotice(e, notice.id, notice.title)}
+                        >
+                          {downloadingId === notice.id ? (
+                            <Loader2 size={18} className="animate-spin" />
+                          ) : (
                             <Download size={18} />
-                            <span>Download</span>
-                          </a>
-                        )}
+                          )}
+                          <span>{downloadingId === notice.id ? 'Saving...' : 'Download'}</span>
+                        </button>
                       </div>
                     </div>
                   </motion.div>
@@ -184,26 +197,6 @@ export function NoticePage() {
         </div>
       </section>
 
-      {/* Important Notice Banner */}
-      <section className="notice-banner-section">
-        <div className="notice-container">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="notice-important-banner"
-          >
-            <div className="notice-banner-icon">
-              <Bell size={32} />
-            </div>
-            <div className="notice-banner-content">
-              <h3>Stay Connected</h3>
-              <p>Subscribe to receive instant notifications for important updates and announcements</p>
-            </div>
-            <button className="notice-banner-btn">Subscribe Now</button>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

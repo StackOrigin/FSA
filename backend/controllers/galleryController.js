@@ -40,7 +40,7 @@ exports.addImage = async (req, res) => {
 
     const result = await db.query(
       'INSERT INTO gallery (title, image_url, category, description) VALUES ($1, $2, $3, $4) RETURNING *',
-      [title || 'Untitled', imagePath, category || 'general', description || '']
+      [title || 'Untitled', imagePath, category || 'classroom activity', description || '']
     );
     
     res.status(201).json({ 

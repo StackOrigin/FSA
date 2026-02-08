@@ -1475,6 +1475,21 @@
   overflow-y: auto;
 }
 
+.admin-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.admin-modal-body .admin-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .admin-modal-actions {
   display: flex;
   align-items: center;
