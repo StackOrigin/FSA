@@ -8,6 +8,7 @@ import { ContactsManagement } from './ContactsManagement';
 import { AdmissionsManagement } from './AdmissionsManagement';
 import { HomeContentManagement } from './HomeContentManagement';
 import { NoticesManagement } from './NoticesManagement';
+import { BirthdaysManagement } from './BirthdaysManagement';
 import '../../styles/admin/Admin.css';
 
 export function AdminApp() {
@@ -58,6 +59,8 @@ export function AdminApp() {
         return <HomeContentManagement onBack={goToDashboard} />;
       case 'notices':
         return <NoticesManagement onBack={goToDashboard} />;
+      case 'birthdays':
+        return <BirthdaysManagement onBack={goToDashboard} />;
       default:
         return <AdminDashboard onNavigate={setCurrentPage} />;
     }

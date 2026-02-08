@@ -129,10 +129,32 @@ const uploadNotice = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit for docs
 }).single('image');
 
+// Configure storage for birthdays
+const birthdayStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../uploads/birthdays');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'birthday-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadBirthday = multer({
+  storage: birthdayStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+}).single('image');
+
 
 module.exports = {
   uploadEvent,
   uploadGallery,
   uploadFeature,
-  uploadNotice
+  uploadNotice,
+  uploadBirthday
 };

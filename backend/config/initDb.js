@@ -114,6 +114,20 @@ const createTables = async () => {
     `);
     console.log('✅ Notices table ready');
 
+    // 7. Create birthdays table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS birthdays (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        role VARCHAR(255) NOT NULL,
+        birth_date DATE NOT NULL,
+        image_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await pool.query('ALTER TABLE birthdays ADD COLUMN IF NOT EXISTS image_url TEXT');
+    console.log('✅ Birthdays table ready');
+
     // ==========================================
     // SEED INITIAL DATA (only if tables are empty)
     // ==========================================

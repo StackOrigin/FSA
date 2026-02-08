@@ -19,7 +19,8 @@ type UpcomingEvent = {
   title: string;
   time: string;
   location: string;
-  
+  description: string;
+  image: string | null;
   month: string;
   parsedDate: Date;
 };
@@ -100,7 +101,8 @@ export function EventsPage() {
                 title: String(e.title ?? 'Untitled Event'),
                 time: String(e.event_time ?? 'TBA'),
                 location: String(e.location ?? 'TBA'),
-                category: String(e.category ?? 'Community'),
+                description: String(e.description ?? ''),
+                image: e.image_url ? String(e.image_url) : null,
                 month,
                 parsedDate: parsed,
               };
@@ -222,9 +224,7 @@ export function EventsPage() {
                             </div>
                           </div>
                           <p className="events-carousel-description">{featuredEvents[currentSlide].description}</p>
-                          <button className="events-carousel-btn">
-                            Learn More
-                          </button>
+
                         </div>
                       </div>
                     </div>
@@ -300,34 +300,42 @@ export function EventsPage() {
                       <motion.div
                         key={event.title}
                         layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.3 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                        whileHover={{ y: -4 }}
+                        className="events-card-wrapper"
                       >
-                        <div className="events-card">
-                          <div className="events-card-content">
-                            <div className="events-card-date-wrapper">
-                              <div className="events-card-date-badge">
-                                <div className="events-card-date-number">{String(event.date).split(' ')[1] ?? ''}</div>
+                        <div className="events-card-horizontal">
+                          <div className="events-card-image-container">
+                            {event.image ? (
+                              <img
+                                src={event.image}
+                                alt={event.title}
+                                className="events-card-image"
+                              />
+                            ) : (
+                              <div className="events-card-image-placeholder">
+                                <Calendar className="events-card-placeholder-icon" />
                               </div>
-                              <div className="events-card-date-month">{String(event.date).split(' ')[0] ?? ''}</div>
+                            )}
+                            <div className="events-card-date-overlay">
+                              <span className="events-card-date-day">{String(event.date).split(' ')[1] ?? ''}</span>
+                              <span className="events-card-date-month-label">{String(event.date).split(' ')[0] ?? ''}</span>
                             </div>
-                            <div className="events-card-info">
-                              <div className="events-card-category">
-                                
-                               
+                          </div>
+                          <div className="events-card-body">
+                            <h3 className="events-card-title">{event.title}</h3>
+                            <p className="events-card-description">{event.description}</p>
+                            <div className="events-card-meta">
+                              <div className="events-card-meta-item">
+                                <Clock className="events-card-meta-icon" />
+                                <span>{event.time}</span>
                               </div>
-                              <h3 className="events-card-title">{event.title}</h3>
-                              <div className="events-card-details">
-                                <div className="events-card-detail">
-                                  <Clock className="events-card-detail-icon" />
-                                  <span>{event.time}</span>
-                                </div>
-                                <div className="events-card-detail">
-                                  <MapPin className="events-card-detail-icon" />
-                                  <span>{event.location}</span>
-                                </div>
+                              <div className="events-card-meta-item">
+                                <MapPin className="events-card-meta-icon" />
+                                <span>{event.location}</span>
                               </div>
                             </div>
                           </div>

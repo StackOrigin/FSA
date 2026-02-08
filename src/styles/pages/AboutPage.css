@@ -358,8 +358,8 @@
 }
 
 .value-icon {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
   margin: 0 auto 1rem;
   border-radius: 9999px;
   display: flex;
@@ -462,8 +462,7 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 3px solid #9333ea;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  border: 3px solid black;
 }
 
 .testimonial-row p {

@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Calendar } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import '../../styles/pages/HomePage.css';
 
@@ -191,6 +191,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Testimonials Section */}
       <TestimonialsSection loading={homeLoading} testimonials={homeContent?.testimonials} />
 
+      {/* Birthday Section */}
+      <BirthdaySection />
+
       {/* CTA Section */}
       <CTASection onNavigate={onNavigate} />
     </div>
@@ -312,6 +315,12 @@ function FeaturesSection({
   features: any[] | undefined;
 }) {
   const safeFeatures = Array.isArray(features) ? features : [];
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const toggleExpand = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
 
   return (
     <section className="features-section" >
@@ -367,7 +376,17 @@ function FeaturesSection({
                   </div>
                   <div className="feature-content">
                     <h3 className="feature-title">{feature.title}</h3>
-                    <p className="feature-description">{feature.description}</p>
+                    <p className={`feature-description ${expandedIndex === index ? 'expanded' : ''}`}>
+                      {feature.description}
+                    </p>
+                    {feature.description && feature.description.length > 80 && (
+                      <button
+                        className="read-more-btn"
+                        onClick={(e) => toggleExpand(index, e)}
+                      >
+                        {expandedIndex === index ? 'Read Less' : 'Read More'}
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -470,6 +489,115 @@ function TestimonialsSection({
         
       </div>
     </section>
+  );
+}
+
+interface BirthdayPerson {
+  id: number;
+  name: string;
+  role: string;
+  birth_date: string;
+  image_url?: string;
+}
+
+function BirthdaySection() {
+  const [birthdays, setBirthdays] = useState<BirthdayPerson[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBirthdays = async () => {
+      try {
+        const res = await fetch('/api/birthdays/today');
+        const data = await res.json();
+        setBirthdays(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error('Failed to load birthdays', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBirthdays();
+  }, []);
+
+  // Don't render section if no birthdays today and not loading
+  if (!loading && birthdays.length === 0) return null;
+
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${monthNames[d.getMonth()]} ${d.getDate()}`;
+  };
+
+  return (
+    <section className="birthday-section">
+      <div className="birthday-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="section-header"
+        >
+          <div className="birthday-label">
+            <Cake className="birthday-label-icon" />
+            <span>Celebrations</span>
+          </div>
+          <h2 className="section-title">Today's Birthdays</h2>
+          <p className="section-subtitle">
+            Wishing our students and staff a very happy birthday
+          </p>
+        </motion.div>
+
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
+          </div>
+        ) : (
+          <div className="birthday-grid">
+            {birthdays.map((person, index) => (
+              <BirthdayCard key={person.id} person={person} index={index} formatDate={formatDate} />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function getInitials(name: string) {
+  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function BirthdayCard({ person, index, formatDate }: { person: BirthdayPerson; index: number; formatDate: (d: string) => string }) {
+  const accentColors = ['#3b82f6', '#9333ea', '#ec4899'];
+  const accent = accentColors[index % accentColors.length];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -6 }}
+      className="birthday-card"
+    >
+      <div className="birthday-card-body">
+        <div className="birthday-avatar" style={person.image_url ? {} : { background: accent }}>
+          {person.image_url ? (
+            <img src={person.image_url} alt={person.name} className="birthday-avatar-img" />
+          ) : (
+            <span>{getInitials(person.name)}</span>
+          )}
+        </div>
+        <h3 className="birthday-name">{person.name}</h3>
+        <p className="birthday-role">{person.role}</p>
+        <div className="birthday-date">
+          <Calendar className="birthday-date-icon" />
+          <span>{formatDate(person.birth_date)}</span>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 

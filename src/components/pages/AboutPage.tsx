@@ -73,7 +73,7 @@ export function AboutPage() {
     <div className="about-page">
       {/* Hero Section */}
       <section className="about-hero"
-      style={{backgroundImage:"url('/images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center "}}>
+      style={{backgroundImage:"linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center"}}>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
