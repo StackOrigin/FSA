@@ -41,13 +41,13 @@ export function Footer({ onNavigate }: FooterProps) {
             >
               <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                 <div className="footer-logo-icon">
-                  <span>FS</span>
+                  <img src='./images/logo.png'></img>
+                <div className="footer-logo-text">FSA</div>
                 </div>
-                <div className="footer-logo-text">FutureSchool</div>
               </Link>
             </motion.div>
             <p className="footer-description">
-              Empowering minds and shaping futures through innovative education.
+              Knowledge Brings Humanity
             </p>
             <div className="footer-social">
               {socialLinks.map((social, index) => (
