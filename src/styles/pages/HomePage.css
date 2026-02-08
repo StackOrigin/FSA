@@ -273,17 +273,17 @@
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 100%);
+  background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-primary-gradient:hover {
-  background: linear-gradient(90deg, #FF5252 0%, #FF7A3D 100%);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-primary-gradient svg {
@@ -303,18 +303,18 @@
   padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #FF6B6B;
-  background: transparent;
-  border: 2px solid #FF6B6B;
+  color: white;
+  background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
+  border: none;
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-outline:hover {
-  background: rgba(255, 107, 107, 0.1);
-  border-color: #FF5252;
-  color: #FF5252;
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 /* Stats Section */
@@ -683,7 +683,7 @@
 .principal-label-line {
   height: 0.25rem;
   width: 3rem;
-  background: linear-gradient(to right, #FF6B6B, #FF8E53);
+  background: linear-gradient(to bottom right, #3b82f6, #9333ea);
   border-radius: 9999px;
 }
 
