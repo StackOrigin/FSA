@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Calendar } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
+import { ScrollSequence } from '../ScrollSequence';
 import '../../styles/pages/HomePage.css';
 
 interface HomePageProps {
@@ -193,6 +194,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
       {/* Birthday Section */}
       <BirthdaySection />
+
+      {/* Scroll-Driven Animation */}
+      <ScrollSequence />
 
       {/* CTA Section */}
       <CTASection onNavigate={onNavigate} />

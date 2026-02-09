@@ -274,6 +274,231 @@
   background: linear-gradient(to bottom, var(--muted-30), var(--background));
 }
 
+/* Application Form Section */
+.admissions-form-section {
+  padding: 5rem 1rem;
+}
+
+.admissions-form-container {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.admissions-form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.admissions-form-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (min-width: 768px) {
+  .admissions-form-title {
+    font-size: 3rem;
+  }
+}
+
+.admissions-form-subtitle {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+}
+
+.admissions-form {
+  padding: 2rem;
+  border: 1px solid var(--border-50);
+  background-color: var(--card-50);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+}
+
+.admissions-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .admissions-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.admissions-form-full {
+  grid-column: 1 / -1;
+}
+
+.admissions-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admissions-form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.admissions-form-label-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #7c3aed;
+}
+
+.admissions-form-required {
+  color: #ef4444;
+}
+
+.admissions-form-optional {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.admissions-form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-50);
+  border-radius: 0.5rem;
+  background: var(--background);
+  color: var(--foreground);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.admissions-form-input::placeholder {
+  color: var(--muted-foreground);
+  opacity: 0.6;
+}
+
+.admissions-form-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.admissions-form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.admissions-form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.admissions-form-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+.admissions-form-submit {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.admissions-form-submit:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.admissions-form-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.admissions-form-submit-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.admissions-form-submit-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Form Success State */
+.admissions-form-success {
+  text-align: center;
+  padding: 3rem 2rem;
+  border: 1px solid var(--border-50);
+  background-color: var(--card-50);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+}
+
+.admissions-form-success-icon {
+  width: 4rem;
+  height: 4rem;
+  color: #22c55e;
+  margin: 0 auto 1.5rem;
+}
+
+.admissions-form-success-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.admissions-form-success-text {
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  max-width: 28rem;
+  margin: 0 auto 1.5rem;
+}
+
+.admissions-form-success-btn {
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admissions-form-success-btn:hover {
+  opacity: 0.9;
+}
+
 .admissions-faq-container {
   max-width: 56rem;
   margin: 0 auto;

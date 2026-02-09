@@ -1,5 +1,152 @@
 /* HomePage.css - Homepage styles */
 
+/* =============================================
+   SCROLL SEQUENCE ANIMATION
+   ============================================= */
+.scroll-sequence-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+}
+
+.scroll-sequence-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.scroll-sequence-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scroll-sequence-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-sequence-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  z-index: 10;
+}
+
+.scroll-sequence-loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.scroll-sequence-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.scroll-sequence-progress-bar {
+  width: 150px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.scroll-sequence-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #9333ea);
+  border-radius: 9999px;
+  transition: width 0.15s ease;
+}
+
+.scroll-sequence-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-size: 0.875rem;
+  opacity: 0.8;
+  animation: bounce-hint 2s ease-in-out infinite;
+  z-index: 5;
+}
+
+.scroll-sequence-hint-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.scroll-sequence-hint-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes bounce-hint {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.scroll-sequence-progress-indicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.scroll-sequence-progress-indicator-fill {
+  height: 100%;
+  background: white;
+  border-radius: 9999px;
+  transition: width 0.05s linear;
+}
+
 .home-page {
   overflow: hidden;
 }

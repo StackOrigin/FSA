@@ -3215,6 +3215,7 @@
    ============================================= */
 .contacts-search {
   max-width: 28rem;
+  margin-top: 1.5rem;
 }
 
 .contacts-search:focus-within {
@@ -3280,36 +3281,49 @@
 .contacts-grid {
   display: grid;
   gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .contacts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .contacts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .contacts-card {
   padding: 1.5rem;
   border-radius: 0.75rem;
   background-color: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s, border-color 0.3s;
 }
 
 .contacts-card:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
 }
 
 .dark .contacts-card {
   background-color: #1e293b;
+  border-color: #374151;
+}
+
+.dark .contacts-card:hover {
+  border-color: #4b5563;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .contacts-card-inner {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-@media (min-width: 1024px) {
-  .contacts-card-inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
 .contacts-card-content {
@@ -3422,7 +3436,14 @@
 
 .contacts-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.dark .contacts-actions {
+  border-color: #374151;
 }
 
 .contacts-view-btn {
@@ -3442,6 +3463,17 @@
   background-color: #eff6ff;
   color: #2563eb;
   border-color: #bfdbfe;
+}
+
+.dark .contacts-view-btn {
+  border-color: #374151;
+  color: #d1d5db;
+}
+
+.dark .contacts-view-btn:hover {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .contacts-view-btn svg {
@@ -3467,6 +3499,15 @@
   border-color: #fecaca;
 }
 
+.dark .contacts-delete-btn {
+  border-color: #374151;
+}
+
+.dark .contacts-delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
 .contacts-delete-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -3484,6 +3525,14 @@
 /* Contacts Modal */
 .contacts-modal {
   max-width: 42rem;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .contacts-modal {
+    padding: 2rem;
+  }
 }
 
 .contacts-modal-header {
@@ -3574,17 +3623,31 @@
 
 .contacts-modal-footer {
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .contacts-modal-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.dark .contacts-modal-footer {
+  border-color: #374151;
 }
 
 .contacts-modal-delete-btn {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   height: 2.75rem;
+  padding: 0 1.25rem;
   border: none;
   border-radius: 0.75rem;
   background-color: #ef4444;
@@ -3609,6 +3672,7 @@
    ============================================= */
 .admissions-search {
   max-width: 28rem;
+  margin-top: 1.5rem;
 }
 
 .admissions-search:focus-within {
@@ -3674,36 +3738,49 @@
 .admissions-grid {
   display: grid;
   gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .admissions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .admissions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .admissions-card {
   padding: 1.5rem;
   border-radius: 0.75rem;
   background-color: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s, border-color 0.3s;
 }
 
 .admissions-card:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
 }
 
 .dark .admissions-card {
   background-color: #1e293b;
+  border-color: #374151;
+}
+
+.dark .admissions-card:hover {
+  border-color: #4b5563;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .admissions-card-inner {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-@media (min-width: 1024px) {
-  .admissions-card-inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
 .admissions-card-content {
@@ -3876,14 +3953,14 @@
 
 .admissions-actions {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
 }
 
-@media (min-width: 640px) {
-  .admissions-actions {
-    flex-direction: row;
-  }
+.dark .admissions-actions {
+  border-color: #374151;
 }
 
 .admissions-view-btn {
@@ -3903,6 +3980,17 @@
   background-color: #eff6ff;
   color: #2563eb;
   border-color: #bfdbfe;
+}
+
+.dark .admissions-view-btn {
+  border-color: #374151;
+  color: #d1d5db;
+}
+
+.dark .admissions-view-btn:hover {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .admissions-view-btn svg {
@@ -3940,6 +4028,14 @@
 /* Admissions Modal */
 .admissions-modal {
   max-width: 42rem;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .admissions-modal {
+    padding: 2rem;
+  }
 }
 
 .admissions-modal-header {
