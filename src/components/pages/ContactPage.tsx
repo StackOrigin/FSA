@@ -31,12 +31,22 @@ export function ContactPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    
+    // Phone number: only digits, max 10
+    if (name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+    
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
+  };
+
+  const validateEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const validateForm = () => {
@@ -47,6 +57,9 @@ export function ContactPage() {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Invalid email format';
+    }
+    if (formData.phone.trim() && !/^\d{1,10}$/.test(formData.phone)) {
+      newErrors.phone = 'Phone number must be 1-10 digits only';
     }
     if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
     if (!formData.message.trim()) newErrors.message = 'Message is required';
@@ -265,7 +278,12 @@ export function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           onFocus={() => setFocusedField('email')}
-                          onBlur={() => setFocusedField(null)}
+                          onBlur={() => {
+                            setFocusedField(null);
+                            if (formData.email.trim() && !validateEmail(formData.email)) {
+                              setErrors((prev) => ({ ...prev, email: 'Invalid email format' }));
+                            }
+                          }}
                           placeholder="your.email@example.com"
                           className={`contact-form-input contact-form-field ${errors.email ? 'error' : ''}`}
                         />
@@ -297,10 +315,19 @@ export function ContactPage() {
                           onChange={handleChange}
                           onFocus={() => setFocusedField('phone')}
                           onBlur={() => setFocusedField(null)}
-                          placeholder="+1 (555) 123-4567"
-                          className="contact-form-input contact-form-field"
+                          placeholder="Phone number"
+                          className={`contact-form-input contact-form-field ${errors.phone ? 'error' : ''}`}
                         />
                       </motion.div>
+                      {errors.phone && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="contact-field-error"
+                        >
+                          {errors.phone}
+                        </motion.p>
+                      )}
                     </div>
 
                     <div>
