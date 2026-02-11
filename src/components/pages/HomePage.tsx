@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Calendar } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
+import { ScrollSequence } from '../ScrollSequence';
 import '../../styles/pages/HomePage.css';
 
 interface HomePageProps {
@@ -194,6 +195,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Birthday Section */}
       <BirthdaySection />
 
+      {/* Scroll-Driven Animation */}
+      <ScrollSequence />
+
       {/* CTA Section */}
       <CTASection onNavigate={onNavigate} />
     </div>
@@ -290,7 +294,7 @@ function StatCard({ stat, index }: { stat: any; index: number }) {
     >
       <div className="stat-card">
         <motion.div
-          whileHover={{ scale: 1.1, rotate: 360 }}
+          whileHover={{ scale: 1.1}}
           transition={{ duration: 0.5 }}
           className="stat-icon"
         >

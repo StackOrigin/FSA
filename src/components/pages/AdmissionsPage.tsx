@@ -9,13 +9,51 @@ import {
   Users,
   Mail,
   Phone,
-  Download
+  Download,
+  Send,
+  User,
+  GraduationCap,
+  MessageSquare,
+  Loader2
 } from 'lucide-react';
 import { useState } from 'react';
+import { apiJson } from '../../lib/api';
 import '../../styles/pages/AdmissionsPage.css';
 
 export function AdmissionsPage() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
+
+  const [formData, setFormData] = useState({
+    studentName: '',
+    parentName: '',
+    email: '',
+    phone: '',
+    gradeApplying: '',
+    message: '',
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [formError, setFormError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    setFormError('');
+    try {
+      await apiJson('/admissions', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+      });
+      setFormStatus('success');
+      setFormData({ studentName: '', parentName: '', email: '', phone: '', gradeApplying: '', message: '' });
+    } catch (err: any) {
+      setFormStatus('error');
+      setFormError(err.message || 'Something went wrong. Please try again.');
+    }
+  };
 
   const steps = [
     {
@@ -92,9 +130,9 @@ export function AdmissionsPage() {
           <p className="admissions-hero-description">
           Our admissions process is designed to help us get to know your family and ensure the best fit for your child's success.
           </p>
-          <button className="admissions-hero-btn">
+          <a href="#application-form" className="admissions-hero-btn">
             Start Your Application
-          </button>
+          </a>
         </motion.div>
       </section>
 
@@ -214,11 +252,189 @@ export function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Addmission QR */}
-      
-      
+      {/* Application Form */}
+      <section className="admissions-form-section" id="application-form">
+        <div className="admissions-form-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="admissions-form-header"
+          >
+            <h2 className="admissions-form-title">Apply Now</h2>
+            <p className="admissions-form-subtitle">Fill out the form below to start your child's journey with us</p>
+          </motion.div>
 
-     
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {formStatus === 'success' ? (
+              <div className="admissions-form-success">
+                <CheckCircle className="admissions-form-success-icon" />
+                <h3 className="admissions-form-success-title">Application Submitted!</h3>
+                <p className="admissions-form-success-text">
+                  Thank you for applying. Our admissions team will review your application and get back to you within 5-7 business days.
+                </p>
+                <button
+                  className="admissions-form-success-btn"
+                  onClick={() => setFormStatus('idle')}
+                >
+                  Submit Another Application
+                </button>
+              </div>
+            ) : (
+              <form className="admissions-form" onSubmit={handleSubmit}>
+                <div className="admissions-form-grid">
+                  {/* Student Name */}
+                  <div className="admissions-form-group">
+                    <label className="admissions-form-label" htmlFor="studentName">
+                      <User className="admissions-form-label-icon" />
+                      Student's Full Name <span className="admissions-form-required">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="studentName"
+                      name="studentName"
+                      value={formData.studentName}
+                      onChange={handleInputChange}
+                      className="admissions-form-input"
+                      placeholder="Enter student's full name"
+                      required
+                    />
+                  </div>
+
+                  {/* Parent Name */}
+                  <div className="admissions-form-group">
+                    <label className="admissions-form-label" htmlFor="parentName">
+                      <Users className="admissions-form-label-icon" />
+                      Parent/Guardian Name <span className="admissions-form-required">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="parentName"
+                      name="parentName"
+                      value={formData.parentName}
+                      onChange={handleInputChange}
+                      className="admissions-form-input"
+                      placeholder="Enter parent/guardian name"
+                      required
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="admissions-form-group">
+                    <label className="admissions-form-label" htmlFor="email">
+                      <Mail className="admissions-form-label-icon" />
+                      Email Address <span className="admissions-form-required">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="admissions-form-input"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div className="admissions-form-group">
+                    <label className="admissions-form-label" htmlFor="phone">
+                      <Phone className="admissions-form-label-icon" />
+                      Phone Number <span className="admissions-form-required">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="admissions-form-input"
+                      placeholder="Enter phone number"
+                      required
+                    />
+                  </div>
+
+                  {/* Grade Applying */}
+                  <div className="admissions-form-group admissions-form-full">
+                    <label className="admissions-form-label" htmlFor="gradeApplying">
+                      <GraduationCap className="admissions-form-label-icon" />
+                      Grade Applying For <span className="admissions-form-required">*</span>
+                    </label>
+                    <select
+                      id="gradeApplying"
+                      name="gradeApplying"
+                      value={formData.gradeApplying}
+                      onChange={handleInputChange}
+                      className="admissions-form-input admissions-form-select"
+                      required
+                    >
+                      <option value="">Select a grade</option>
+                      <option value="Pre-K">Pre-K</option>
+                      <option value="Kindergarten">Kindergarten</option>
+                      <option value="Grade 1">Grade 1</option>
+                      <option value="Grade 2">Grade 2</option>
+                      <option value="Grade 3">Grade 3</option>
+                      <option value="Grade 4">Grade 4</option>
+                      <option value="Grade 5">Grade 5</option>
+                      <option value="Grade 6">Grade 6</option>
+                      <option value="Grade 7">Grade 7</option>
+                      <option value="Grade 8">Grade 8</option>
+                      <option value="Grade 9">Grade 9</option>
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div className="admissions-form-group admissions-form-full">
+                    <label className="admissions-form-label" htmlFor="message">
+                      <MessageSquare className="admissions-form-label-icon" />
+                      Additional Information <span className="admissions-form-optional">(Optional)</span>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="admissions-form-input admissions-form-textarea"
+                      placeholder="Any additional information you'd like to share..."
+                      rows={4}
+                    />
+                  </div>
+                </div>
+
+                {formStatus === 'error' && (
+                  <div className="admissions-form-error">
+                    {formError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="admissions-form-submit"
+                  disabled={formStatus === 'submitting'}
+                >
+                  {formStatus === 'submitting' ? (
+                    <>
+                      <Loader2 className="admissions-form-submit-icon spinning" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="admissions-form-submit-icon" />
+                      Submit Application
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </section>
 
       {/* FAQs */}
       <section className="admissions-faq-section">

@@ -1,6 +1,6 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
-import { Download, Calendar, Tag, Search, Filter, Bell, Loader2 } from 'lucide-react';
+import { Download, Calendar, Tag, Search, Filter, Bell, Loader2, X } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
 import { Toaster } from '../ui/sonner';
@@ -23,6 +23,7 @@ export function NoticePage() {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     fetchNotices();
@@ -142,7 +143,13 @@ export function NoticePage() {
                   >
                     {notice.image_url && (
                       <div className="notice-card-image">
-                        <img src={notice.image_url} alt={notice.title} crossOrigin="anonymous" />
+                        <img 
+                          src={notice.image_url} 
+                          alt={notice.title} 
+                          crossOrigin="anonymous" 
+                          onClick={() => setSelectedImage(notice.image_url || null)}
+                          style={{ cursor: 'pointer' }}
+                        />
                       </div>
                     )}
                     
@@ -196,6 +203,48 @@ export function NoticePage() {
           )}
         </div>
       </section>
+
+      {/* Image Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute right-4 top-4 p-2 text-white/70 hover:text-white transition-colors"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            {/* The Large Image Container */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-[90vw] max-h-[85vh] w-full h-full bg-white rounded-2xl shadow-2xl overflow-hidden border-8 border-gray-100"
+              onClick={(e) => e.stopPropagation()}
+              style={{ maxWidth: 'min(90vw, 1200px)', maxHeight: 'min(85vh, 800px)' }}
+            >
+              {/* Frame Inner Container */}
+              <div className="w-full h-full p-4 flex items-center justify-center bg-gray-50" style={{ minHeight: '300px', minWidth: '400px' }}>
+                <img
+                  src={selectedImage}
+                  alt="Enlarged notice"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

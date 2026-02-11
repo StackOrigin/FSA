@@ -163,7 +163,6 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
           transition={{ delay: 0.2 }}
           className="admin-dashboard-date"
         >
-          <Sparkles className="admin-dashboard-date-icon" />
           <span className="admin-dashboard-date-text">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </span>
