@@ -189,6 +189,10 @@
   flex-direction: column;
   justify-content: center;
 }
+.dark .events-carousel-content {
+  background-color: rgba(15, 13, 17, 1);
+  border-color: var(--border-50);
+}
 
 @media (min-width: 768px) {
   .events-carousel-content {

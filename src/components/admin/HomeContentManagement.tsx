@@ -277,7 +277,6 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
       {homeContent && homeContent.features.length > 0 && (
         <div className="feature-stats">
           <span className="feature-stats-badge">
-            <Sparkles />
             {homeContent.features.length} Feature{homeContent.features.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -347,14 +346,14 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
                   <button
                     onClick={() => openEditFeatureModal(index)}
                     disabled={saving}
-                    className="feature-edit-btn"
+                    className="feature-action-btn edit"
                   >
                     <Pencil />
                   </button>
                   <button
                     onClick={() => handleDeleteFeature(index)}
                     disabled={saving}
-                    className="feature-delete-btn"
+                    className="feature-action-btn delete"
                   >
                     <Trash2 />
                   </button>
