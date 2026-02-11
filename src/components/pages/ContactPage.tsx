@@ -170,7 +170,7 @@ export function ContactPage() {
                   >
                     <div className={`contact-card ${['Phone', 'Mail', 'MapPin', 'Clock'].includes(info.icon) ? 'special-card' : ''}`}>
                       <motion.div
-                        whileHover={{ scale: 1.1, rotate: 360 }}
+                        whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.5 }}
                         className="contact-card-icon-wrapper"
                         style={{ background: `linear-gradient(to bottom right, ${info.color})` }}

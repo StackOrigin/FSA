@@ -1017,7 +1017,7 @@
 .birthday-avatar-img {
   width: 10rem;
   height: 10rem;
-  border-radius: 50%;
+  border-radius: 10%;
   object-fit: cover;
   margin-bottom: 0.75rem;
   border: 3px solid rgba(226, 232, 240, 0.5);
