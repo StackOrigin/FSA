@@ -294,7 +294,7 @@ function StatCard({ stat, index }: { stat: any; index: number }) {
     >
       <div className="stat-card">
         <motion.div
-          whileHover={{ scale: 1.1, rotate: 360 }}
+          whileHover={{ scale: 1.1}}
           transition={{ duration: 0.5 }}
           className="stat-icon"
         >

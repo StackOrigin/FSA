@@ -228,14 +228,19 @@ export function NoticePage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-[90vw] h-[85vh] max-w-6xl bg-white rounded-xl shadow-2xl overflow-hidden flex items-center justify-center p-2"
+              className="relative max-w-[90vw] max-h-[85vh] w-full h-full bg-white rounded-2xl shadow-2xl overflow-hidden border-8 border-gray-100"
               onClick={(e) => e.stopPropagation()}
+              style={{ maxWidth: 'min(90vw, 1200px)', maxHeight: 'min(85vh, 800px)' }}
             >
-              <img
-                src={selectedImage}
-                alt="Enlarged notice"
-                className="max-w-full max-h-full w-full h-full object-contain"
-              />
+              {/* Frame Inner Container */}
+              <div className="w-full h-full p-4 flex items-center justify-center bg-gray-50" style={{ minHeight: '300px', minWidth: '400px' }}>
+                <img
+                  src={selectedImage}
+                  alt="Enlarged notice"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}

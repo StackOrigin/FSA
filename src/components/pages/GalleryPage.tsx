@@ -147,13 +147,31 @@ export function GalleryPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="gallery-modal"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(0, 0, 0, 0.92)',
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
           >
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setSelectedImage(null)}
               className="gallery-modal-close"
+              style={{
+                position: 'fixed',
+                top: '1.5rem',
+                right: '1.5rem',
+                zIndex: 10001,
+              }}
             >
               <X className="gallery-modal-close-icon" />
             </motion.button>
@@ -164,12 +182,29 @@ export function GalleryPage() {
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: 'spring', damping: 25 }}
               onClick={(e) => e.stopPropagation()}
-              className="gallery-modal-content"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '85vw',
+                maxHeight: '85vh',
+                cursor: 'default',
+              }}
             >
               <img
                 src={filteredImages[selectedImage].url}
                 alt={filteredImages[selectedImage].title}
-                className="gallery-modal-image"
+                style={{
+                  display: 'block',
+                  maxWidth: '85vw',
+                  maxHeight: '75vh',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  borderRadius: '0.5rem',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                }}
               />
               <div className="gallery-modal-info">
                 <h3 className="gallery-modal-title">
@@ -179,41 +214,41 @@ export function GalleryPage() {
                   {filteredImages[selectedImage].category}
                 </div>
               </div>
-
-              {/* Navigation Arrows */}
-              <div className="gallery-modal-nav">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedImage((prev) =>
-                      prev === null ? null : (prev - 1 + filteredImages.length) % filteredImages.length
-                    );
-                  }}
-                  className="gallery-modal-nav-btn"
-                >
-                  <svg className="gallery-modal-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedImage((prev) =>
-                      prev === null ? null : (prev + 1) % filteredImages.length
-                    );
-                  }}
-                  className="gallery-modal-nav-btn"
-                >
-                  <svg className="gallery-modal-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </motion.button>
-              </div>
             </motion.div>
+
+            {/* Navigation Arrows */}
+            <div className="gallery-modal-nav">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImage((prev) =>
+                    prev === null ? null : (prev - 1 + filteredImages.length) % filteredImages.length
+                  );
+                }}
+                className="gallery-modal-nav-btn"
+              >
+                <svg className="gallery-modal-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImage((prev) =>
+                    prev === null ? null : (prev + 1) % filteredImages.length
+                  );
+                }}
+                className="gallery-modal-nav-btn"
+              >
+                <svg className="gallery-modal-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </motion.button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
