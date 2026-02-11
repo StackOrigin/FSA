@@ -243,25 +243,24 @@
 
 /* Modal */
 .gallery-modal {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  position: fixed !important;
+  inset: 0 !important;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 9999;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   cursor: pointer;
 }
 
 .gallery-modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -269,29 +268,29 @@
   color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.gallery-modal-close:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.gallery-modal-close-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  z-index: 10000;
 }
 
 .gallery-modal-content {
+  all: unset;              /* KEY LINE: removes grid/card inheritance */
   position: relative;
-  max-width: 64rem;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 90vh;
+  transform-origin: center center;
 }
 
 .gallery-modal-image {
-  width: 100%;
+  max-width: 90vw;
+  max-height: 80vh;
+  width: auto;
   height: auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
 }
 
 .gallery-modal-info {
@@ -303,24 +302,23 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
-  margin-bottom: 0.5rem;
 }
 
 .gallery-modal-category {
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.6);
 }
-
 /* Navigation Arrows */
 .gallery-modal-nav {
-  position: absolute;
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
-  right: 0;
+  left: 2rem;
+  right: 2rem;
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem;
+  pointer-events: none;
+  z-index: 51;
 }
 
 .gallery-modal-nav-btn {
@@ -336,6 +334,7 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  pointer-events: auto;
 }
 
 .gallery-modal-nav-btn:hover {
