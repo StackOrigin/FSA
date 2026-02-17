@@ -195,6 +195,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Birthday Section */}
       <BirthdaySection />
 
+      {/* School Houses Section */}
+      <SchoolHousesSection />
+
       {/* Scroll-Driven Animation */}
       <ScrollSequence />
 
@@ -421,7 +424,7 @@ function TestimonialsSection({
           className="testimonials-header"
         >
           <h2 className="testimonials-title">
-            Message from the Founders
+            Message from our Family
           </h2>
           <p className="testimonials-subtitle">
             Words of vision and inspiration from the people who built Future Stars
@@ -473,16 +476,7 @@ function TestimonialsSection({
                   >
                     When we started Future Stars, our dream was simple — to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
                   </motion.p>
-                  <motion.div
-                    className="principal-footer"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    <p className="principal-name">Co-Founder</p>
-                    <p className="principal-school">Future Stars School</p>
-                  </motion.div>
+                 
                 </div>
               </div>
             </div>
@@ -521,7 +515,7 @@ function TestimonialsSection({
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.5 }}
                     />
-                    <span className="principal-label-text">Founder's Message</span>
+                    <span className="principal-label-text">Principal's Message</span>
                   </div>
                   <motion.p
                     className="principal-message"
@@ -532,16 +526,7 @@ function TestimonialsSection({
                   >
                     At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited — through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
                   </motion.p>
-                  <motion.div
-                    className="principal-footer"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                  >
-                    <p className="principal-name">Co-Founder</p>
-                    <p className="principal-school">Future Stars School</p>
-                  </motion.div>
+                 
                 </div>
               </div>
             </div>
@@ -610,7 +595,7 @@ function BirthdaySection() {
           </div>
           <h2 className="section-title">Today's Birthdays</h2>
           <p className="section-subtitle">
-            Wishing our students and staff a very happy birthday
+            Wishing our member stars a day filled with joy and a year ahead full of success and happiness!
           </p>
         </motion.div>
 
@@ -663,6 +648,111 @@ function BirthdayCard({ person, index, formatDate }: { person: BirthdayPerson; i
         </div>
       </div>
     </motion.div>
+  );
+}
+
+const schoolHouses = [
+  {
+    name: 'Red House',
+    color: '#EF4444',
+    bg: 'rgba(239, 68, 68, 0.08)',
+    border: 'rgba(239, 68, 68, 0.3)',
+    captain: { name: 'Captain Name', image: '' },
+    viceCaptain: { name: 'Vice Captain Name', image: '' },
+  },
+  {
+    name: 'Green House',
+    color: '#22C55E',
+    bg: 'rgba(34, 197, 94, 0.08)',
+    border: 'rgba(34, 197, 94, 0.3)',
+    captain: { name: 'Captain Name', image: '' },
+    viceCaptain: { name: 'Vice Captain Name', image: '' },
+  },
+  {
+    name: 'Blue House',
+    color: '#3B82F6',
+    bg: 'rgba(59, 130, 246, 0.08)',
+    border: 'rgba(59, 130, 246, 0.3)',
+    captain: { name: 'Captain Name', image: '' },
+    viceCaptain: { name: 'Vice Captain Name', image: '' },
+  },
+  {
+    name: 'Yellow House',
+    color: '#EAB308',
+    bg: 'rgba(234, 179, 8, 0.08)',
+    border: 'rgba(234, 179, 8, 0.3)',
+    captain: { name: 'Captain Name', image: '' },
+    viceCaptain: { name: 'Vice Captain Name', image: '' },
+  },
+];
+
+function SchoolHousesSection() {
+  return (
+    <section className="school-houses-section">
+      <div className="school-houses-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="section-header"
+        >
+          <h2 className="section-title">School Houses</h2>
+          <p className="section-subtitle">
+            Our four proud houses competing in spirit, sportsmanship, and excellence
+          </p>
+        </motion.div>
+
+        <div className="school-houses-grid">
+          {schoolHouses.map((house, index) => (
+            <motion.div
+              key={house.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              whileHover={{ y: -6 }}
+              className="school-house-card"
+              style={{ background: house.bg, borderColor: house.border }}
+            >
+              <div
+                className="school-house-color-bar"
+                style={{ background: house.color }}
+              />
+              <h3 className="school-house-name" style={{ color: house.color }}>
+                {house.name}
+              </h3>
+              <div className="school-house-leaders">
+                {/* Captain */}
+                <div className="school-house-leader">
+                  <div className="school-house-avatar" style={{ borderColor: house.color }}>
+                    {house.captain.image ? (
+                      <img src={house.captain.image} alt={house.captain.name} />
+                    ) : (
+                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                    )}
+                  </div>
+                  <span className="school-house-leader-role">Captain</span>
+                  <span className="school-house-leader-name">{house.captain.name}</span>
+                </div>
+                {/* Vice Captain */}
+                <div className="school-house-leader">
+                  <div className="school-house-avatar" style={{ borderColor: house.color }}>
+                    {house.viceCaptain.image ? (
+                      <img src={house.viceCaptain.image} alt={house.viceCaptain.name} />
+                    ) : (
+                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                    )}
+                  </div>
+                  <span className="school-house-leader-role">Vice Captain</span>
+                  <span className="school-house-leader-name">{house.viceCaptain.name}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 

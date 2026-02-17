@@ -273,7 +273,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 100%);
+  background: linear-gradient(to right, #2563eb, #9333ea);
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -282,8 +282,8 @@
 }
 
 .btn-primary-gradient:hover {
-  background: linear-gradient(90deg, #FF5252 0%, #FF7A3D 100%);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+
+  box-shadow: linear-gradient(to right, #2563eb, #9333ea);
 }
 
 .btn-primary-gradient svg {
@@ -303,18 +303,16 @@
   padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #FF6B6B;
+  color: black;
   background: transparent;
-  border: 2px solid #FF6B6B;
+  border: 2px solid #9333ea;
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btn-outline:hover {
-  background: rgba(255, 107, 107, 0.1);
-  border-color: #FF5252;
-  color: #FF5252;
+  border-color: #2563eb;
 }
 
 /* Stats Section */
@@ -571,7 +569,7 @@
 }
 
 .testimonials-title {
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   background: linear-gradient(to right, #2563eb, #9333ea);
@@ -587,22 +585,16 @@
 }
 
 .testimonials-subtitle {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: var(--muted-foreground);
   max-width: 42rem;
   margin: 0 auto 2rem;
 }
 
 .founders-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .founders-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .principal-card {
@@ -692,7 +684,7 @@
 .principal-label-line {
   height: 0.25rem;
   width: 3rem;
-  background: linear-gradient(to right, #FF6B6B, #FF8E53);
+  background: linear-gradient(to right, #2563eb, #9333ea);
   border-radius: 9999px;
 }
 
@@ -782,4 +774,111 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+}
+
+/* School Houses Section */
+.school-houses-section {
+  padding: 5rem 1rem;
+}
+
+.school-houses-container {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.school-houses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .school-houses-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.school-house-card {
+  border: 2px solid;
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  position: relative;
+}
+
+.school-house-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.school-house-color-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 1.25rem 1.25rem 0 0;
+}
+
+.school-house-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.school-house-leaders {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.school-house-leader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.school-house-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.dark .school-house-avatar {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.school-house-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.school-house-leader-role {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+.school-house-leader-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-align: center;
 }
