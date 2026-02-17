@@ -60,13 +60,16 @@ export function AboutPage() {
 
   ];
 
-  const testimonials = [
+  const teacherTestimonials = [
     { img: '/images/mainphoto1.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
-    { img: '/images/mainphoto1.jpg', text: '"Witnessing students develop confidence and academic excellence is the most fulfilling aspect of my role as an educator."' },
     { img: '/images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
     { img: '/images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
-    { img: '/images/mainphoto1.jpg', text: '"Supporting students in their personal and academic growth is at the heart of my teaching philosophy."' },
-    { img: '/images/mainphoto1.jpg', text: '"Observing students progress with confidence and competence is deeply rewarding."' },
+  ];
+
+  const studentTestimonials = [
+    { img: '/images/mainphoto1.jpg', text: '"My teachers encourage me to think big and believe in myself."' },
+    { img: '/images/mainphoto1.jpg', text: '"Learning here is exciting — every lesson helps me discover something new."' },
+    { img: '/images/mainphoto1.jpg', text: '"I feel supported and confident to chase my dreams."' },
   ];
 
   return (
@@ -284,7 +287,7 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Team Preview */}
+      {/* Testimonials: Teachers and Students */}
       <section className="testimonials-section">
         <div className="testimonials-container">
           <motion.div
@@ -292,12 +295,14 @@ export function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="testimonials-title">Teacher's Testimonial</h2>
-            
+            <h2 className="testimonials-title">Testimonials</h2>
+
+            {/* Teachers */}
+            <h3 className="testimonials-subtitle">Teachers</h3>
             <div className='teacher-testimonials'>
-              {testimonials.map((testimonial, index) => (
-                <motion.div 
-                  key={index} 
+              {teacherTestimonials.map((testimonial, index) => (
+                <motion.div
+                  key={`teacher-${index}`}
                   className='testimonial-row'
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -305,6 +310,24 @@ export function AboutPage() {
                   transition={{ delay: index * 0.1 }}
                 >
                   <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                  <p>{testimonial.text}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Students */}
+            <h3 className="testimonials-subtitle" style={{ marginTop: '2rem' }}>Students</h3>
+            <div className='teacher-testimonials'>
+              {studentTestimonials.map((testimonial, index) => (
+                <motion.div
+                  key={`student-${index}`}
+                  className='testimonial-row'
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <img className='testimonial-img' src={testimonial.img} alt="Student" />
                   <p>{testimonial.text}</p>
                 </motion.div>
               ))}

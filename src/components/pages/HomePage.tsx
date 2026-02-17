@@ -421,71 +421,132 @@ function TestimonialsSection({
           className="testimonials-header"
         >
           <h2 className="testimonials-title">
-            Message from our Principal
+            Message from the Founders
           </h2>
           <p className="testimonials-subtitle">
-            A word of inspiration and guidance for our school community
+            Words of vision and inspiration from the people who built Future Stars
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="principal-card">
-            <div className="principal-grid">
-              <div className="principal-image-container">
-                <div className="principal-image-wrapper">
-                  <div className="principal-image-glow" />
-                  <motion.img
-                    src='/images/principal.jpg'
-                    className="principal-image"
-                    alt="Principal"
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    whileHover={{ scale: 1.05 }}
-                  />
+        <div className="founders-grid">
+          {/* Founder 1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="principal-card">
+              <div className="founder-card-inner">
+                <div className="principal-image-container">
+                  <div className="principal-image-wrapper">
+                    <div className="principal-image-glow" />
+                    <motion.img
+                      src='/images/founder1.jpg'
+                      className="principal-image"
+                      alt="Founder"
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8 }}
+                      whileHover={{ scale: 1.05 }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="principal-content">
-                <div className="principal-label">
+                <div className="principal-content">
+                  <div className="principal-label">
+                    <motion.div
+                      className="principal-label-line"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "3rem" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    />
+                    <span className="principal-label-text">Founder's Message</span>
+                  </div>
+                  <motion.p
+                    className="principal-message"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    When we started Future Stars, our dream was simple — to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
+                  </motion.p>
                   <motion.div
-                    className="principal-label-line"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "3rem" }}
+                    className="principal-footer"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  />
-                  <span className="principal-label-text">Principal's Message</span>
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                  >
+                    <p className="principal-name">Co-Founder</p>
+                    <p className="principal-school">Future Stars School</p>
+                  </motion.div>
                 </div>
-                <motion.p
-                  className="principal-message"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  As the Principal, I am proud to lead a school community that is committed to academic excellence, character development, and the holistic growth of every student. We strive to create a safe, supportive, and inspiring environment where students are encouraged to explore their potential, think critically, and develop lifelong values. Together with our dedicated teachers, supportive parents, and motivated students, we work as a team to shape responsible, confident, and compassionate individuals who are prepared to face the challenges of the future.
-                </motion.p>
-                <motion.div
-                  className="principal-footer"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  <p className="principal-name">School Principal</p>
-                  <p className="principal-school">Future Stars School</p>
-                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-        </motion.div>
+          {/* Founder 2 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div className="principal-card">
+              <div className="founder-card-inner">
+                <div className="principal-image-container">
+                  <div className="principal-image-wrapper">
+                    <div className="principal-image-glow" />
+                    <motion.img
+                      src='/images/founder2.jpg'
+                      className="principal-image"
+                      alt="Founder"
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8 }}
+                      whileHover={{ scale: 1.05 }}
+                    />
+                  </div>
+                </div>
+                <div className="principal-content">
+                  <div className="principal-label">
+                    <motion.div
+                      className="principal-label-line"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "3rem" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.5 }}
+                    />
+                    <span className="principal-label-text">Founder's Message</span>
+                  </div>
+                  <motion.p
+                    className="principal-message"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                  >
+                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited — through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
+                  </motion.p>
+                  <motion.div
+                    className="principal-footer"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                  >
+                    <p className="principal-name">Co-Founder</p>
+                    <p className="principal-school">Future Stars School</p>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
 
         
         
