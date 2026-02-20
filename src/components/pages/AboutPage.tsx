@@ -7,27 +7,27 @@ export function AboutPage() {
     {
       year: '2000',
       title: 'Foundation',
-      description: 'FutureSchool was established with a vision to revolutionize education.',
+      description: 'FSA began its journey to provide quality eduction and inspire lifelong learning.',
     },
     {
       year: '2010',
-      title: 'Digital Transformation',
-      description: 'Introduced cutting-edge technology and digital learning platforms.',
+      title: 'Growing Beyond Borders',
+      description: 'Created opportunities and a positive atmosphere where everyone feel supported.',
     },
     {
       year: '2015',
-      title: 'Global Expansion',
-      description: 'Opened international campuses and online programs worldwide.',
+      title: 'Smart Learning Era',
+      description: 'Integrated modern technology to create interactive and effective learning.',
     },
     {
       year: '2020',
-      title: 'Innovation Hub',
-      description: 'Launched state-of-the-art research and innovation centers.',
+      title: 'Education for Tomorrow',
+      description: 'Advancing with intelligent, personalized learning to prepare students for the future.',
     },
     {
       year: '2025',
-      title: 'Future Ready',
-      description: 'Leading the way in AI-enhanced and personalized learning.',
+      title: 'Centre for Creativity',
+      description: 'Developed innovation spaces to encourage research, creativity.',
     },
   ];
 
@@ -61,7 +61,7 @@ export function AboutPage() {
   ];
 
   const teacherTestimonials = [
-    { img: '/images/mainphoto1.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
+    { img: '/images/principal.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
     { img: '/images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
     { img: '/images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
   ];
@@ -69,7 +69,7 @@ export function AboutPage() {
   const studentTestimonials = [
     { img: '/images/mainphoto1.jpg', text: '"My teachers encourage me to think big and believe in myself."' },
     { img: '/images/mainphoto1.jpg', text: '"Learning here is exciting — every lesson helps me discover something new."' },
-    { img: '/images/mainphoto1.jpg', text: '"I feel supported and confident to chase my dreams."' },
+    { img: '/images/mainphoto1.jpg', text: '"Teachers here are very supportive, and the learning approach makes difficult subjects easy to understand."' },
   ];
 
   return (

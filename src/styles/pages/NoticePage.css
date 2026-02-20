@@ -53,6 +53,7 @@
   color: transparent;
 }
 
+
 @media (min-width: 768px) {
   .notice-hero-title {
     font-size: 3.5rem;
@@ -90,12 +91,16 @@
 
 .notice-text{
   font-size: 2.5rem;
-  font-weight: 600;
-  color: linear-gradient(to right, #2563eb, #9333ea);
-  
+  font-weight: 700;
+  color: black;
   display: flex;
   justify-content: center;
 }
+
+.dark .notice-text {
+  color: white;
+}
+
 /* Notice Grid */
 .notice-grid-section {
   padding: 4rem 0 3rem;
