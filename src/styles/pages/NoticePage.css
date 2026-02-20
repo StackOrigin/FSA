@@ -89,16 +89,16 @@
 }
 
 .notice-text{
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: 600;
-  color: purple;
+  color: linear-gradient(to right, #2563eb, #9333ea);
   
   display: flex;
   justify-content: center;
 }
 /* Notice Grid */
 .notice-grid-section {
-  padding: 2rem 0 3rem;
+  padding: 4rem 0 3rem;
 }
 
 .notice-grid {

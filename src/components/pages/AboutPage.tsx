@@ -5,12 +5,12 @@ import '../../styles/pages/AboutPage.css';
 export function AboutPage() {
   const milestones = [
     {
-      year: '1995',
+      year: '2000',
       title: 'Foundation',
       description: 'FutureSchool was established with a vision to revolutionize education.',
     },
     {
-      year: '2005',
+      year: '2010',
       title: 'Digital Transformation',
       description: 'Introduced cutting-edge technology and digital learning platforms.',
     },

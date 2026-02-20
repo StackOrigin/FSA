@@ -35,13 +35,31 @@ export function AdmissionsPage() {
   const [formError, setFormError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    let value = e.target.value;
+    
+    // Phone number: only digits, max 10
+    if (e.target.name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+    
+    setFormData(prev => ({ ...prev, [e.target.name]: value }));
+  };
+
+  const validateEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormStatus('submitting');
     setFormError('');
+    
+    // Validate email format
+    if (!validateEmail(formData.email)) {
+      setFormError('Invalid email format');
+      return;
+    }
+    
+    setFormStatus('submitting');
     try {
       await apiJson('/admissions', {
         method: 'POST',
@@ -336,6 +354,11 @@ export function AdmissionsPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      onBlur={() => {
+                        if (formData.email.trim() && !validateEmail(formData.email)) {
+                          setFormError('Invalid email format');
+                        }
+                      }}
                       className="admissions-form-input"
                       placeholder="you@example.com"
                       required
@@ -355,7 +378,7 @@ export function AdmissionsPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="admissions-form-input"
-                      placeholder="Enter phone number"
+                      placeholder="1234567890"
                       required
                     />
                   </div>

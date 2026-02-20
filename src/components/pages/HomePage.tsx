@@ -112,13 +112,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -15, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.4 },
-                  scale: { duration: 0.8, delay: 0.4 },
-                  y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.4 }
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
@@ -130,13 +128,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -20, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.5 },
-                  scale: { duration: 0.8, delay: 0.5 },
-                  y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.5 }
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
@@ -148,13 +144,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -18, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.6 },
-                  scale: { duration: 0.8, delay: 0.6 },
-                  y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.6 }
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
@@ -166,17 +160,15 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -22, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.7 },
-                  scale: { duration: 0.8, delay: 0.7 },
-                  y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.7 }
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
-                <img src="/images/principal.jpg" alt="Principal" />
+                <img src="/images/mainphoto.png" alt="Principal" />
               </motion.div>
             </motion.div>
           </div>
@@ -194,6 +186,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
       {/* Birthday Section */}
       <BirthdaySection />
+
+      {/* School Houses Section */}
+      <SchoolHousesSection />
 
       {/* Scroll-Driven Animation */}
       <ScrollSequence />
@@ -412,18 +407,18 @@ function TestimonialsSection({
   const safeTestimonials = Array.isArray(testimonials) ? testimonials : [];
 
   return (
-    <section className="testimonials-section">
-      <div className="testimonials-container">
+    <section className="familymessage-section">
+      <div className="familymessage-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="testimonials-header"
+          className="familymessage-header"
         >
-          <h2 className="testimonials-title">
-            Message from the Founders
+          <h2 className="familymessage-title">
+            Message from our Family
           </h2>
-          <p className="testimonials-subtitle">
+          <p className="familymessage-subtitle">
             Words of vision and inspiration from the people who built Future Stars
           </p>
         </motion.div>
@@ -432,8 +427,7 @@ function TestimonialsSection({
           {/* Founder 1 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="principal-card">
@@ -473,16 +467,7 @@ function TestimonialsSection({
                   >
                     When we started Future Stars, our dream was simple — to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
                   </motion.p>
-                  <motion.div
-                    className="principal-footer"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    <p className="principal-name">Co-Founder</p>
-                    <p className="principal-school">Future Stars School</p>
-                  </motion.div>
+                 
                 </div>
               </div>
             </div>
@@ -521,7 +506,7 @@ function TestimonialsSection({
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.5 }}
                     />
-                    <span className="principal-label-text">Founder's Message</span>
+                    <span className="principal-label-text">Principal's Message</span>
                   </div>
                   <motion.p
                     className="principal-message"
@@ -532,16 +517,7 @@ function TestimonialsSection({
                   >
                     At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited — through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
                   </motion.p>
-                  <motion.div
-                    className="principal-footer"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                  >
-                    <p className="principal-name">Co-Founder</p>
-                    <p className="principal-school">Future Stars School</p>
-                  </motion.div>
+                 
                 </div>
               </div>
             </div>
@@ -610,7 +586,7 @@ function BirthdaySection() {
           </div>
           <h2 className="section-title">Today's Birthdays</h2>
           <p className="section-subtitle">
-            Wishing our students and staff a very happy birthday
+            Wishing our member a day filled with joy and a year ahead full of success and happiness!
           </p>
         </motion.div>
 
@@ -622,8 +598,7 @@ function BirthdaySection() {
           <div className="birthday-grid">
             {birthdays.map((person, index) => (
               <BirthdayCard key={person.id} person={person} index={index} formatDate={formatDate} />
-            ))}
-          </div>
+            ))}</div>
         )}
       </div>
     </section>
@@ -663,6 +638,107 @@ function BirthdayCard({ person, index, formatDate }: { person: BirthdayPerson; i
         </div>
       </div>
     </motion.div>
+  );
+}
+
+const schoolHouses = [
+  {
+    name: 'Red House',
+    color: '#EF4444',
+    border: 'rgba(239, 68, 68, 0.3)',
+    captain: { name: 'Bisakha', image: '' },
+    viceCaptain: { name: 'Rusab', image: '' },
+  },
+  {
+    name: 'Green House',
+    color: '#22C55E',
+    border: 'rgba(34, 197, 94, 0.3)',
+    captain: { name: 'Ananta', image: '' },
+    viceCaptain: { name: 'Deepraj', image: '' },
+  },
+  {
+    name: 'Blue House',
+    color: '#3B82F6',
+    border: 'rgba(59, 130, 246, 0.3)',
+    captain: { name: 'Swekshya', image: '' },
+    viceCaptain: { name: 'Suprim', image: '' },
+  },
+  {
+    name: 'Yellow House',
+    color: '#EAB308',
+    border: 'rgba(234, 179, 8, 0.3)',
+    captain: { name: 'Samar', image: '' },
+    viceCaptain: { name: 'Ankit', image: '' },
+  },
+];
+
+function SchoolHousesSection() {
+  return (
+    <section className="school-houses-section">
+      <div className="school-houses-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="section-header"
+        >
+          <h2 className="section-title">School House</h2>
+          <p className="section-subtitle">
+            Our four proud houses competing in spirit, sportsmanship, and excellence
+          </p>
+        </motion.div>
+
+        <div className="school-houses-grid">
+          {schoolHouses.map((house, index) => (
+            <motion.div
+              key={house.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              whileHover={{ y: -6 }}
+              className="school-house-card"
+              style={{  borderColor: house.border }}
+            >
+              <div
+                className="school-house-color-bar"
+                style={{ background: house.color }}
+              />
+              <h3 className="school-house-name" style={{ color: house.color }}>
+                {house.name}
+              </h3>
+              <div className="school-house-leaders">
+                {/* Captain */}
+                <div className="school-house-leader">
+                  <div className="school-house-avatar" >
+                    {house.captain.image ? (
+                      <img src={house.captain.image} alt={house.captain.name} />
+                    ) : (
+                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                    )}
+                  </div>
+                  <span className="school-house-leader-role">Captain</span>
+                  <span className="school-house-leader-name">{house.captain.name}</span>
+                </div>
+                {/* Vice Captain */}
+                <div className="school-house-leader">
+                  <div className="school-house-avatar" >
+                    {house.viceCaptain.image ? (
+                      <img src={house.viceCaptain.image} alt={house.viceCaptain.name} />
+                    ) : (
+                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                    )}
+                  </div>
+                  <span className="school-house-leader-role">Vice Captain</span>
+                  <span className="school-house-leader-name">{house.viceCaptain.name}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
