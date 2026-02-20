@@ -435,8 +435,7 @@ function TestimonialsSection({
           {/* Founder 1 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="principal-card">
@@ -607,8 +606,7 @@ function BirthdaySection() {
           <div className="birthday-grid">
             {birthdays.map((person, index) => (
               <BirthdayCard key={person.id} person={person} index={index} formatDate={formatDate} />
-            ))}
-          </div>
+            ))}</div>
         )}
       </div>
     </section>
