@@ -586,7 +586,7 @@ function BirthdaySection() {
           </div>
           <h2 className="section-title">Today's Birthdays</h2>
           <p className="section-subtitle">
-            Wishing our member stars a day filled with joy and a year ahead full of success and happiness!
+            Wishing our member a day filled with joy and a year ahead full of success and happiness!
           </p>
         </motion.div>
 
@@ -645,34 +645,30 @@ const schoolHouses = [
   {
     name: 'Red House',
     color: '#EF4444',
-    bg: 'rgba(239, 68, 68, 0.08)',
     border: 'rgba(239, 68, 68, 0.3)',
-    captain: { name: 'Captain Name', image: '' },
-    viceCaptain: { name: 'Vice Captain Name', image: '' },
+    captain: { name: 'Bisakha', image: '' },
+    viceCaptain: { name: 'Rusab', image: '' },
   },
   {
     name: 'Green House',
     color: '#22C55E',
-    bg: 'rgba(34, 197, 94, 0.08)',
     border: 'rgba(34, 197, 94, 0.3)',
-    captain: { name: 'Captain Name', image: '' },
-    viceCaptain: { name: 'Vice Captain Name', image: '' },
+    captain: { name: 'Ananta', image: '' },
+    viceCaptain: { name: 'Deepraj', image: '' },
   },
   {
     name: 'Blue House',
     color: '#3B82F6',
-    bg: 'rgba(59, 130, 246, 0.08)',
     border: 'rgba(59, 130, 246, 0.3)',
-    captain: { name: 'Captain Name', image: '' },
-    viceCaptain: { name: 'Vice Captain Name', image: '' },
+    captain: { name: 'Swekshya', image: '' },
+    viceCaptain: { name: 'Suprim', image: '' },
   },
   {
     name: 'Yellow House',
     color: '#EAB308',
-    bg: 'rgba(234, 179, 8, 0.08)',
     border: 'rgba(234, 179, 8, 0.3)',
-    captain: { name: 'Captain Name', image: '' },
-    viceCaptain: { name: 'Vice Captain Name', image: '' },
+    captain: { name: 'Samar', image: '' },
+    viceCaptain: { name: 'Ankit', image: '' },
   },
 ];
 
@@ -687,7 +683,7 @@ function SchoolHousesSection() {
           transition={{ duration: 0.6 }}
           className="section-header"
         >
-          <h2 className="section-title">School Houses</h2>
+          <h2 className="section-title">School House</h2>
           <p className="section-subtitle">
             Our four proud houses competing in spirit, sportsmanship, and excellence
           </p>
@@ -703,7 +699,7 @@ function SchoolHousesSection() {
               transition={{ duration: 0.5, delay: index * 0.12 }}
               whileHover={{ y: -6 }}
               className="school-house-card"
-              style={{ background: house.bg, borderColor: house.border }}
+              style={{  borderColor: house.border }}
             >
               <div
                 className="school-house-color-bar"
@@ -715,7 +711,7 @@ function SchoolHousesSection() {
               <div className="school-house-leaders">
                 {/* Captain */}
                 <div className="school-house-leader">
-                  <div className="school-house-avatar" style={{ borderColor: house.color }}>
+                  <div className="school-house-avatar" >
                     {house.captain.image ? (
                       <img src={house.captain.image} alt={house.captain.name} />
                     ) : (
@@ -727,7 +723,7 @@ function SchoolHousesSection() {
                 </div>
                 {/* Vice Captain */}
                 <div className="school-house-leader">
-                  <div className="school-house-avatar" style={{ borderColor: house.color }}>
+                  <div className="school-house-avatar" >
                     {house.viceCaptain.image ? (
                       <img src={house.viceCaptain.image} alt={house.viceCaptain.name} />
                     ) : (
