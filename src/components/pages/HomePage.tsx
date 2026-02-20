@@ -112,13 +112,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -15, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.4 },
-                  scale: { duration: 0.8, delay: 0.4 },
-                  y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.4 }
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
@@ -130,13 +128,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -20, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.5 },
-                  scale: { duration: 0.8, delay: 0.5 },
-                  y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.5 }
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
@@ -148,13 +144,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -18, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.6 },
-                  scale: { duration: 0.8, delay: 0.6 },
-                  y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.6 }
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
@@ -166,17 +160,15 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
-                  y: [0, -22, 0]
+                  scale: 1
                 }}
                 transition={{
                   opacity: { duration: 0.8, delay: 0.7 },
-                  scale: { duration: 0.8, delay: 0.7 },
-                  y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+                  scale: { duration: 0.8, delay: 0.7 }
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
-                <img src="/images/principal.jpg" alt="Principal" />
+                <img src="/images/mainphoto.png" alt="Principal" />
               </motion.div>
             </motion.div>
           </div>
@@ -415,18 +407,18 @@ function TestimonialsSection({
   const safeTestimonials = Array.isArray(testimonials) ? testimonials : [];
 
   return (
-    <section className="testimonials-section">
-      <div className="testimonials-container">
+    <section className="familymessage-section">
+      <div className="familymessage-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="testimonials-header"
+          className="familymessage-header"
         >
-          <h2 className="testimonials-title">
+          <h2 className="familymessage-title">
             Message from our Family
           </h2>
-          <p className="testimonials-subtitle">
+          <p className="familymessage-subtitle">
             Words of vision and inspiration from the people who built Future Stars
           </p>
         </motion.div>

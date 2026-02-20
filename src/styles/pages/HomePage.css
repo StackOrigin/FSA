@@ -97,16 +97,16 @@
 .hero-img-1 {
   grid-column: 1;
   grid-row: 1;
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   justify-self: end;
 }
 
 .hero-img-2 {
   grid-column: 2;
   grid-row: 1;
-  width: 150px;
-  height: 150px;
+  width: 190px;
+  height: 190px;
   justify-self: start;
   align-self: end;
   margin-top: 2rem;
@@ -115,8 +115,8 @@
 .hero-img-3 {
   grid-column: 1;
   grid-row: 2;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   justify-self: end;
   align-self: start;
   margin-left: 2rem;
@@ -125,8 +125,8 @@
 .hero-img-4 {
   grid-column: 2;
   grid-row: 2;
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   justify-self: start;
 }
 
@@ -552,43 +552,42 @@
   color: var(--muted-foreground);
 }
 
-/* Testimonials / Founders Section */
-.testimonials-section {
+/* Founders Section */
+.familymessage-section {
   padding: 5rem 1rem;
   background: linear-gradient(to bottom, rgba(241, 245, 249, 0.3), var(--background));
 }
 
-.testimonials-container {
+.familymessage-container {
   max-width: 72rem;
   margin: 0 auto;
 }
 
-.testimonials-header {
+.familymessage-header {
   text-align: center;
   margin-bottom: 4rem;
 }
 
-.testimonials-title {
-  font-size: 1.5rem;
+.familymessage-title {
+  font-size: 1.875rem;
   font-weight: 700;
+  color: black;
+  -webkit-text-fill-color: black;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, #2563eb, #9333ea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 @media (min-width: 768px) {
-  .testimonials-title {
+  .familymessage-title {
     font-size: 3rem;
   }
 }
 
-.testimonials-subtitle {
-  font-size: 1.25rem;
+.familymessage-subtitle {
+  font-size: 1.125rem;
   color: var(--muted-foreground);
+  -webkit-text-fill-color: var(--muted-foreground);
   max-width: 42rem;
-  margin: 0 auto 2rem;
+  margin: 0 auto;
 }
 
 .founders-grid {
@@ -697,9 +696,9 @@
 }
 
 .principal-message {
-  font-size: 1rem;
+  font-size: 1.75rem;
   line-height: 1.75;
-  color: var(--muted-foreground);
+  color: black;
   text-align: justify;
 }
 
