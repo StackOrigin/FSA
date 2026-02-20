@@ -202,7 +202,7 @@ export function AboutPage() {
             >
               <div className="journey-images">
               <motion.img 
-                src="/images/mainphoto1.jpg" 
+                src="/images/2000.jpg" 
                 alt="Journey" 
                 className="journey-image"
                 initial={{ opacity: 0, x: -100 }}
@@ -211,7 +211,7 @@ export function AboutPage() {
                 transition={{ duration: 1.2, delay: 0 }}
               />
               <motion.img 
-                src='/images/mainphoto1.jpg' 
+                src='/images/2010.jpg' 
                 className='journey-image'
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -219,7 +219,7 @@ export function AboutPage() {
                 transition={{ duration: 1.2, delay: 0.2 }}
               />
               <motion.img 
-                src='/images/mainphoto1.jpg' 
+                src='/images/2015.jpg' 
                 className='journey-image'
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -227,7 +227,7 @@ export function AboutPage() {
                 transition={{ duration: 1.2, delay: 0.4 }}
               />
               <motion.img 
-                src='/images/mainphoto1.jpg' 
+                src='/images/2020.jpg' 
                 className='journey-image'
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -235,7 +235,7 @@ export function AboutPage() {
                 transition={{ duration: 1.2, delay: 0.6 }}
               />
               <motion.img 
-                src='/images/mainphoto1.jpg' 
+                src='/images/2025.jpg' 
                 className='journey-image'
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
