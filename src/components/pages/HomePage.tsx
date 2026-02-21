@@ -190,6 +190,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* School Houses Section */}
       <SchoolHousesSection />
 
+      {/* School Leaders Section */}
+      <SchoolLeadersSection />
+
       {/* Scroll-Driven Animation */}
       <ScrollSequence />
 
@@ -734,6 +737,71 @@ function SchoolHousesSection() {
                   <span className="school-house-leader-name">{house.viceCaptain.name}</span>
                 </div>
               </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const schoolLeaders = [
+  { role: 'Captain', name: 'Sabin', image: '', color: '#6366F1' },
+  { role: 'Vice Captain', name: 'Ritika', image: '', color: '#8B5CF6' },
+  { role: 'School Prefect (Girl)', name: 'Anuska', image: '', color: '#EC4899' },
+  { role: 'School Prefect (Boy)', name: 'Supun', image: '', color: '#3B82F6' },
+  { role: 'School Representative', name: 'Salina', image: '', color: '#10B981' },
+];
+
+function SchoolLeadersSection() {
+  return (
+    <section className="school-leaders-section">
+      <div className="school-leaders-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="section-header"
+        >
+          <h2 className="section-title">School Leaders</h2>
+          <p className="section-subtitle">
+            Student leaders who represent and inspire our school community
+          </p>
+        </motion.div>
+
+        <div className="school-leaders-grid">
+          {schoolLeaders.map((leader, index) => (
+            <motion.div
+              key={leader.role}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -6 }}
+              className="school-leader-card"
+              style={{ borderColor: leader.color + '4D' }}
+            >
+              <div
+                className="school-leader-color-bar"
+                style={{ background: leader.color }}
+              />
+              <div
+                className="school-leader-avatar"
+                style={{ borderColor: leader.color }}
+              >
+                {leader.image ? (
+                  <img src={leader.image} alt={leader.name} />
+                ) : (
+                  <Users style={{ width: '2rem', height: '2rem', color: leader.color }} />
+                )}
+              </div>
+              <span className="school-leader-role" style={{ color: leader.color }}>
+                {leader.role}
+              </span>
+              <span className="school-leader-name">
+                {leader.name || 'TBA'}
+              </span>
             </motion.div>
           ))}
         </div>
