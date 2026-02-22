@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -15,6 +15,7 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navRef = useRef<HTMLElement>(null);
 
   const navItems = [
     { id: 'home', label: 'Home', path: '/' },
@@ -27,24 +28,46 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
   ];
 
   const isActive = (item: { id: string; path: string }) => {
-    if (item.path === '/') {
-      return location.pathname === '/';
-    }
+    if (item.path === '/') return location.pathname === '/';
     return location.pathname === item.path;
   };
 
+  // Close menu on Escape, scroll, resize-to-desktop & outside click
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      if (isMenuOpen) setIsMenuOpen(false);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setIsMenuOpen(false);
+    };
+    const handleOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <motion.nav
+      ref={navRef}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
       className={`navigation ${isScrolled ? 'scrolled' : 'transparent'}`}
     >
       <div className="nav-container">
@@ -142,32 +165,34 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
               className="nav-mobile"
             >
-              <div className="nav-mobile-inner">
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Link
-                      to={item.path}
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      className={`nav-mobile-item ${isActive(item) ? 'active' : ''}`}
+              <div className="nav-mobile-backdrop">
+                <div className="nav-mobile-inner">
+                  {navItems.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.04, duration: 0.2 }}
                     >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        to={item.path}
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`nav-mobile-item ${isActive(item) ? 'active' : ''}`}
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           )}

@@ -155,37 +155,21 @@ export function AboutPage() {
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.2, delay: index * 0.2 }}
-                  className={`timeline-item ${index % 2 !== 0 ? 'even' : ''}`}
+                  transition={{ duration: 0.7, delay: index * 0.15 }}
+                  className={`timeline-item${index % 2 !== 0 ? ' even' : ''}`}
                 >
                   {/* Timeline dot */}
                   <div className="timeline-dot" />
 
                   <div className="timeline-content">
-                    {index % 2 === 0 && (
-                      <div className="milestone-card">
-                        <div className="milestone-year">
-                          {milestone.year}
-                        </div>
-                        <h3 className="milestone-title">{milestone.title}</h3>
-                        <p className="milestone-description">{milestone.description}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="timeline-content">
-                    {index % 2 !== 0 && (
-                      <div className="milestone-card">
-                        <div className="milestone-year">
-                          {milestone.year}
-                        </div>
-                        <h3 className="milestone-title">{milestone.title}</h3>
-                        <p className="milestone-description">{milestone.description}</p>
-                      </div>
-                    )}
+                    <div className="milestone-card">
+                      <div className="milestone-year">{milestone.year}</div>
+                      <h3 className="milestone-title">{milestone.title}</h3>
+                      <p className="milestone-description">{milestone.description}</p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -194,55 +178,30 @@ export function AboutPage() {
 
             {/* Image Section */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="journey-images"
             >
-              <div className="journey-images">
-              <motion.img 
-                src="/images/2000.jpg" 
-                alt="Journey" 
-                className="journey-image"
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0 }}
-              />
-              <motion.img 
-                src='/images/2010.jpg' 
-                className='journey-image'
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.2 }}
-              />
-              <motion.img 
-                src='/images/2015.jpg' 
-                className='journey-image'
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.4 }}
-              />
-              <motion.img 
-                src='/images/2020.jpg' 
-                className='journey-image'
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.6 }}
-              />
-              <motion.img 
-                src='/images/2025.jpg' 
-                className='journey-image'
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.8 }}
-              />
-              </div>
+              {[
+                { src: '/images/2000.jpg', alt: '2000' },
+                { src: '/images/2010.jpg', alt: '2010' },
+                { src: '/images/2015.jpg', alt: '2015' },
+                { src: '/images/2020.jpg', alt: '2020' },
+                { src: '/images/2025.jpg', alt: '2025' },
+              ].map((img, i) => (
+                <motion.img
+                  key={img.alt}
+                  src={img.src}
+                  alt={`Journey ${img.alt}`}
+                  className="journey-image"
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: i * 0.15 }}
+                />
+              ))}
             </motion.div>
           </div>
         </div>
@@ -272,11 +231,12 @@ export function AboutPage() {
               >
                 <div className="value-card">
                   <motion.div
-                    whileHover={{ scale: 1.1, rotate: 360 }}
+                    whileHover={{ scale: 1.15, rotate: 360 }}
                     transition={{ duration: 0.5 }}
                     className="value-icon"
                     style={{background: `linear-gradient(to bottom right, #3b82f6, #a855f7, #ec4899)`}}
                   >
+                    <Heart size={20} />
                   </motion.div>
                   <h3 className="value-title">{value.title}</h3>
                   <p className="value-description">{value.description}</p>

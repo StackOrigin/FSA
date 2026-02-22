@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   z-index: 50;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .navigation.transparent {
@@ -14,22 +14,25 @@
 }
 
 .navigation.scrolled {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(226, 232, 240, 0.6), 0 4px 16px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .dark .navigation.scrolled {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(10, 15, 30, 0.92);
+  box-shadow: 0 1px 0 rgba(51, 65, 85, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid rgba(51, 65, 85, 0.5);
 }
+
+/* ── Container & Layout ─────────────────────────────────── */
 
 .nav-container {
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-  height: auto;
 }
 
 @media (min-width: 640px) {
@@ -57,25 +60,29 @@
   }
 }
 
-/* Logo */
+/* ── Logo ────────────────────────────────────────────────── */
+
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
+  flex-shrink: 0;
 }
-.nav-logoo{
+
+.nav-logoo {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.625rem;
 }
 
 .nav-logo-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {
@@ -85,50 +92,49 @@
   }
 }
 
-.nav-logo-icon span {
-  color: white;
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  .nav-logo-icon span {
-    font-size: 1.5rem;
-  }
+.nav-logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .nav-logo-text {
   font-weight: 700;
+  font-size: 0.875rem;
+  background: linear-gradient(to right, #60a5fa, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Scrolled state: use the richer brand gradient */
+.navigation.scrolled .nav-logo-text {
   background: linear-gradient(to right, #2563eb, #9333ea);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-top: 8px;
+}
+
+@media (min-width: 400px) {
+  .nav-logo-text {
+    font-size: 0.9375rem;
+  }
 }
 
 @media (min-width: 768px) {
   .nav-logo-text {
-    font-size: 1.25rem;
+    font-size: 1.1875rem;
   }
 }
 
-.nav-logo-subtitle {
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-  display: none;
-}
+/* ── Desktop Navigation ─────────────────────────────────── */
 
-@media (min-width: 640px) {
-  .nav-logo-subtitle {
-    display: block;
-  }
-}
-
-/* Desktop Navigation */
 .nav-desktop {
   display: none;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.125rem;
 }
 
 @media (min-width: 768px) {
@@ -139,13 +145,14 @@
 
 .nav-item {
   position: relative;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.875rem;
   font-size: 0.875rem;
   font-weight: 500;
-  background: none;
-  border: none;
+  text-decoration: none;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
+  display: block;
 }
 
 .nav-item span {
@@ -153,30 +160,52 @@
   z-index: 10;
 }
 
-.nav-item.active span {
+/* Transparent nav (over dark hero): show white text */
+.navigation.transparent .nav-item span {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.navigation.transparent .nav-item:hover span,
+.navigation.transparent .nav-item.active span {
+  color: #fff;
+}
+
+/* Scrolled nav: use CSS vars */
+.navigation.scrolled .nav-item.active span {
   color: var(--primary);
 }
 
-.nav-item:not(.active) span {
+.navigation.scrolled .nav-item:not(.active) span {
   color: var(--muted-foreground);
 }
 
-.nav-item:not(.active):hover span {
+.navigation.scrolled .nav-item:not(.active):hover span {
   color: var(--foreground);
 }
 
 .nav-item-bg {
   position: absolute;
   inset: 0;
-  background: var(--accent);
   border-radius: 0.5rem;
+  z-index: 0;
 }
 
-/* Actions */
+/* Transparent nav: subtle white pill for active */
+.navigation.transparent .nav-item-bg {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Scrolled nav: accent background */
+.navigation.scrolled .nav-item-bg {
+  background: var(--accent);
+}
+
+/* ── Action Buttons ─────────────────────────────────────── */
+
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .nav-toggle-btn {
@@ -190,16 +219,41 @@
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease;
+  flex-shrink: 0;
 }
 
-.nav-toggle-btn:hover {
+/* Transparent nav: white icons */
+.navigation.transparent .nav-toggle-btn svg {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navigation.transparent .nav-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.navigation.transparent .nav-toggle-btn:hover svg {
+  color: #fff;
+}
+
+/* Scrolled nav: normal colors */
+.navigation.scrolled .nav-toggle-btn svg {
+  color: var(--foreground);
+}
+
+.navigation.scrolled .nav-toggle-btn:hover {
   background: var(--accent);
 }
 
 .nav-toggle-btn svg {
   width: 1.25rem;
   height: 1.25rem;
-  color: var(--foreground);
+  transition: color 0.2s ease;
+}
+
+/* Hamburger icon slightly bigger for touch */
+.nav-menu-btn .nav-toggle-btn svg {
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 .nav-menu-btn {
@@ -212,14 +266,9 @@
   }
 }
 
-.nav-menu-btn svg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
+/* ── Mobile Menu ───────────────────────────────────────── */
 
-/* Mobile Menu */
 .nav-mobile {
-  display: block;
   overflow: hidden;
 }
 
@@ -229,35 +278,66 @@
   }
 }
 
+/* Always glassmorphism, works on both transparent and scrolled states */
+.nav-mobile-backdrop {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 0 0 1.25rem 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  border-top: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.dark .nav-mobile-backdrop {
+  background: rgba(10, 15, 30, 0.97);
+  border-color: rgba(51, 65, 85, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
 .nav-mobile-inner {
-  padding: 1rem 0;
+  padding: 0.75rem 0 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.125rem;
 }
 
 .nav-mobile-item {
   display: block;
   width: 100%;
   text-align: left;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.625rem;
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--muted-foreground);
 }
 
 .nav-mobile-item.active {
   background: var(--accent);
   color: var(--primary);
-}
-
-.nav-mobile-item:not(.active) {
-  color: var(--muted-foreground);
+  font-weight: 600;
 }
 
 .nav-mobile-item:not(.active):hover {
-  background: rgba(var(--accent), 0.5);
+  background: var(--accent);
   color: var(--foreground);
+}
+
+/* Divider between mobile menu items */
+.nav-mobile-divider {
+  height: 1px;
+  background: rgba(226, 232, 240, 0.5);
+  margin: 0.25rem 0;
+}
+
+.dark .nav-mobile-divider {
+  background: rgba(51, 65, 85, 0.5);
 }
