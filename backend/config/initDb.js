@@ -128,6 +128,37 @@ const createTables = async () => {
     await pool.query('ALTER TABLE birthdays ADD COLUMN IF NOT EXISTS image_url TEXT');
     console.log('✅ Birthdays table ready');
 
+    // 8. Create school_houses table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS school_houses (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        color VARCHAR(50) NOT NULL DEFAULT '#3B82F6',
+        border VARCHAR(100) DEFAULT 'rgba(59, 130, 246, 0.3)',
+        captain_name VARCHAR(255) DEFAULT '',
+        captain_image TEXT DEFAULT '',
+        vice_captain_name VARCHAR(255) DEFAULT '',
+        vice_captain_image TEXT DEFAULT '',
+        sort_order INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅ School houses table ready');
+
+    // 9. Create school_leaders table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS school_leaders (
+        id SERIAL PRIMARY KEY,
+        role VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        image TEXT DEFAULT '',
+        color VARCHAR(50) NOT NULL DEFAULT '#6366F1',
+        sort_order INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅ School leaders table ready');
+
     // ==========================================
     // SEED INITIAL DATA (only if tables are empty)
     // ==========================================
@@ -346,6 +377,39 @@ const createTables = async () => {
       console.log('  ✅ Sample notices added');
     } else {
       console.log('  ℹ️  Notices already exist, skipping seed');
+    }
+
+    // Seed school houses
+    const checkHouses = await pool.query('SELECT COUNT(*) FROM school_houses');
+    if (parseInt(checkHouses.rows[0].count) === 0) {
+      await pool.query(`
+        INSERT INTO school_houses (name, color, border, captain_name, vice_captain_name, sort_order)
+        VALUES
+          ('Red House', '#EF4444', 'rgba(239, 68, 68, 0.3)', 'Bisakha', 'Rusab', 1),
+          ('Green House', '#22C55E', 'rgba(34, 197, 94, 0.3)', 'Ananta', 'Deepraj', 2),
+          ('Blue House', '#3B82F6', 'rgba(59, 130, 246, 0.3)', 'Swekshya', 'Suprim', 3),
+          ('Yellow House', '#EAB308', 'rgba(234, 179, 8, 0.3)', 'Samar', 'Ankit', 4)
+      `);
+      console.log('  ✅ School houses added');
+    } else {
+      console.log('  ℹ️  School houses already exist, skipping seed');
+    }
+
+    // Seed school leaders
+    const checkLeaders = await pool.query('SELECT COUNT(*) FROM school_leaders');
+    if (parseInt(checkLeaders.rows[0].count) === 0) {
+      await pool.query(`
+        INSERT INTO school_leaders (role, name, color, sort_order)
+        VALUES
+          ('Captain', 'Sabin', '#6366F1', 1),
+          ('Vice Captain', 'Ritika', '#8B5CF6', 2),
+          ('School Prefect (Girl)', 'Anuska', '#EC4899', 3),
+          ('School Prefect (Boy)', 'Supun', '#3B82F6', 4),
+          ('School Representative', 'Salina', '#10B981', 5)
+      `);
+      console.log('  ✅ School leaders added');
+    } else {
+      console.log('  ℹ️  School leaders already exist, skipping seed');
     }
 
     console.log('');

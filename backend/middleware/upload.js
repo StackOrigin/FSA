@@ -150,11 +150,58 @@ const uploadBirthday = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 }).single('image');
 
+// Configure storage for school house images
+const houseStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../uploads/houses');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'house-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadHouse = multer({
+  storage: houseStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }
+}).fields([
+  { name: 'captain_image', maxCount: 1 },
+  { name: 'vice_captain_image', maxCount: 1 }
+]);
+
+// Configure storage for school leader images
+const leaderStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../uploads/leaders');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'leader-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadLeader = multer({
+  storage: leaderStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }
+}).single('image');
+
 
 module.exports = {
   uploadEvent,
   uploadGallery,
   uploadFeature,
   uploadNotice,
-  uploadBirthday
+  uploadBirthday,
+  uploadHouse,
+  uploadLeader
 };

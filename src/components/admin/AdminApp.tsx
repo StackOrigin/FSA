@@ -9,6 +9,8 @@ import { AdmissionsManagement } from './AdmissionsManagement';
 import { HomeContentManagement } from './HomeContentManagement';
 import { NoticesManagement } from './NoticesManagement';
 import { BirthdaysManagement } from './BirthdaysManagement';
+import { SchoolHousesManagement } from './SchoolHousesManagement';
+import { SchoolLeadersManagement } from './SchoolLeadersManagement';
 import '../../styles/admin/Admin.css';
 
 export function AdminApp() {
@@ -61,6 +63,10 @@ export function AdminApp() {
         return <NoticesManagement onBack={goToDashboard} />;
       case 'birthdays':
         return <BirthdaysManagement onBack={goToDashboard} />;
+      case 'school-houses':
+        return <SchoolHousesManagement onBack={goToDashboard} />;
+      case 'school-leaders':
+        return <SchoolLeadersManagement onBack={goToDashboard} />;
       default:
         return <AdminDashboard onNavigate={setCurrentPage} />;
     }
