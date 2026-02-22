@@ -657,38 +657,38 @@ function BirthdayCard({ person, index, formatDate }: { person: BirthdayPerson; i
   );
 }
 
-const schoolHouses = [
-  {
-    name: 'Red House',
-    color: '#EF4444',
-    border: 'rgba(239, 68, 68, 0.3)',
-    captain: { name: 'Bisakha', image: '' },
-    viceCaptain: { name: 'Rusab', image: '' },
-  },
-  {
-    name: 'Green House',
-    color: '#22C55E',
-    border: 'rgba(34, 197, 94, 0.3)',
-    captain: { name: 'Ananta', image: '' },
-    viceCaptain: { name: 'Deepraj', image: '' },
-  },
-  {
-    name: 'Blue House',
-    color: '#3B82F6',
-    border: 'rgba(59, 130, 246, 0.3)',
-    captain: { name: 'Swekshya', image: '' },
-    viceCaptain: { name: 'Suprim', image: '' },
-  },
-  {
-    name: 'Yellow House',
-    color: '#EAB308',
-    border: 'rgba(234, 179, 8, 0.3)',
-    captain: { name: 'Samar', image: '' },
-    viceCaptain: { name: 'Ankit', image: '' },
-  },
-];
+interface SchoolHouseData {
+  id: number;
+  name: string;
+  color: string;
+  border: string;
+  captain_name: string;
+  captain_image: string;
+  vice_captain_name: string;
+  vice_captain_image: string;
+}
 
 function SchoolHousesSection() {
+  const [houses, setHouses] = useState<SchoolHouseData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHouses = async () => {
+      try {
+        const res = await fetch('/api/school-houses');
+        const data = await res.json();
+        setHouses(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error('Failed to load school houses', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHouses();
+  }, []);
+
+  if (!loading && houses.length === 0) return null;
+
   return (
     <section className="school-houses-section">
       <div className="school-houses-container">
@@ -705,68 +705,94 @@ function SchoolHousesSection() {
           </p>
         </motion.div>
 
-        <div className="school-houses-grid">
-          {schoolHouses.map((house, index) => (
-            <motion.div
-              key={house.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              whileHover={{ y: -6 }}
-              className="school-house-card"
-              style={{  borderColor: house.border }}
-            >
-              <div
-                className="school-house-color-bar"
-                style={{ background: house.color }}
-              />
-              <h3 className="school-house-name" style={{ color: house.color }}>
-                {house.name}
-              </h3>
-              <div className="school-house-leaders">
-                {/* Captain */}
-                <div className="school-house-leader">
-                  <div className="school-house-avatar" >
-                    {house.captain.image ? (
-                      <img src={house.captain.image} alt={house.captain.name} />
-                    ) : (
-                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
-                    )}
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
+          </div>
+        ) : (
+          <div className="school-houses-grid">
+            {houses.map((house, index) => (
+              <motion.div
+                key={house.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.12 }}
+                whileHover={{ y: -6 }}
+                className="school-house-card"
+                style={{ borderColor: house.border }}
+              >
+                <div
+                  className="school-house-color-bar"
+                  style={{ background: house.color }}
+                />
+                <h3 className="school-house-name" style={{ color: house.color }}>
+                  {house.name}
+                </h3>
+                <div className="school-house-leaders">
+                  {/* Captain */}
+                  <div className="school-house-leader">
+                    <div className="school-house-avatar">
+                      {house.captain_image ? (
+                        <img src={house.captain_image} alt={house.captain_name} />
+                      ) : (
+                        <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                      )}
+                    </div>
+                    <span className="school-house-leader-role">Captain</span>
+                    <span className="school-house-leader-name">{house.captain_name || 'TBA'}</span>
                   </div>
-                  <span className="school-house-leader-role">Captain</span>
-                  <span className="school-house-leader-name">{house.captain.name}</span>
-                </div>
-                {/* Vice Captain */}
-                <div className="school-house-leader">
-                  <div className="school-house-avatar" >
-                    {house.viceCaptain.image ? (
-                      <img src={house.viceCaptain.image} alt={house.viceCaptain.name} />
-                    ) : (
-                      <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
-                    )}
+                  {/* Vice Captain */}
+                  <div className="school-house-leader">
+                    <div className="school-house-avatar">
+                      {house.vice_captain_image ? (
+                        <img src={house.vice_captain_image} alt={house.vice_captain_name} />
+                      ) : (
+                        <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
+                      )}
+                    </div>
+                    <span className="school-house-leader-role">Vice Captain</span>
+                    <span className="school-house-leader-name">{house.vice_captain_name || 'TBA'}</span>
                   </div>
-                  <span className="school-house-leader-role">Vice Captain</span>
-                  <span className="school-house-leader-name">{house.viceCaptain.name}</span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-const schoolLeaders = [
-  { role: 'Captain', name: 'Sabin', image: '', color: '#6366F1' },
-  { role: 'Vice Captain', name: 'Ritika', image: '', color: '#8B5CF6' },
-  { role: 'School Prefect (Girl)', name: 'Anuska', image: '', color: '#EC4899' },
-  { role: 'School Prefect (Boy)', name: 'Supun', image: '', color: '#3B82F6' },
-  { role: 'School Representative', name: 'Salina', image: '', color: '#10B981' },
-];
+interface SchoolLeaderData {
+  id: number;
+  role: string;
+  name: string;
+  image: string;
+  color: string;
+}
 
 function SchoolLeadersSection() {
+  const [leaders, setLeaders] = useState<SchoolLeaderData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLeaders = async () => {
+      try {
+        const res = await fetch('/api/school-leaders');
+        const data = await res.json();
+        setLeaders(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error('Failed to load school leaders', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLeaders();
+  }, []);
+
+  if (!loading && leaders.length === 0) return null;
+
   return (
     <section className="school-leaders-section">
       <div className="school-leaders-container">
@@ -783,41 +809,47 @@ function SchoolLeadersSection() {
           </p>
         </motion.div>
 
-        <div className="school-leaders-grid">
-          {schoolLeaders.map((leader, index) => (
-            <motion.div
-              key={leader.role}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -6 }}
-              className="school-leader-card"
-              style={{ borderColor: leader.color + '4D' }}
-            >
-              <div
-                className="school-leader-color-bar"
-                style={{ background: leader.color }}
-              />
-              <div
-                className="school-leader-avatar"
-                style={{ borderColor: leader.color }}
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
+          </div>
+        ) : (
+          <div className="school-leaders-grid">
+            {leaders.map((leader, index) => (
+              <motion.div
+                key={leader.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="school-leader-card"
+                style={{ borderColor: leader.color + '4D' }}
               >
-                {leader.image ? (
-                  <img src={leader.image} alt={leader.name} />
-                ) : (
-                  <Users style={{ width: '2rem', height: '2rem', color: leader.color }} />
-                )}
-              </div>
-              <span className="school-leader-role" style={{ color: leader.color }}>
-                {leader.role}
-              </span>
-              <span className="school-leader-name">
-                {leader.name || 'TBA'}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+                <div
+                  className="school-leader-color-bar"
+                  style={{ background: leader.color }}
+                />
+                <div
+                  className="school-leader-avatar"
+                  style={{ borderColor: leader.color }}
+                >
+                  {leader.image ? (
+                    <img src={leader.image} alt={leader.name} />
+                  ) : (
+                    <Users style={{ width: '2rem', height: '2rem', color: leader.color }} />
+                  )}
+                </div>
+                <span className="school-leader-role" style={{ color: leader.color }}>
+                  {leader.role}
+                </span>
+                <span className="school-leader-name">
+                  {leader.name || 'TBA'}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -855,7 +887,7 @@ function CTASection({ onNavigate }: { onNavigate: (page: string) => void }) {
             </motion.button>
             <motion.button
               onClick={() => onNavigate('contact')}
-              className="btn-outline"
+              className="btn-sav"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}

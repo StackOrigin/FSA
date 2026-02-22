@@ -316,6 +316,19 @@
 .btn-primary-gradient:hover svg {
   transform: translateX(4px);
 }
+.btn-sav{
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
 .btn-outline {
   display: inline-flex;
@@ -323,7 +336,21 @@
   padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 500;
-  color: black;
+  color: white;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
   background: transparent;
   border: 2px solid #9333ea;
   border-radius: 0.75rem;
@@ -570,6 +597,31 @@
 
 .feature-description {
   color: var(--muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.feature-description.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
 }
 
 /* Founders Section */

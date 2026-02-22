@@ -9,9 +9,11 @@ const galleryController = require('../controllers/galleryController');
 const contentController = require('../controllers/contentController');
 const noticesController = require('../controllers/noticesController');
 const birthdayController = require('../controllers/birthdayController');
+const schoolHousesController = require('../controllers/schoolHousesController');
+const schoolLeadersController = require('../controllers/schoolLeadersController');
 
 // Import upload middleware
-const { uploadEvent, uploadGallery, uploadFeature, uploadNotice, uploadBirthday } = require('../middleware/upload');
+const { uploadEvent, uploadGallery, uploadFeature, uploadNotice, uploadBirthday, uploadHouse, uploadLeader } = require('../middleware/upload');
 
 // Contact routes
 router.post('/contact', contactController.submitContact);
@@ -61,5 +63,17 @@ router.get('/birthdays/today', birthdayController.getTodayBirthdays);
 router.post('/birthdays', uploadBirthday, birthdayController.createBirthday);
 router.put('/birthdays/:id', uploadBirthday, birthdayController.updateBirthday);
 router.delete('/birthdays/:id', birthdayController.deleteBirthday);
+
+// School houses routes
+router.get('/school-houses', schoolHousesController.getSchoolHouses);
+router.post('/school-houses', uploadHouse, schoolHousesController.createSchoolHouse);
+router.put('/school-houses/:id', uploadHouse, schoolHousesController.updateSchoolHouse);
+router.delete('/school-houses/:id', schoolHousesController.deleteSchoolHouse);
+
+// School leaders routes
+router.get('/school-leaders', schoolLeadersController.getSchoolLeaders);
+router.post('/school-leaders', uploadLeader, schoolLeadersController.createSchoolLeader);
+router.put('/school-leaders/:id', uploadLeader, schoolLeadersController.updateSchoolLeader);
+router.delete('/school-leaders/:id', schoolLeadersController.deleteSchoolLeader);
 
 module.exports = router;

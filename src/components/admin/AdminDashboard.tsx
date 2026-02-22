@@ -11,6 +11,8 @@ import {
   Home,
   Bell,
   Cake,
+  Flag,
+  Crown,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -25,6 +27,8 @@ interface Stats {
   admissions: number;
   notices: number;
   birthdays: number;
+  schoolHouses: number;
+  schoolLeaders: number;
 }
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
@@ -35,6 +39,8 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     admissions: 0,
     notices: 0,
     birthdays: 0,
+    schoolHouses: 0,
+    schoolLeaders: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -44,13 +50,15 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
   const fetchStats = async () => {
     try {
-      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes, birthdaysRes] = await Promise.all([
+      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes, birthdaysRes, housesRes, leadersRes] = await Promise.all([
         fetch('/api/events'),
         fetch('/api/contact'),
         fetch('/api/admissions'),
         fetch('/api/gallery'),
         fetch('/api/notices'),
         fetch('/api/birthdays'),
+        fetch('/api/school-houses'),
+        fetch('/api/school-leaders'),
       ]);
 
       const events = await eventsRes.json();
@@ -59,6 +67,8 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       const gallery = await galleryRes.json();
       const notices = await noticesRes.json();
       const birthdays = await birthdaysRes.json();
+      const schoolHouses = await housesRes.json();
+      const schoolLeaders = await leadersRes.json();
 
       setStats({
         events: Array.isArray(events) ? events.length : 0,
@@ -67,6 +77,8 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
         admissions: Array.isArray(admissions) ? admissions.length : 0,
         notices: Array.isArray(notices) ? notices.length : 0,
         birthdays: Array.isArray(birthdays) ? birthdays.length : 0,
+        schoolHouses: Array.isArray(schoolHouses) ? schoolHouses.length : 0,
+        schoolLeaders: Array.isArray(schoolLeaders) ? schoolLeaders.length : 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -124,6 +136,22 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)',
       iconBg: '#ec4899',
     },
+    {
+      id: 'school-houses',
+      title: 'School Houses',
+      value: stats.schoolHouses,
+      icon: Flag,
+      gradient: 'linear-gradient(to bottom right, #ef4444, #f97316)',
+      iconBg: '#ef4444',
+    },
+    {
+      id: 'school-leaders',
+      title: 'School Leaders',
+      value: stats.schoolLeaders,
+      icon: Crown,
+      gradient: 'linear-gradient(to bottom right, #6366f1, #8b5cf6)',
+      iconBg: '#6366f1',
+    },
   ];
 
   const quickActions = [
@@ -134,6 +162,8 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     { id: 'contacts', label: 'View Messages', icon: Mail, gradient: 'linear-gradient(to bottom right, #f97316, #fbbf24)' },
     { id: 'admissions', label: 'Review Applications', icon: UserPlus, gradient: 'linear-gradient(to bottom right, #10b981, #14b8a6)' },
     { id: 'birthdays', label: 'Manage Birthdays', icon: Cake, gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)' },
+    { id: 'school-houses', label: 'Manage Houses', icon: Flag, gradient: 'linear-gradient(to bottom right, #ef4444, #f97316)' },
+    { id: 'school-leaders', label: 'Manage Leaders', icon: Crown, gradient: 'linear-gradient(to bottom right, #6366f1, #8b5cf6)' },
   ];
 
   return (
