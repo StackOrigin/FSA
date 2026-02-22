@@ -282,7 +282,6 @@
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   object-fit: cover;
-  padding: 2rem 0;
 }
 
 /* Values Section */
@@ -398,10 +397,11 @@
   font-size: 1.875rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(to right, #2563eb, #9333ea);
+  background: black;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-align: center;
 }
 
 @media (min-width: 768px) {

@@ -35,13 +35,31 @@ export function AdmissionsPage() {
   const [formError, setFormError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    let value = e.target.value;
+    
+    // Phone number: only digits, max 10
+    if (e.target.name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+    
+    setFormData(prev => ({ ...prev, [e.target.name]: value }));
+  };
+
+  const validateEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormStatus('submitting');
     setFormError('');
+    
+    // Validate email format
+    if (!validateEmail(formData.email)) {
+      setFormError('Invalid email format');
+      return;
+    }
+    
+    setFormStatus('submitting');
     try {
       await apiJson('/admissions', {
         method: 'POST',
@@ -60,33 +78,33 @@ export function AdmissionsPage() {
       icon: FileText,
       title: 'Submit Application',
       description: 'Complete our online application form with required documents.',
-      details: 'Fill out the comprehensive application form including student information, academic history, and extracurricular activities. Required documents include birth certificate, previous school records, and immunization records.',
+      details: 'Fill out the comprehensive application form including student information. Required documents include birth certificate, and previous school records.',
       color: 'from-blue-500 to-cyan-500',
     },
     {
       icon: UserCheck,
       title: 'Entrance Assessment',
       description: 'Take our age-appropriate evaluation to help us understand your child.',
-      details: 'Students will participate in an assessment designed to evaluate academic readiness and help us understand their learning style. This is not a pass/fail test, but a tool to ensure we can meet your child\'s needs.',
+      details: 'Students will participate in an assessment designed to evaluate academic readiness and help us understand their learning style.',
       color: 'from-purple-500 to-violet-500',
     },
     {
       icon: Calendar,
       title: 'Campus Visit & Interview',
       description: 'Tour our facilities and meet with our admissions team.',
-      details: 'Schedule a personalized tour of our campus to experience our learning environment. Meet with teachers, see our facilities, and have a conversation with our admissions team about your family\'s educational goals.',
+      details: 'Schedule a personalized tour of our campus to experience our learning environment. Meet with teachers, see our facilities, and have a conversation with our admissions team.',
       color: 'from-pink-500 to-rose-500',
     },
     {
       icon: CheckCircle,
       title: 'Review & Decision',
       description: 'Our admissions committee reviews your application.',
-      details: 'Applications are reviewed holistically, considering academic potential, character, and fit with our school community. Decisions are typically communicated within 2-3 weeks of completing all steps.',
+      details: 'Applications are reviewed, considering academic potential, character, and fit with our school community.',
       color: 'from-orange-500 to-amber-500',
     },
     {
       icon: Users,
-      title: 'Welcome to FutureSchool',
+      title: 'Welcome to Future Stars Academy',
       description: 'Accept your offer and prepare for an amazing journey!',
       details: 'Upon acceptance, you\'ll receive a welcome packet with enrollment forms, orientation details, and information about our new student programs. Our team will guide you through every step of the transition.',
       color: 'from-green-500 to-emerald-500',
@@ -336,6 +354,11 @@ export function AdmissionsPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      onBlur={() => {
+                        if (formData.email.trim() && !validateEmail(formData.email)) {
+                          setFormError('Invalid email format');
+                        }
+                      }}
                       className="admissions-form-input"
                       placeholder="you@example.com"
                       required
@@ -355,7 +378,7 @@ export function AdmissionsPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="admissions-form-input"
-                      placeholder="Enter phone number"
+                      placeholder="1234567890"
                       required
                     />
                   </div>
