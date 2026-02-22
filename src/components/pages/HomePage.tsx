@@ -43,6 +43,19 @@ export function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="home-page" >
       <section ref={heroRef} className="hero-section">
+        {/* Background Video */}
+        <video
+          className="hero-bg-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-bg-overlay" />
+
         <div className="hero-container">
           {/* Left Column - Text Content */}
           <motion.div

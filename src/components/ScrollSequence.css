@@ -1,0 +1,211 @@
+/* ── ScrollSequence – self-contained scroll-driven frame animation ── */
+
+/* Wrapper centres everything and adds vertical breathing room */
+.scroll-sequence-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  background: #0a0a0a;
+}
+
+/* Section title */
+.scroll-sequence-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+/* Subtitle / instruction text */
+.scroll-sequence-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+/* "Video frame" border around the scrollable viewport */
+.scroll-sequence-frame {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* The actual scrollable container — ONLY scrolling here drives the animation */
+.scroll-sequence-container {
+  position: relative;
+  height: 600px;              /* fixed viewport height */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+/* Webkit scrollbar styling */
+.scroll-sequence-container::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-sequence-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-sequence-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+}
+.scroll-sequence-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Canvas sticks to the top of the scrollable viewport */
+.scroll-sequence-canvas {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 400px;              /* same as container height */
+  display: block;
+}
+
+/* Tall invisible spacer that creates the scroll range */
+.scroll-sequence-spacer {
+  /* height is set inline via style prop (default 6000px) */
+  pointer-events: none;
+}
+
+/* ── Loading overlay ── */
+.scroll-sequence-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  z-index: 10;
+}
+
+.scroll-sequence-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: scroll-seq-spin 1s linear infinite;
+}
+
+.scroll-sequence-loading-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.scroll-sequence-progress-bar {
+  width: 160px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.scroll-sequence-progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 9999px;
+  transition: width 0.15s ease;
+}
+
+/* ── Scroll hint badge ── */
+.scroll-sequence-scroll-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  pointer-events: none;
+  z-index: 20;
+  animation: scroll-seq-fade-pulse 2.5s ease-in-out infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes scroll-seq-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scroll-seq-fade-pulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .scroll-sequence-wrapper {
+    padding: 2rem 0.5rem;
+  }
+
+  .scroll-sequence-title {
+    font-size: 1.5rem;
+  }
+
+  .scroll-sequence-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .scroll-sequence-frame {
+    border-radius: 10px;
+    border-width: 2px;
+  }
+
+  .scroll-sequence-container {
+    height: 400px;
+  }
+
+  .scroll-sequence-canvas {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-sequence-container {
+    height: 300px;
+  }
+
+  .scroll-sequence-canvas {
+    height: 300px;
+  }
+
+  .scroll-sequence-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .scroll-sequence-frame {
+    max-width: 1080px;
+  }
+
+  .scroll-sequence-container {
+    height: 700px;
+  }
+
+  .scroll-sequence-canvas {
+    height: 700px;
+  }
+}
