@@ -119,7 +119,74 @@ export function NoticePage() {
   return (
     <div className="notice-page">
       <Toaster />
-      <div className="notice-text">Notice</div>
+
+      {/* Hero */}
+      <section className="notice-hero">
+        <div className="notice-hero-content">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="notice-hero-icon"
+          >
+            <Bell size={32} />
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="notice-hero-title"
+          >
+            Notice Board
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="notice-hero-description"
+          >
+            Stay up-to-date with the latest announcements, events, and important updates from our school.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Search & Filter Bar */}
+      <section className="notice-filter-section">
+        <div className="notice-container">
+          <div className="notice-filter-wrapper">
+            <div className="notice-search-box">
+              <Search size={18} className="notice-search-icon" />
+              <input
+                type="text"
+                placeholder="Search notices..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="notice-search-input"
+              />
+              {searchQuery && (
+                <button className="notice-search-clear" onClick={() => setSearchQuery('')}>
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            <div className="notice-category-filters">
+              <Filter size={16} className="notice-filter-icon" />
+              <div className="notice-category-chips">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`notice-chip${selectedCategory === cat ? ' active' : ''}`}
+                  >
+                    {cat === 'all' ? 'All' : cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Notices Grid */}
       <section className="notice-grid-section">
         <div className="notice-container">
