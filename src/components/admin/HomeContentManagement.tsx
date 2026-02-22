@@ -39,19 +39,9 @@ interface HomeContent {
   }>;
 }
 
-const gradientOptions = [
-  { value: 'from-blue-500 to-cyan-500', label: 'Blue to Cyan', colors: 'linear-gradient(to right, #3b82f6, #06b6d4)' },
-  { value: 'from-purple-500 to-pink-500', label: 'Purple to Pink', colors: 'linear-gradient(to right, #a855f7, #ec4899)' },
-  { value: 'from-orange-500 to-red-500', label: 'Orange to Red', colors: 'linear-gradient(to right, #f97316, #ef4444)' },
-  { value: 'from-green-500 to-emerald-500', label: 'Green to Emerald', colors: 'linear-gradient(to right, #22c55e, #10b981)' },
-  { value: 'from-indigo-500 to-violet-500', label: 'Indigo to Violet', colors: 'linear-gradient(to right, #6366f1, #8b5cf6)' },
-  { value: 'from-teal-500 to-cyan-500', label: 'Teal to Cyan', colors: 'linear-gradient(to right, #14b8a6, #06b6d4)' },
-];
 
-function getGradientStyle(gradientValue: string): string {
-  const found = gradientOptions.find(g => g.value === gradientValue);
-  return found?.colors || 'linear-gradient(to right, #3b82f6, #06b6d4)';
-}
+
+
 
 interface HomeContentManagementProps {
   onBack: () => void;
@@ -316,7 +306,7 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
                 <div className="feature-image-preview">
                   <div 
                     className="feature-image-gradient"
-                    style={{ background: getGradientStyle(feature.gradient) }}
+                   
                   />
                   {feature.image ? (
                     <img
@@ -335,10 +325,7 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
                 <div className="feature-content">
                   <h3 className="feature-title">{feature.title}</h3>
                   <p className="feature-description">{feature.description}</p>
-                  <div className="feature-gradient-badge" style={{ background: getGradientStyle(feature.gradient) }}>
-                    <span className="feature-gradient-dot" />
-                    {gradientOptions.find((g) => g.value === feature.gradient)?.label || 'Custom'}
-                  </div>
+                  
                 </div>
 
                 {/* Actions */}
@@ -498,26 +485,6 @@ export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
                         </button>
                       )}
                     </div>
-                  </div>
-
-                  <div className="feature-modal-field">
-                    <label htmlFor="gradient" className="feature-modal-label">Color</label>
-                    <select
-                      id="gradient"
-                      value={featureForm.gradient}
-                      onChange={(e) => setFeatureForm({ ...featureForm, gradient: e.target.value })}
-                      className="feature-modal-select"
-                    >
-                      {gradientOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                    <div 
-                      className="feature-gradient-preview"
-                      style={{ background: getGradientStyle(featureForm.gradient) }}
-                    />
                   </div>
 
                   <div className="feature-modal-actions">

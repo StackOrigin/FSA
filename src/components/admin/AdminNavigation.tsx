@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Bell,
   Cake,
+  Flag,
+  Crown,
 } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
 
@@ -40,6 +42,8 @@ export function AdminNavigation({
     { id: 'gallery', label: 'Gallery', icon: Image },
     { id: 'contacts', label: 'Messages', icon: Mail },
     { id: 'admissions', label: 'Admissions', icon: UserPlus },
+    { id: 'school-houses', label: 'School Houses', icon: Flag },
+    { id: 'school-leaders', label: 'School Leaders', icon: Crown },
   ];
 
   const handleNavigate = (page: string) => {
