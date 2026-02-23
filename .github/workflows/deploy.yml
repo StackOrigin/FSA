@@ -3,7 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main   # change if your default branch is named differently (e.g. master)
+      - main
+      - Development
   workflow_dispatch:
 
 permissions:
