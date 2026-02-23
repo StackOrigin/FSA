@@ -80,7 +80,7 @@ export function Navigation({ currentPage, onNavigate, darkMode, toggleDarkMode }
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className='nav-logoo'>
               <div className="nav-logo-icon"> 
-                <img src='/images/logo.png'></img>
+                <img src='./images/logo.png'></img>
               </div>
               
                 <div className="nav-logo-text">Future Stars Academy</div>

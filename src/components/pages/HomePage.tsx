@@ -52,7 +52,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
           playsInline
           preload="auto"
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          <source src="./video/hero.mp4" type="video/mp4" />
         </video>
         <div className="hero-bg-overlay" />
 
@@ -133,7 +133,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
-                <img src="/images/mainphoto1.jpg" alt="School life" />
+                <img src="./images/mainphoto1.jpg" alt="School life" />
               </motion.div>
 
               <motion.div
@@ -149,7 +149,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
-                <img src="/images/mainphoto2.jpg" alt="Students" />
+                <img src="./images/mainphoto2.jpg" alt="Students" />
               </motion.div>
 
               <motion.div
@@ -165,7 +165,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
-                <img src="/images/about.jpg" alt="Learning" />
+                <img src="./images/about.jpg" alt="Learning" />
               </motion.div>
 
               <motion.div
@@ -181,7 +181,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 }}
                 whileHover={{ scale: 1.1, rotate: -5 }}
               >
-                <img src="/images/mainphoto.png" alt="Principal" />
+                <img src="./images/mainphoto.png" alt="Principal" />
               </motion.div>
             </motion.div>
           </div>
@@ -452,7 +452,7 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='/images/founder1.jpg'
+                      src='./images/mainphoto1.jpg'
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -502,7 +502,7 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='/images/founder2.jpg'
+                      src='/images/principal.jpg'
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
