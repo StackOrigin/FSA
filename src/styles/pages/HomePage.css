@@ -445,7 +445,7 @@
 .stat-icon svg {
   width: 1.25rem;
   height: 1.25rem;
-  color: white;
+  color: purple;
 }
 
 @media (min-width: 768px) {

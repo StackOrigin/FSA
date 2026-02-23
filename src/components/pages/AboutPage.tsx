@@ -61,22 +61,22 @@ export function AboutPage() {
   ];
 
   const teacherTestimonials = [
-    { img: '/images/principal.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
-    { img: '/images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
-    { img: '/images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
+    { img: './images/principal.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
+    { img: './images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
+    { img: './images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
   ];
 
   const studentTestimonials = [
-    { img: '/images/mainphoto1.jpg', text: '"My teachers encourage me to think big and believe in myself."' },
-    { img: '/images/mainphoto1.jpg', text: '"Learning here is exciting — every lesson helps me discover something new."' },
-    { img: '/images/mainphoto1.jpg', text: '"Teachers here are very supportive, and the learning approach makes difficult subjects easy to understand."' },
+    { img: './images/mainphoto1.jpg', text: '"My teachers encourage me to think big and believe in myself."' },
+    { img: './images/mainphoto1.jpg', text: '"Learning here is exciting — every lesson helps me discover something new."' },
+    { img: './images/mainphoto1.jpg', text: '"Teachers here are very supportive, and the learning approach makes difficult subjects easy to understand."' },
   ];
 
   return (
     <div className="about-page">
       {/* Hero Section */}
       <section className="about-hero"
-      style={{backgroundImage:"linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center"}}>
+      style={{backgroundImage:"linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center"}}>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -185,11 +185,11 @@ export function AboutPage() {
               className="journey-images"
             >
               {[
-                { src: '/images/2000.jpg', alt: '2000' },
-                { src: '/images/2010.jpg', alt: '2010' },
-                { src: '/images/2015.jpg', alt: '2015' },
-                { src: '/images/2020.jpg', alt: '2020' },
-                { src: '/images/2025.jpg', alt: '2025' },
+                { src: './images/2000.jpg', alt: '2000' },
+                { src: './images/2010.jpg', alt: '2010' },
+                { src: './images/2015.jpg', alt: '2015' },
+                { src: './images/2020.jpg', alt: '2020' },
+                { src: './images/2025.jpg', alt: '2025' },
               ].map((img, i) => (
                 <motion.img
                   key={img.alt}
@@ -236,7 +236,6 @@ export function AboutPage() {
                     className="value-icon"
                     style={{background: `linear-gradient(to bottom right, #3b82f6, #a855f7, #ec4899)`}}
                   >
-                    <Heart size={20} />
                   </motion.div>
                   <h3 className="value-title">{value.title}</h3>
                   <p className="value-description">{value.description}</p>
