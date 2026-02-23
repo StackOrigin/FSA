@@ -162,12 +162,12 @@
 
 /* Transparent nav (over dark hero): show white text */
 .navigation.transparent .nav-item span {
-  color: rgba(255, 255, 255, 0.75);
+  color:black;
 }
 
 .navigation.transparent .nav-item:hover span,
 .navigation.transparent .nav-item.active span {
-  color: #fff;
+  color: black;
 }
 
 /* Scrolled nav: use CSS vars */

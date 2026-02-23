@@ -3,7 +3,7 @@ import './ScrollSequence.css';
 
 // -- Configuration --
 const TOTAL_FRAMES = 196;
-const FRAME_DIR = '/animation';
+const FRAME_DIR = './animation';
 const SCROLL_HEIGHT = 6000; // inner spacer height: more = smoother scrubbing
 
 /**
