@@ -1,19 +1,17 @@
-const db = require('../config/db');
+const Gallery = require('../models/Gallery');
 
 // Get all gallery images
 exports.getGallery = async (req, res) => {
   try {
     const { category } = req.query;
-    let query = 'SELECT * FROM gallery ORDER BY created_at DESC';
-    let params = [];
+    const filter = {};
     
     if (category) {
-      query = 'SELECT * FROM gallery WHERE category = $1 ORDER BY created_at DESC';
-      params = [category];
+      filter.category = category;
     }
     
-    const result = await db.query(query, params);
-    res.json(result.rows);
+    const images = await Gallery.find(filter).sort({ created_at: -1 });
+    res.json(images);
   } catch (error) {
     console.error('Error fetching gallery:', error);
     res.status(500).json({ error: 'Failed to fetch gallery' });
@@ -38,14 +36,16 @@ exports.addImage = async (req, res) => {
       return res.status(400).json({ error: 'Either upload a file or provide an image URL' });
     }
 
-    const result = await db.query(
-      'INSERT INTO gallery (title, image_url, category, description) VALUES ($1, $2, $3, $4) RETURNING *',
-      [title || 'Untitled', imagePath, category || 'classroom activity', description || '']
-    );
+    const image = await Gallery.create({
+      title: title || 'Untitled',
+      image_url: imagePath,
+      category: category || 'classroom activity',
+      description: description || '',
+    });
     
     res.status(201).json({ 
       message: 'Image added successfully', 
-      image: result.rows[0] 
+      image 
     });
   } catch (error) {
     console.error('Error adding image:', error);
@@ -57,9 +57,9 @@ exports.addImage = async (req, res) => {
 exports.deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query('DELETE FROM gallery WHERE id = $1 RETURNING *', [id]);
+    const image = await Gallery.findByIdAndDelete(id);
     
-    if (result.rows.length === 0) {
+    if (!image) {
       return res.status(404).json({ error: 'Image not found' });
     }
     

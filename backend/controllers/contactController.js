@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const Contact = require('../models/Contact');
 
 // Submit a contact form
 exports.submitContact = async (req, res) => {
@@ -9,14 +9,17 @@ exports.submitContact = async (req, res) => {
       return res.status(400).json({ error: 'Name, email, and message are required' });
     }
 
-    const result = await db.query(
-      'INSERT INTO contacts (name, email, phone, subject, message) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, email, phone || null, subject || 'General Inquiry', message]
-    );
+    const contact = await Contact.create({
+      name,
+      email,
+      phone: phone || null,
+      subject: subject || 'General Inquiry',
+      message,
+    });
     
     res.status(201).json({ 
       message: 'Contact form submitted successfully', 
-      contact: result.rows[0] 
+      contact 
     });
   } catch (error) {
     console.error('Error submitting contact:', error);
@@ -27,8 +30,8 @@ exports.submitContact = async (req, res) => {
 // Get all contacts (admin use)
 exports.getContacts = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM contacts ORDER BY created_at DESC');
-    res.json(result.rows);
+    const contacts = await Contact.find().sort({ created_at: -1 });
+    res.json(contacts);
   } catch (error) {
     console.error('Error fetching contacts:', error);
     res.status(500).json({ error: 'Failed to fetch contacts' });
@@ -40,8 +43,8 @@ exports.deleteContact = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await db.query('DELETE FROM contacts WHERE id = $1 RETURNING *', [id]);
-    if (result.rows.length === 0) {
+    const contact = await Contact.findByIdAndDelete(id);
+    if (!contact) {
       return res.status(404).json({ error: 'Contact not found' });
     }
 
