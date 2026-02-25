@@ -7,10 +7,12 @@ const path = require('path');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
+const PORT = process.env.PORT || 30147;
+const corsOptions = {
+  origin: "https://lunivasthd.me",
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,50 +27,38 @@ const initDb = require('./config/initDb');
 
 // Start server after database initialization
 const startServer = async () => {
-  console.log('');
-  console.log('═══════════════════════════════════════════');
-  console.log('   🏫 Future Stars School Website Backend');
-  console.log('═══════════════════════════════════════════');
+  if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+  }
   
   // Initialize database
   const dbReady = await initDb();
-  
-  if (!dbReady) {
-    console.error('');
-    console.error('⚠️  Server starting without database connection.');
-    console.error('   Some features may not work properly.');
-    console.error('');
+  if (!dbReady && process.env.NODE_ENV !== "production") {
+    console.error('⚠️  Server starting without database connection. Some features may not work properly.');
   }
 
   // Use routes
   app.use('/api', apiRoutes);
 
   // Health check route
-  app.get('/', (req, res) => {
-    res.json({ 
-      message: 'School Website Backend API is running!',
-      status: 'healthy',
-      timestamp: new Date().toISOString()
-    });
+  app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: "Backend running successfully" });
   });
 
   // Error handling middleware
   app.use((err, req, res, next) => {
-    console.error('Error:', err.message);
-    res.status(500).json({ error: 'Something went wrong!' });
+    if (process.env.NODE_ENV === "production") {
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.status(500).json({ error: err.message, stack: err.stack });
+    }
   });
 
   // Start server
   app.listen(PORT, () => {
-    console.log('');
-    console.log('═══════════════════════════════════════════');
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log('═══════════════════════════════════════════');
-    console.log('');
-    console.log('Available endpoints:');
-    console.log(`  📋 API:     http://localhost:${PORT}/api`);
-    console.log(`  🖼️  Uploads: http://localhost:${PORT}/uploads`);
-    console.log('');
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`Server running on port ${PORT}`);
+    }
   });
 };
 
