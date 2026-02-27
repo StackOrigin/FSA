@@ -162,7 +162,7 @@
 
 /* Transparent nav (over dark hero): show white text */
 .navigation.transparent .nav-item span {
-  color:black;
+  color:white;
 }
 
 .navigation.transparent .nav-item:hover span,
@@ -188,6 +188,9 @@
   inset: 0;
   border-radius: 0.5rem;
   z-index: 0;
+}
+.dark .nav-item-bg{
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Transparent nav: subtle white pill for active */
@@ -224,7 +227,7 @@
 
 /* Transparent nav: white icons */
 .navigation.transparent .nav-toggle-btn svg {
-  color: rgba(255, 255, 255, 0.85);
+  color: black;
 }
 
 .navigation.transparent .nav-toggle-btn:hover {

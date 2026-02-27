@@ -40,6 +40,39 @@ function statusLabel(status: string) {
 export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
   const [items, setItems] = useState<Admission[]>([]);
   const [loading, setLoading] = useState(true);
+    // PDF download function (all details)
+    const downloadAdmissionAsPDF = (admission: Admission) => {
+      import('jspdf').then(({ default: jsPDF }) => {
+        const doc = new jsPDF();
+        let y = 10;
+        doc.setFontSize(16);
+        doc.text('Admission Application', 10, y);
+        y += 10;
+        doc.setFontSize(12);
+        doc.text(`Student Name: ${admission.student_name}`, 10, y);
+        y += 8;
+        doc.text(`Parent/Guardian: ${admission.parent_name}`, 10, y);
+        y += 8;
+        doc.text(`Email: ${admission.email}`, 10, y);
+        y += 8;
+        doc.text(`Phone: ${admission.phone}`, 10, y);
+        y += 8;
+        doc.text(`Grade Applying: ${admission.grade_applying}`, 10, y);
+        y += 8;
+        doc.text(`Status: ${statusLabel(String(admission.status))}`, 10, y);
+        y += 8;
+        doc.text(`Submitted: ${new Date(admission.created_at).toLocaleString()}`, 10, y);
+        y += 10;
+        if (admission.message) {
+          doc.setFontSize(13);
+          doc.text('Additional Message:', 10, y);
+          y += 8;
+          doc.setFontSize(11);
+          doc.text(admission.message, 10, y);
+        }
+        doc.save('admission-details.pdf');
+      });
+    };
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Admission | null>(null);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
@@ -337,6 +370,13 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                   <p className="admissions-modal-message-label">Additional Message</p>
                   <div className="admissions-modal-message-content">
                     <p>"{selected.message}"</p>
+                    <button
+                      className="admin-modal-submit-btn"
+                      style={{ marginTop: '1rem' }}
+                      onClick={() => downloadAdmissionAsPDF(selected)}
+                    >
+                      Download All Details as PDF
+                    </button>
                   </div>
                 </div>
               )}

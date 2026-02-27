@@ -417,7 +417,7 @@ export function ContactPage() {
                 <div className="contact-map-header">
                   <MapPin className="contact-map-header-icon" />
                   <div>
-                    <h3 className="contact-map-title">Visit Our Campus</h3>
+                    <h3 className="contact-map-title">Visit Our School</h3>
                     <p className="contact-map-address">
                       Lubhu-Dandathok-Dharachour Rd, 44708
                     </p>

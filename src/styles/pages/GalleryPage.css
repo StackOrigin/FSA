@@ -15,9 +15,7 @@
 .gallery-hero {
   padding: 5rem 1rem;
   text-align: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/Sports.jpg');
-  background-size: cover;
-  background-position: center;
+
 }
 
 .gallery-hero-content {
@@ -43,7 +41,7 @@
 
 .gallery-hero-description {
   font-size: 3rem;
-  color: white;
+  color: gray;
   font-weight: bold;
   line-height: 1.75;
 }

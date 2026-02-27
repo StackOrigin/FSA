@@ -90,7 +90,7 @@ export function AdmissionsPage() {
     },
     {
       icon: Calendar,
-      title: 'Campus Visit & Interview',
+      title: 'School Visit & Interview',
       description: 'Tour our facilities and meet with our admissions team.',
       details: 'Schedule a personalized tour of our campus to experience our learning environment. Meet with teachers, see our facilities, and have a conversation with our admissions team.',
       color: 'from-pink-500 to-rose-500',
@@ -398,8 +398,9 @@ export function AdmissionsPage() {
                       required
                     >
                       <option value="">Select a grade</option>
-                      <option value="Pre-K">Pre-K</option>
-                      <option value="Kindergarten">Kindergarten</option>
+                      <option value="Nursery">Nursery</option>
+                      <option value="LKG">LKG</option>
+                      <option value="UKG">UKG</option>
                       <option value="Grade 1">Grade 1</option>
                       <option value="Grade 2">Grade 2</option>
                       <option value="Grade 3">Grade 3</option>

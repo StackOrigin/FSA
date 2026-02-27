@@ -247,7 +247,7 @@ export function NoticePage() {
             {/* Close Button */}
             <button 
               onClick={() => setSelectedImage(null)}
-              className="absolute right-4 top-4 p-2 text-white/70 hover:text-white transition-colors"
+              className="absolute right-4 top-4 p-2 text-white hover:text-white transition-colors"
             >
               <X className="w-8 h-8" />
             </button>

@@ -1,10 +1,10 @@
 RewriteEngine On
 
-# Proxy API requests to Node backend
-RewriteRule ^api/(.*)$ http://127.0.0.1:5000/api/$1 [P,L]
+# Proxy API requests to Node backend (Webuzo app port)
+RewriteRule ^api/(.*)$ http://127.0.0.1:30147/api/$1 [P,L]
 
-# Proxy uploaded media requests to Node backend
-RewriteRule ^uploads/(.*)$ http://127.0.0.1:5000/uploads/$1 [P,L]
+# Proxy uploaded media requests to Node backend (Webuzo app port)
+RewriteRule ^uploads/(.*)$ http://127.0.0.1:30147/uploads/$1 [P,L]
 
 # Serve existing files/directories directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]

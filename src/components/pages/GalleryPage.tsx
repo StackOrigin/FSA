@@ -44,7 +44,7 @@ export function GalleryPage() {
 
   const images = apiImages;
 
-  const categories = ['all', 'classroom activity', 'sports', 'events', 'extra excursion', 'school program'];
+  const categories = ['all', 'classroom activity', 'sports', 'events', 'school program'];
 
   const filteredImages = selectedCategory === 'all'
     ? images
@@ -60,11 +60,9 @@ export function GalleryPage() {
           transition={{ duration: 0.6 }}
           className="gallery-hero-content"
         >
-          <h1 className="gallery-hero-title">
-            Gallery
-          </h1>
+
           <p className="gallery-hero-description">
-            Explore life at FutureSchool through images that capture our vibrant community.
+            Explore life at FSA through images that capture our vibrant community.
           </p>
         </motion.div>
       </section>
@@ -98,7 +96,7 @@ export function GalleryPage() {
           ) : filteredImages.length === 0 ? (
             <div className="gallery-empty">
               <ImageIcon className="gallery-empty-icon" />
-              <p className="gallery-empty-text">No images yet. Add some from the admin panel.</p>
+              <p className="gallery-empty-text">No images yet.</p>
             </div>
           ) : (
             <motion.div layout className="gallery-grid">
