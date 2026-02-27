@@ -1,45 +1,42 @@
-const { Pool } = require('pg');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : false
-});
+// Build MONGO_URI from individual env vars as fallback
+let MONGO_URI = process.env.MONGO_URI;
 
-// Test database connection
-pool.on('connect', () => {
-  console.log('Connected to PostgreSQL database');
-});
+// Fix common mistake: value contains "MONGO_URI=" prefix
+if (MONGO_URI && MONGO_URI.startsWith('MONGO_URI=')) {
+  MONGO_URI = MONGO_URI.replace('MONGO_URI=', '');
+}
 
-pool.on('error', (err) => {
-  console.error('❌ Unexpected error on idle client', err);
-  process.exit(-1);
-});
+if (!MONGO_URI && process.env.DB_HOST && process.env.DB_NAME) {
+  const host = process.env.DB_HOST;
+  const port = process.env.DB_PORT || '27017';
+  const db = process.env.DB_NAME;
+  const user = process.env.DB_USER;
+  const pass = process.env.DB_PASSWORD;
+  if (user && pass) {
+    MONGO_URI = `mongodb://${user}:${pass}@${host}:${port}/${db}?authSource=admin`;
+  } else {
+    MONGO_URI = `mongodb://${host}:${port}/${db}`;
+  }
+}
+MONGO_URI = MONGO_URI || 'mongodb://localhost:27017/school_website';
 
-// Test connection function
-const testConnection = async () => {
+const connectDB = async () => {
   try {
-    const client = await pool.connect();
-    console.log('✅ Database connection test successful');
-    client.release();
+    await mongoose.connect(MONGO_URI);
+    console.log('✅ Connected to MongoDB');
     return true;
   } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
+    console.error('❌ MongoDB connection failed:', error.message);
     console.error('');
     console.error('Please make sure:');
-    console.error('1. PostgreSQL is installed and running');
-    console.error('2. The database exists (create it with: CREATE DATABASE school_website;)');
-    console.error('3. Your .env file has correct credentials');
+    console.error('1. MongoDB is running (or your MONGO_URI is correct)');
+    console.error('2. Your .env file has the correct MONGO_URI');
     console.error('');
     return false;
   }
 };
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-  pool,
-  testConnection
-};
+module.exports = { connectDB, getURI: () => MONGO_URI };
