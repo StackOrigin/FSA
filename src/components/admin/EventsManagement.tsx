@@ -448,63 +448,6 @@ export function EventsManagement({ onBack }: EventsManagementProps) {
                       className="admin-form-input"
                     />
                   </div>
-
-                  <div className="admin-form-field">
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'space-between',
-                      padding: '1rem',
-                      backgroundColor: formData.isFeatured ? '#fef3c7' : '#f3f4f6',
-                      borderRadius: '0.75rem',
-                      border: formData.isFeatured ? '1px solid #fcd34d' : '1px solid #e5e7eb',
-                      transition: 'all 0.2s ease'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <Star style={{ 
-                          width: '1.25rem', 
-                          height: '1.25rem', 
-                          color: formData.isFeatured ? '#d97706' : '#9ca3af',
-                          fill: formData.isFeatured ? '#d97706' : 'none'
-                        }} />
-                        <div>
-                          <label htmlFor="featured" className="admin-form-label" style={{ marginBottom: 0, cursor: 'pointer' }}>
-                            Featured Event
-                          </label>
-                          <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.125rem' }}>
-                            Display this event in the featured carousel
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setFormData({ ...formData, isFeatured: !formData.isFeatured })}
-                        style={{
-                          position: 'relative',
-                          width: '3rem',
-                          height: '1.5rem',
-                          backgroundColor: formData.isFeatured ? '#d97706' : '#d1d5db',
-                          borderRadius: '9999px',
-                          border: 'none',
-                          cursor: 'pointer',
-                          transition: 'background-color 0.2s ease'
-                        }}
-                      >
-                        <span style={{
-                          position: 'absolute',
-                          top: '0.125rem',
-                          left: formData.isFeatured ? '1.625rem' : '0.125rem',
-                          width: '1.25rem',
-                          height: '1.25rem',
-                          backgroundColor: 'white',
-                          borderRadius: '9999px',
-                          boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-                          transition: 'left 0.2s ease'
-                        }} />
-                      </button>
-                    </div>
-                  </div>
-
                   <div className="admin-form-field">
                     <label htmlFor="image" className="admin-form-label">Event Image</label>
                     <input

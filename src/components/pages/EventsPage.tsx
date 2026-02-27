@@ -170,7 +170,7 @@ export function EventsPage() {
             ) : featuredEvents.length === 0 ? (
               <div className="events-empty-card">
                 <Calendar className="events-empty-icon" />
-                <p className="events-empty-text">No featured events yet. Mark events as featured in the admin panel.</p>
+                <p className="events-empty-text">No featured events yet.</p>
               </div>
             ) : (
               <>

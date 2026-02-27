@@ -74,6 +74,7 @@
   .hero-content-left {
     text-align: left;
     align-items: flex-start;
+    
   }
 }
 
@@ -139,7 +140,7 @@
 
 @media (max-width: 1023px) {
   .hero-images-right {
-    order: -1;
+    
     max-width: 360px;
     margin: 0 auto;
   }
@@ -914,6 +915,9 @@
   line-height: 1.8;
   color: black;
   text-align: justify;
+}
+.dark .principal-message {
+  color: white;
 }
 
 @media (min-width: 768px) {

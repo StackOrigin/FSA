@@ -70,6 +70,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="hero-title"
             >
+
               Where Every Child's
               <br />
               Potential Is Celebrated
