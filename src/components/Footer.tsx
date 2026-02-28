@@ -12,7 +12,7 @@ export function Footer({ onNavigate }: FooterProps) {
     'Quick Links': [
       { label: 'Home', path: '/' },
       { label: 'About Us', path: '/about' },
-      { label: 'Notices', path: '/notices' },   
+      { label: 'Notices', path: '/notice' },   
       { label: 'Admissions', path: '/admissions' },
     ],
     'Resources': [

@@ -162,7 +162,7 @@
 
 /* Transparent nav (over dark hero): show white text */
 .navigation.transparent .nav-item span {
-  color:white;
+  color:gray;
 }
 
 .navigation.transparent .nav-item:hover span,
@@ -190,7 +190,7 @@
   z-index: 0;
 }
 .dark .nav-item-bg{
-  background: rgba(255, 255, 255, 0.15);
+  background: black;
 }
 
 /* Transparent nav: subtle white pill for active */
