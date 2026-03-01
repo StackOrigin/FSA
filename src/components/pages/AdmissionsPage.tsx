@@ -226,7 +226,7 @@ export function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Important Dates */}
+      {/* Important Day */}
       <section className="admissions-dates-section">
         <div className="admissions-dates-container">
           <motion.div
@@ -235,15 +235,13 @@ export function AdmissionsPage() {
             viewport={{ once: true }}
             className="admissions-dates-header"
           >
-            <h2 className="admissions-dates-title">Important Dates</h2>
-            <p className="admissions-dates-subtitle">Mark your calendar</p>
+            <h2 className="admissions-dates-title">Important Day</h2>
+            <p className="admissions-dates-subtitle">Special Discount Offer on Saraswoti Puja</p>
           </motion.div>
 
           <div className="admissions-dates-grid">
             {[
-              { date: 'February 1', event: 'Priority Application Deadline', icon: Clock },
-              { date: 'March 15', event: 'Admission Decisions Released', icon: Mail },
-              { date: 'April 30', event: 'Enrollment Confirmation Due', icon: CheckCircle },
+              { date: 'Saraswoti Puja', event: 'Celebrate the auspicious occasion of Saraswoti Puja with a Special Discount on Admission Fees. Enroll on this sacred day and enjoy an exclusive concession as you begin your journey toward knowledge and success.', icon: GraduationCap },
             ].map((item, index) => (
               <motion.div
                 key={index}

@@ -95,11 +95,13 @@ export function Footer({ onNavigate }: FooterProps) {
             </div>
             <div className="footer-contact-item">
               <Phone />
-              <span>+977 980000000</span>
+              <span>015580754,</span>
+              <span>9761692981,</span>
+              <span>9841281367</span>
             </div>
             <div className="footer-contact-item">
               <Mail />
-              <span>info@futureschool.edu</span>
+              <span>futurestarsacd@gmail.com</span>
             </div>
           </div>
         </div>
