@@ -8,6 +8,7 @@ import anuskaImg from '../images/anuska.jpg';
 import pmessageImg from '../images/pmessage.jpeg';
 import mainphoto1Img from '../images/mainphoto1.jpg';
 import sudamaImg from '../images/sudama.jpg';
+import teacher1 from '../images/teacher1.png';
 import img2000 from '../images/2000.jpg';
 import img2010 from '../images/2010.jpg';
 import img2015 from '../images/2015.jpg';
@@ -74,7 +75,7 @@ export function AboutPage() {
 
   const teacherTestimonials = [
     { img: pmessageImg, text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
-    { img: pmessageImg, text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
+    { img: teacher1, text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."', style: { objectPosition: 'top' } },
     { img: sudamaImg, text: '"Each student\'s success reflects our commitment to quality education."' },
   ];
 
@@ -137,8 +138,8 @@ export function AboutPage() {
               </div>
               <h2 className="card-title">Our Vision</h2>
               <p className="card-description">
-                To be a global leader in education, recognized for excellence in teaching, innovation in learning, and dedication to 
-                developing compassionate, capable individuals who will shape a better future for all. 
+                To create a learning environment that encourages knowledge, creativity, and personal growth.
+
               </p>
             </div>
           </motion.div>
@@ -280,7 +281,7 @@ export function AboutPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                  <img className='testimonial-img' src={testimonial.img} alt="Teacher" style={testimonial.style} />
                   <p>{testimonial.text}</p>
                 </motion.div>
               ))}

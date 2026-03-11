@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { Download, Calendar, Tag, Search, Filter, Bell, Loader2, X } from 'lucide-react';
-import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
 import { Toaster } from '../ui/sonner';
 import '../../styles/pages/NoticePage.css';
@@ -70,47 +69,37 @@ export function NoticePage() {
     });
   };
 
-  const handleDownloadNotice = async (e: React.MouseEvent, noticeId: number, noticeTitle: string) => {
+  const handleDownloadNotice = async (e: React.MouseEvent, notice: Notice) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (downloadingId) return;
-
-    const element = document.getElementById(`notice-card-${noticeId}`);
-    if (!element) {
-      toast.error("Notice element not found");
+    if (!notice.image_url) {
+      toast.error("No image uploaded for this notice");
       return;
     }
 
-    try {
-      setDownloadingId(noticeId);
-      toast.info("Preparing download...");
-      
-      // Small delay to allow toast to render and UI to update
-      await new Promise(resolve => setTimeout(resolve, 100));
+    if (downloadingId) return;
 
-      const dataUrl = await toPng(element, {
-        pixelRatio: 2,
-        backgroundColor: '#ffffff',
-        filter: (node) => {
-          // Filter out the download button from the image
-          if (node instanceof HTMLElement && node.classList.contains('notice-download-btn')) {
-            return false;
-          }
-          return true;
-        }
-      });
-      
+    try {
+      setDownloadingId(notice.id);
+      toast.info("Downloading image...");
+
+      const response = await fetch(notice.image_url);
+      if (!response.ok) throw new Error('Failed to download image');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.download = `${noticeTitle.replace(/\s+/g, '-').toLowerCase()}-notice.png`;
-      link.href = dataUrl;
+      link.download = `${notice.title.replace(/\s+/g, '-').toLowerCase()}-notice.png`;
+      link.href = url;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success("Notice downloaded successfully");
+      URL.revokeObjectURL(url);
+      toast.success("Image downloaded successfully");
     } catch (error: any) {
-      console.error('Error generating notice image:', error);
-      toast.error(`Failed to generate: ${error?.message || 'Unknown error'}`);
+      console.error('Error downloading image:', error);
+      toast.error(`Failed to download: ${error?.message || 'Unknown error'}`);
     } finally {
       setDownloadingId(null);
     }
@@ -207,7 +196,7 @@ export function NoticePage() {
                           className="notice-download-btn"
                           type="button"
                           disabled={downloadingId === notice.id}
-                          onClick={(e) => handleDownloadNotice(e, notice.id, notice.title)}
+                          onClick={(e) => handleDownloadNotice(e, notice)}
                         >
                           {downloadingId === notice.id ? (
                             <Loader2 size={18} className="animate-spin" />

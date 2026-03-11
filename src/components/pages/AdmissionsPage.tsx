@@ -113,20 +113,20 @@ export function AdmissionsPage() {
 
   const faqs = [
     {
-      question: 'When are applications accepted?',
-      answer: 'We accept applications year-round, though priority is given to applications submitted before February 1st for the following school year.',
+      question: 'What grades does the school offer?',
+      answer: 'Our school provides education from primary to secondary level, focusing on academic excellence and overall student development.',
     },
     {
-      question: 'What are the age requirements?',
-      answer: 'We accept students from Pre-K (age 4) through Grade 12. Age requirements vary by grade level.',
+      question: 'How can I apply for admission?',
+      answer: 'You can apply by filling out the admission form available on our website or by visiting the school office during working hours.',
     },
     {
-      question: 'Is financial aid available?',
-      answer: 'Yes, we offer need-based financial aid and merit scholarships. Families must complete a separate financial aid application.',
+      question: 'What facilities does the school provide?',
+      answer: 'Our school offers modern classrooms, a library, computer labs, sports facilities, and extracurricular activities to support holistic learning.',
     },
     {
-      question: 'What is the student-teacher ratio?',
-      answer: 'We maintain small class sizes with an average student-teacher ratio of 12:1 to ensure personalized attention.',
+      question: 'How can parents contact the school?',
+      answer: 'Parents can contact the school through our phone number, email, or by visiting the school during office hours.',
     },
   ];
 

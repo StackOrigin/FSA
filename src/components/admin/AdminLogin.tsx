@@ -19,7 +19,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setLoading(true);
 
     // Simple authentication (in production, use proper backend auth)
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'fsa_admin' && password === 'fsa@admin2054') {
       setTimeout(() => {
         onLogin(username);
         setLoading(false);
@@ -71,7 +71,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               transition={{ delay: 0.4 }}
               className="admin-login-subtitle"
             >
-              Sign in to FutureSchool Admin
+              Sign in to Future Stars Academy Admin
             </motion.p>
           </div>
 
@@ -168,9 +168,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             transition={{ delay: 0.7 }}
             className="admin-login-footer"
           >
-            <p className="admin-login-footer-text">
-              Demo credentials: <span>admin</span> / <span>admin123</span>
-            </p>
           </motion.div>
         </div>
       </motion.div>
