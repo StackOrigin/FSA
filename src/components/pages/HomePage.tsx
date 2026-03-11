@@ -3,6 +3,7 @@ import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Cal
 import { useRef, useEffect, useState } from 'react';
 import { ScrollSequence } from '../ScrollSequence';
 import '../../styles/pages/HomePage.css';
+import pMessageImg from '../images/pmessage.jpeg';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -503,7 +504,7 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='/images/principal.jpg'
+                      src={pMessageImg}
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
