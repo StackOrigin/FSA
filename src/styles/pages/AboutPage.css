@@ -2,6 +2,7 @@
 
 .about-page {
   padding-top: 4rem;
+  overflow-x: hidden;
 }
 
 @media (min-width: 768px) {

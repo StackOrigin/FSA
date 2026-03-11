@@ -454,7 +454,6 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='./images/mainphoto1.jpg'
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -467,13 +466,6 @@ function TestimonialsSection({
                 </div>
                 <div className="principal-content">
                   <div className="principal-label">
-                    <motion.div
-                      className="principal-label-line"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "3rem" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    />
                     <span className="principal-label-text">Founder's Message</span>
                   </div>
                   <motion.p
@@ -517,13 +509,6 @@ function TestimonialsSection({
                 </div>
                 <div className="principal-content">
                   <div className="principal-label">
-                    <motion.div
-                      className="principal-label-line"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "3rem" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                    />
                     <span className="principal-label-text">Principal's Message</span>
                   </div>
                   <motion.p

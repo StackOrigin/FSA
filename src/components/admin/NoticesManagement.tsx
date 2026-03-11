@@ -373,53 +373,7 @@ export function NoticesManagement({ onBack }: NoticesManagementProps) {
                         rows={4}
                         required
                       />
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                      <div className="admin-form-field">
-                        <label htmlFor="category" className="admin-form-label">Category</label>
-                        <select
-                          id="category"
-                          value={formData.category}
-                          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                          className="admin-form-input"
-                        >
-                          {categories.map((cat) => (
-                            <option key={cat} value={cat}>
-                              {cat}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="admin-form-field">
-                        <label htmlFor="priority" className="admin-form-label">Priority</label>
-                        <select
-                          id="priority"
-                          value={formData.priority}
-                          onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                          className="admin-form-input"
-                        >
-                          {priorities.map((priority) => (
-                            <option key={priority} value={priority}>
-                              {priority.charAt(0).toUpperCase() + priority.slice(1)}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="admin-form-field">
-                      <label htmlFor="download_url" className="admin-form-label">Download URL (Optional)</label>
-                      <input
-                        id="download_url"
-                        type="text"
-                        value={formData.download_url}
-                        onChange={(e) => setFormData({ ...formData, download_url: e.target.value })}
-                        className="admin-form-input"
-                        placeholder="https://..."
-                      />
-                    </div>
+                    </div>                  
 
                     <div className="admin-form-field">
                       <label className="admin-form-label">Attachment (Image/Document)</label>

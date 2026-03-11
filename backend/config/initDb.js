@@ -79,10 +79,10 @@ const initDatabase = async () => {
         key: 'home',
         content: {
           stats: [
-            { id: 1, value: 2500, suffix: '+', label: 'Students', icon: 'Users' },
-            { id: 2, value: 150, suffix: '+', label: 'Expert Teachers', icon: 'BookOpen' },
+            { id: 1, value: 700, suffix: '+', label: 'Students', icon: 'Users' },
+            { id: 2, value: 30, suffix: '+', label: 'Expert Teachers', icon: 'BookOpen' },
             { id: 3, value: 95, suffix: '%', label: 'Success Rate', icon: 'Award' },
-            { id: 4, value: 30, suffix: '+', label: 'Countries', icon: 'Globe' },
+            { id: 4, value: 24, suffix: '+', label: 'Years of Trust', icon: 'Globe' },
           ],
           features: [
             {
@@ -138,10 +138,10 @@ const initDatabase = async () => {
         key: 'contact',
         content: {
           cards: [
-            { icon: 'Phone', title: 'Phone', details: ['+1 (555) 123-4567', '+1 (555) 987-6543'], color: 'from-blue-500 to-cyan-500' },
-            { icon: 'Mail', title: 'Email', details: ['info@futureschool.edu', 'admissions@futureschool.edu'], color: 'from-purple-500 to-violet-500' },
-            { icon: 'MapPin', title: 'Address', details: ['123 Education Lane', 'Innovation City, ST 12345'], color: 'from-pink-500 to-rose-500' },
-            { icon: 'Clock', title: 'Office Hours', details: ['Mon - Fri: 8:00 AM - 5:00 PM', 'Sat: 9:00 AM - 2:00 PM'], color: 'from-orange-500 to-amber-500' },
+            { icon: 'Phone', title: 'Phone', details: ['015580754', '9761692981','9841281367'], color: 'from-blue-500 to-cyan-500' },
+            { icon: 'Mail', title: 'Email', details: ['futurestarsacd@gmail.com'], color: 'from-purple-500 to-violet-500' },
+            { icon: 'MapPin', title: 'Address', details: ['Lubhu, Lalitpur'], color: 'from-pink-500 to-rose-500' },
+            { icon: 'Clock', title: 'Office Hours', details: ['Sun - Fri: 9:00 AM - 4:00 PM'], color: 'from-orange-500 to-amber-500' },
           ],
         },
       });
