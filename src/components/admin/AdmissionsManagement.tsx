@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, UserPlus, Search, Loader2, Eye, RefreshCw, GraduationCap, Mail, Phone, FileText, ArrowLeft } from 'lucide-react';
 
@@ -15,10 +16,6 @@ interface Admission {
 }
 
 const statusOptions = ['pending', 'under_review', 'approved', 'rejected'] as const;
-
-interface AdmissionsManagementProps {
-  onBack: () => void;
-}
 
 function getStatusClass(status: string) {
   switch (status) {
@@ -37,7 +34,9 @@ function statusLabel(status: string) {
   return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
-export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
+export function AdmissionsManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [items, setItems] = useState<Admission[]>([]);
   const [loading, setLoading] = useState(true);
     // PDF download function (all details)

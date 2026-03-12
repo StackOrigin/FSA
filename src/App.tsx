@@ -54,8 +54,12 @@ export default function App() {
   };
 
   // If on admin page, render only the admin app
-  if (location.pathname === '/admin') {
-    return <AdminApp />;
+  if (location.pathname.startsWith('/admin')) {
+    return (
+      <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
+      </Routes>
+    );
   }
 
   return (
@@ -76,7 +80,6 @@ export default function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminApp />} />
         </Routes>
       </AnimatePresence>
       

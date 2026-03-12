@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -27,11 +28,9 @@ interface SchoolHouse {
   created_at: string;
 }
 
-interface SchoolHousesManagementProps {
-  onBack: () => void;
-}
-
-export function SchoolHousesManagement({ onBack }: SchoolHousesManagementProps) {
+export function SchoolHousesManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [houses, setHouses] = useState<SchoolHouse[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

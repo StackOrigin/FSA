@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -27,11 +28,9 @@ interface Notice {
   updated_at: string;
 }
 
-interface NoticesManagementProps {
-  onBack: () => void;
-}
-
-export function NoticesManagement({ onBack }: NoticesManagementProps) {
+export function NoticesManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

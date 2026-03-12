@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Mail, Search, Loader2, Trash2, Eye, Phone, RefreshCw, Inbox, ArrowLeft } from 'lucide-react';
 
@@ -12,11 +13,9 @@ interface ContactMessage {
   created_at: string;
 }
 
-interface ContactsManagementProps {
-  onBack: () => void;
-}
-
-export function ContactsManagement({ onBack }: ContactsManagementProps) {
+export function ContactsManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [items, setItems] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Trash2,
@@ -24,11 +25,9 @@ interface GalleryImage {
   created_at: string;
 }
 
-interface GalleryManagementProps {
-  onBack?: () => void;
-}
-
-export function GalleryManagement({ onBack }: GalleryManagementProps) {
+export function GalleryManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
