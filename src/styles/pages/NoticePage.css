@@ -414,6 +414,27 @@
   overflow: hidden;
 }
 
+.notice-card-description.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.notice-read-more-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-top: 0.25rem;
+}
+
+.notice-read-more-btn:hover {
+  text-decoration: underline;
+}
+
 /* Card footer */
 .notice-card-footer {
   display: flex;
