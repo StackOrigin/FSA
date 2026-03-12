@@ -36,6 +36,16 @@ export function AdmissionsPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     let value = e.target.value;
+
+    // Parents name: only letters and no numbers
+    if (e.target.name === 'parentName') {
+      value = value.replace(/[0-9]/g, '');
+    }
+    
+    // Student name: only letters and no numbers
+    if (e.target.name === 'studentName') {
+      value = value.replace(/[0-9]/g, '');
+    }
     
     // Phone number: only digits, max 10
     if (e.target.name === 'phone') {
@@ -78,7 +88,7 @@ export function AdmissionsPage() {
       icon: FileText,
       title: 'Submit Application',
       description: 'Complete our online application form with required documents.',
-      details: 'Fill out the comprehensive application form including student information. Required documents include birth certificate, and previous school records.',
+      details: 'Fill out the comprehensive application form including student information.',
       color: 'from-blue-500 to-cyan-500',
     },
     {
@@ -376,7 +386,7 @@ export function AdmissionsPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="admissions-form-input"
-                      placeholder="1234567890"
+                      placeholder="+977 9XXXXXXXXX"
                       required
                     />
                   </div>

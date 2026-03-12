@@ -33,6 +33,10 @@ export function ContactPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     let { name, value } = e.target;
     
+    // Full name: no digits allowed
+    if (name === 'name') {
+      value = value.replace(/[0-9]/g, '');
+    }
     // Phone number: only digits, max 10
     if (name === 'phone') {
       value = value.replace(/\D/g, '').slice(0, 10);
@@ -234,7 +238,7 @@ export function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="contact-form">
                     <div>
-                      <label htmlFor="name" className="contact-form-label">Full Name *</label>
+                      <label htmlFor="name" className="contact-form-label">Full Name <span className="required-star">*</span></label>
                       <motion.div
                         animate={{
                           scale: focusedField === 'name' ? 1.02 : 1,
@@ -264,7 +268,7 @@ export function ContactPage() {
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="contact-form-label">Email Address *</label>
+                      <label htmlFor="email" className="contact-form-label">Email Address <span className="required-star">*</span></label>
                       <motion.div
                         animate={{
                           scale: focusedField === 'email' ? 1.02 : 1,
@@ -331,7 +335,7 @@ export function ContactPage() {
                     </div>
 
                     <div>
-                      <label htmlFor="subject" className="contact-form-label">Subject *</label>
+                      <label htmlFor="subject" className="contact-form-label">Subject <span className="required-star">*</span></label>
                       <motion.div
                         animate={{
                           scale: focusedField === 'subject' ? 1.02 : 1,
@@ -361,7 +365,7 @@ export function ContactPage() {
                     </div>
 
                     <div>
-                      <label htmlFor="message" className="contact-form-label">Message *</label>
+                      <label htmlFor="message" className="contact-form-label">Message <span className="required-star">*</span></label>
                       <motion.div
                         animate={{
                           scale: focusedField === 'message' ? 1.02 : 1,
