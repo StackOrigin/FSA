@@ -91,17 +91,17 @@ export function Footer({ onNavigate }: FooterProps) {
             <h3>Contact Us</h3>
             <div className="footer-contact-item">
               <MapPin />
-              <span>Lubhu,Lalitpur</span>
+              <a href='https://maps.app.goo.gl/C6PUG1oVfXRaJppy6'>Lubhu,Lalitpur</a>
             </div>
             <div className="footer-contact-item">
               <Phone />
-              <span>015580754,</span>
-              <span>9761692981,</span>
-              <span>9841281367</span>
+              <a href="tel:015580754">015580754,</a>
+              <a href="tel:9761692981">9761692981,</a>
+              <a href="tel: 9841281367">9841281367</a>
             </div>
             <div className="footer-contact-item">
               <Mail />
-              <span>futurestarsacd@gmail.com</span>
+              <a href="mailto:futurestarsacd@gmail.com">futurestarsacd@gmail.com</a>
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function Footer({ onNavigate }: FooterProps) {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p>© 2026 FutureStarSchool. All rights reserved.</p>
+            <p>© 2026 FutureStarsAcademy. All rights reserved.</p>
           </div>
         </div>
       </div>

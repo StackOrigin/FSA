@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -24,11 +25,9 @@ interface Birthday {
   created_at: string;
 }
 
-interface BirthdaysManagementProps {
-  onBack: () => void;
-}
-
-export function BirthdaysManagement({ onBack }: BirthdaysManagementProps) {
+export function BirthdaysManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [birthdays, setBirthdays] = useState<Birthday[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

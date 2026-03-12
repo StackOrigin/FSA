@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Trash2,
@@ -24,11 +25,9 @@ interface GalleryImage {
   created_at: string;
 }
 
-interface GalleryManagementProps {
-  onBack?: () => void;
-}
-
-export function GalleryManagement({ onBack }: GalleryManagementProps) {
+export function GalleryManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -366,6 +365,19 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
               <div className="admin-modal-body gallery-modal-body">
                 <form onSubmit={handleSubmit} className="admin-modal-form">
 
+                  {/* Title */}
+                  <div className="admin-form-field">
+                    <label htmlFor="title" className="admin-form-label">Title *</label>
+                    <input
+                      id="title"
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="Enter image title"
+                      className="admin-form-input"
+                      required
+                    />
+                  </div>
 
                   {/* Image Upload */}
                   <div className="admin-form-field">

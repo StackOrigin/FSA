@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -24,11 +25,9 @@ interface SchoolLeader {
   created_at: string;
 }
 
-interface SchoolLeadersManagementProps {
-  onBack: () => void;
-}
-
-export function SchoolLeadersManagement({ onBack }: SchoolLeadersManagementProps) {
+export function SchoolLeadersManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [leaders, setLeaders] = useState<SchoolLeader[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -43,11 +44,9 @@ interface HomeContent {
 
 
 
-interface HomeContentManagementProps {
-  onBack: () => void;
-}
-
-export function HomeContentManagement({ onBack }: HomeContentManagementProps) {
+export function HomeContentManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [homeContent, setHomeContent] = useState<HomeContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

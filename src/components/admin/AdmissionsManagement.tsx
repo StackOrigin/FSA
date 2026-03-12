@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, UserPlus, Search, Loader2, Eye, RefreshCw, GraduationCap, Mail, Phone, FileText, ArrowLeft } from 'lucide-react';
 
@@ -15,10 +16,6 @@ interface Admission {
 }
 
 const statusOptions = ['pending', 'under_review', 'approved', 'rejected'] as const;
-
-interface AdmissionsManagementProps {
-  onBack: () => void;
-}
 
 function getStatusClass(status: string) {
   switch (status) {
@@ -37,7 +34,9 @@ function statusLabel(status: string) {
   return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
-export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
+export function AdmissionsManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [items, setItems] = useState<Admission[]>([]);
   const [loading, setLoading] = useState(true);
     // PDF download function (all details)
@@ -264,6 +263,10 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                       <Eye />
                       View
                     </button>
+                    <button className="admissions-view-btn" onClick={() => downloadAdmissionAsPDF(a)}>
+                      <FileText />
+                      PDF
+                    </button>
                     <select
                       value={String(a.status)}
                       onChange={(e) => updateStatus(a.id, e.target.value)}
@@ -370,13 +373,6 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                   <p className="admissions-modal-message-label">Additional Message</p>
                   <div className="admissions-modal-message-content">
                     <p>"{selected.message}"</p>
-                    <button
-                      className="admin-modal-submit-btn"
-                      style={{ marginTop: '1rem' }}
-                      onClick={() => downloadAdmissionAsPDF(selected)}
-                    >
-                      Download All Details as PDF
-                    </button>
                   </div>
                 </div>
               )}
@@ -395,9 +391,18 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                     ))}
                   </select>
                 </div>
-                <button className="admin-modal-cancel-btn" onClick={() => setSelected(null)}>
-                  Close
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    className="admin-modal-submit-btn"
+                    onClick={() => downloadAdmissionAsPDF(selected)}
+                  >
+                    <FileText size={16} />
+                    Download PDF
+                  </button>
+                  <button className="admin-modal-cancel-btn" onClick={() => setSelected(null)}>
+                    Close
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>

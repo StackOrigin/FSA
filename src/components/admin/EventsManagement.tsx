@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -26,11 +27,9 @@ interface Event {
   created_at: string;
 }
 
-interface EventsManagementProps {
-  onBack: () => void;
-}
-
-export function EventsManagement({ onBack }: EventsManagementProps) {
+export function EventsManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

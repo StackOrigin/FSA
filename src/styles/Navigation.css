@@ -229,6 +229,9 @@
 .navigation.transparent .nav-toggle-btn svg {
   color: black;
 }
+.dark .navigation.transparent .nav-toggle-btn svg {
+  color: white;
+}
 
 .navigation.transparent .nav-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.15);

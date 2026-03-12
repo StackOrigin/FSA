@@ -475,7 +475,7 @@ function TestimonialsSection({
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
-                    When we started Future Stars, our dream was simple — to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
+                    When we started Future Stars, our dream was simple to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
                   </motion.p>
                  
                 </div>
@@ -518,7 +518,7 @@ function TestimonialsSection({
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                   >
-                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited — through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
+                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
                   </motion.p>
                  
                 </div>
