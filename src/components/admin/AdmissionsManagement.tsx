@@ -264,6 +264,10 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                       <Eye />
                       View
                     </button>
+                    <button className="admissions-view-btn" onClick={() => downloadAdmissionAsPDF(a)}>
+                      <FileText />
+                      PDF
+                    </button>
                     <select
                       value={String(a.status)}
                       onChange={(e) => updateStatus(a.id, e.target.value)}
@@ -370,13 +374,6 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                   <p className="admissions-modal-message-label">Additional Message</p>
                   <div className="admissions-modal-message-content">
                     <p>"{selected.message}"</p>
-                    <button
-                      className="admin-modal-submit-btn"
-                      style={{ marginTop: '1rem' }}
-                      onClick={() => downloadAdmissionAsPDF(selected)}
-                    >
-                      Download All Details as PDF
-                    </button>
                   </div>
                 </div>
               )}
@@ -395,9 +392,18 @@ export function AdmissionsManagement({ onBack }: AdmissionsManagementProps) {
                     ))}
                   </select>
                 </div>
-                <button className="admin-modal-cancel-btn" onClick={() => setSelected(null)}>
-                  Close
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    className="admin-modal-submit-btn"
+                    onClick={() => downloadAdmissionAsPDF(selected)}
+                  >
+                    <FileText size={16} />
+                    Download PDF
+                  </button>
+                  <button className="admin-modal-cancel-btn" onClick={() => setSelected(null)}>
+                    Close
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>

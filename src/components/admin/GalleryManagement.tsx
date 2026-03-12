@@ -366,6 +366,19 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
               <div className="admin-modal-body gallery-modal-body">
                 <form onSubmit={handleSubmit} className="admin-modal-form">
 
+                  {/* Title */}
+                  <div className="admin-form-field">
+                    <label htmlFor="title" className="admin-form-label">Title *</label>
+                    <input
+                      id="title"
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="Enter image title"
+                      className="admin-form-input"
+                      required
+                    />
+                  </div>
 
                   {/* Image Upload */}
                   <div className="admin-form-field">
