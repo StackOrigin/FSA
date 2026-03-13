@@ -42,7 +42,7 @@
 
 /* Featured Events Section */
 .events-featured-section {
-  padding: 3rem 1rem 2rem;
+  padding: 5rem 1rem 2rem;
 }
 
 .events-featured-container {
@@ -276,6 +276,19 @@
 
 .events-carousel-nav-btn:hover {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 767px) {
+  .events-carousel-nav-btn {
+    background-color: transparent;
+    border-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .events-carousel-nav-btn:hover {
+    box-shadow: none;
+  }
 }
 
 .events-carousel-nav-icon {
