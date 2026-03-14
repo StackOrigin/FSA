@@ -147,6 +147,16 @@ export function EventsPage() {
     setCurrentSlide((prev) => (prev - 1 + featuredEvents.length) % featuredEvents.length);
   };
 
+  useEffect(() => {
+    if (featuredEvents.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % featuredEvents.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [featuredEvents.length]);
+
   return (
     <div className="pt-18">
       {/* Featured Events Carousel */}
@@ -230,26 +240,6 @@ export function EventsPage() {
                     </div>
                   </motion.div>
                 </AnimatePresence>
-
-                {/* Carousel Controls */}
-                <div className="events-carousel-controls">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={prevSlide}
-                    className="events-carousel-nav-btn"
-                  >
-                    <ChevronLeft className="events-carousel-nav-icon" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={nextSlide}
-                    className="events-carousel-nav-btn"
-                  >
-                    <ChevronRight className="events-carousel-nav-icon" />
-                  </motion.button>
-                </div>
 
                 {/* Carousel Indicators */}
                 <div className="events-carousel-indicators">
