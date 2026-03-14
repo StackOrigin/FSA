@@ -47,7 +47,7 @@ export function GalleryManagement() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const categories = ['all', 'classroom activity', 'sports', 'events', 'extra excursion', 'school program'];
+  const categories = ['all', 'classroom activity', 'sports', 'events', 'school program'];
 
   useEffect(() => {
     fetchImages();
