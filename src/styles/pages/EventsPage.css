@@ -42,7 +42,7 @@
 
 /* Featured Events Section */
 .events-featured-section {
-  padding: 5rem 1rem;
+  padding: 5rem 1rem 2rem;
 }
 
 .events-featured-container {
@@ -278,6 +278,19 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+@media (max-width: 767px) {
+  .events-carousel-nav-btn {
+    background-color: transparent;
+    border-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .events-carousel-nav-btn:hover {
+    box-shadow: none;
+  }
+}
+
 .events-carousel-nav-icon {
   width: 1.5rem;
   height: 1.5rem;
@@ -312,7 +325,7 @@
 
 /* Upcoming Events Section */
 .events-upcoming-section {
-  padding: 5rem 1rem;
+  padding: 1.5rem 1rem 2rem;
   background: linear-gradient(to bottom, var(--muted-30), var(--background));
 }
 
@@ -323,7 +336,7 @@
 
 .events-upcoming-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .events-upcoming-title {
@@ -629,19 +642,23 @@
 
 /* Monthly Events Section */
 .events-month-section {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+}
+
+.events-month-section:last-child {
+  margin-bottom: 0;
 }
 
 .events-month-title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   color: var(--foreground);
   text-align: left;
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
   border-radius: 9999px;
   border: 1px solid rgba(99, 102, 241, 0.2);
@@ -654,7 +671,7 @@
 
 @media (min-width: 768px) {
   .events-month-title {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
   }
 }
 

@@ -17,21 +17,24 @@ import {
   Crown,
 } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface AdminNavigationProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
   adminUser: string | null;
   onLogout: () => void;
 }
 
 export function AdminNavigation({
-  currentPage,
-  onNavigate,
   adminUser,
   onLogout,
 }: AdminNavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Derive current page from URL path
+  const pathSegment = location.pathname.replace('/admin', '').replace('/', '');
+  const currentPage = pathSegment || 'dashboard';
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -47,7 +50,8 @@ export function AdminNavigation({
   ];
 
   const handleNavigate = (page: string) => {
-    onNavigate(page);
+    const path = page === 'dashboard' ? '/admin' : `/admin/${page}`;
+    navigate(path);
     setMobileMenuOpen(false);
   };
 

@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5rem 1.25rem 3rem;
+  padding: 4.5rem 1.25rem 2rem;
   overflow: hidden;
   background: #000;
 }
@@ -36,7 +36,7 @@
 .hero-bg-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 }
 
@@ -74,6 +74,7 @@
   .hero-content-left {
     text-align: left;
     align-items: flex-start;
+    
   }
 }
 
@@ -139,7 +140,7 @@
 
 @media (max-width: 1023px) {
   .hero-images-right {
-    order: -1;
+    
     max-width: 360px;
     margin: 0 auto;
   }
@@ -487,7 +488,7 @@
    FEATURES SECTION
    ============================================================ */
 .features-section {
-  padding: 3.5rem 1.25rem;
+  padding: 1rem 1.25rem;
 }
 
 @media (min-width: 768px) {
@@ -914,6 +915,9 @@
   line-height: 1.8;
   color: black;
   text-align: justify;
+}
+.dark .principal-message {
+  color: white;
 }
 
 @media (min-width: 768px) {
@@ -1440,7 +1444,7 @@
    CTA SECTION
    ============================================================ */
 .cta-section {
-  padding: 3.5rem 1.25rem;
+  padding: 3.5rem .25rem;
 }
 
 @media (min-width: 768px) {

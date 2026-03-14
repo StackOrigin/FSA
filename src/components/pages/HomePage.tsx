@@ -3,6 +3,7 @@ import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Cal
 import { useRef, useEffect, useState } from 'react';
 import { ScrollSequence } from '../ScrollSequence';
 import '../../styles/pages/HomePage.css';
+import pMessageImg from '../images/pmessage.jpeg';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -70,6 +71,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="hero-title"
             >
+
               Where Every Child's
               <br />
               Potential Is Celebrated
@@ -452,7 +454,6 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='./images/mainphoto1.jpg'
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -465,13 +466,6 @@ function TestimonialsSection({
                 </div>
                 <div className="principal-content">
                   <div className="principal-label">
-                    <motion.div
-                      className="principal-label-line"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "3rem" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    />
                     <span className="principal-label-text">Founder's Message</span>
                   </div>
                   <motion.p
@@ -481,7 +475,7 @@ function TestimonialsSection({
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
-                    When we started Future Stars, our dream was simple — to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
+                    When we started Future Stars, our dream was simple to create a school where every child feels valued, inspired, and empowered. Education is not just about textbooks; it's about nurturing curiosity, building character, and preparing young minds for a world full of possibilities. I am grateful to see our vision come alive every day through the smiles and achievements of our students.
                   </motion.p>
                  
                 </div>
@@ -502,7 +496,7 @@ function TestimonialsSection({
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
-                      src='/images/principal.jpg'
+                      src={pMessageImg}
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -515,13 +509,6 @@ function TestimonialsSection({
                 </div>
                 <div className="principal-content">
                   <div className="principal-label">
-                    <motion.div
-                      className="principal-label-line"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "3rem" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                    />
                     <span className="principal-label-text">Principal's Message</span>
                   </div>
                   <motion.p
@@ -531,7 +518,7 @@ function TestimonialsSection({
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                   >
-                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited — through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
+                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
                   </motion.p>
                  
                 </div>

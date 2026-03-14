@@ -141,7 +141,7 @@
 .admissions-step-icon {
   width: 1.75rem;
   height: 1.75rem;
-  color: white;
+  color: purple;
 }
 
 .admissions-step-info {
@@ -153,9 +153,13 @@
   font-weight: 700;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  color: white;
+  color: black;
   display: inline-block;
   margin-bottom: 0.5rem;
+}
+
+.dark .admissions-step-badge {
+  color: white;
 }
 
 .admissions-step-title {
@@ -215,14 +219,15 @@
 }
 
 .admissions-dates-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  justify-content: center;
   gap: 2rem;
+  font-size:4rem;
 }
 
 @media (min-width: 768px) {
   .admissions-dates-grid {
-    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
   }
 }
 
@@ -233,7 +238,9 @@
   border: 1px solid var(--border-50);
   background-color: var(--card-50);
   backdrop-filter: blur(8px);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
+  max-width: 600px;
+  width: 100%;
 }
 
 .admissions-date-card:hover {
@@ -493,6 +500,9 @@
   line-height: 1.75;
   max-width: 28rem;
   margin: 0 auto 1.5rem;
+}
+.dark .admissions-form-success-text {
+  color: white;
 }
 
 .admissions-form-success-btn {

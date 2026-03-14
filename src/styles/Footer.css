@@ -3,7 +3,7 @@
 .footer {
   background: linear-gradient(to bottom, var(--background), rgba(var(--muted-rgb), 0.3));
   border-top: 1px solid rgba(226, 232, 240, 0.5);
-  margin-top: 5rem;
+  margin-top: 0.5rem;
 }
 
 .dark .footer {

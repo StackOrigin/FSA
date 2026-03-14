@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const Admission = require('../models/Admission');
 
 // Submit admission application
 exports.submitApplication = async (req, res) => {
@@ -9,14 +9,18 @@ exports.submitApplication = async (req, res) => {
       return res.status(400).json({ error: 'All required fields must be filled' });
     }
 
-    const result = await db.query(
-      'INSERT INTO admissions (student_name, parent_name, email, phone, grade_applying, message) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [studentName, parentName, email, phone, gradeApplying, message || '']
-    );
+    const application = await Admission.create({
+      student_name: studentName,
+      parent_name: parentName,
+      email,
+      phone,
+      grade_applying: gradeApplying,
+      message: message || '',
+    });
     
     res.status(201).json({ 
       message: 'Application submitted successfully', 
-      application: result.rows[0] 
+      application 
     });
   } catch (error) {
     console.error('Error submitting application:', error);
@@ -27,8 +31,8 @@ exports.submitApplication = async (req, res) => {
 // Get all applications (admin use)
 exports.getApplications = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM admissions ORDER BY created_at DESC');
-    res.json(result.rows);
+    const applications = await Admission.find().sort({ created_at: -1 });
+    res.json(applications);
   } catch (error) {
     console.error('Error fetching applications:', error);
     res.status(500).json({ error: 'Failed to fetch applications' });
@@ -45,16 +49,17 @@ exports.updateStatus = async (req, res) => {
       return res.status(400).json({ error: 'Invalid status' });
     }
 
-    const result = await db.query(
-      'UPDATE admissions SET status = $1 WHERE id = $2 RETURNING *',
-      [status, id]
+    const application = await Admission.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
     );
     
-    if (result.rows.length === 0) {
+    if (!application) {
       return res.status(404).json({ error: 'Application not found' });
     }
     
-    res.json({ message: 'Status updated successfully', application: result.rows[0] });
+    res.json({ message: 'Status updated successfully', application });
   } catch (error) {
     console.error('Error updating status:', error);
     res.status(500).json({ error: 'Failed to update status' });

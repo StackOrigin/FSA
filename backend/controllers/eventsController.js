@@ -1,35 +1,29 @@
-const db = require('../config/db');
+const Event = require('../models/Event');
 
 // Get all events
 exports.getEvents = async (req, res) => {
   try {
     const { featured, category, limit } = req.query;
 
-    const where = [];
-    const params = [];
+    const filter = {};
 
     if (String(featured).toLowerCase() === 'true') {
-      params.push(true);
-      where.push(`is_featured = $${params.length}`);
+      filter.is_featured = true;
     }
 
     if (category) {
-      params.push(String(category));
-      where.push(`category = $${params.length}`);
+      filter.category = String(category);
     }
 
-    let query = 'SELECT * FROM events';
-    if (where.length > 0) query += ` WHERE ${where.join(' AND ')}`;
-    query += ' ORDER BY event_date ASC';
+    let query = Event.find(filter).sort({ event_date: 1 });
 
     const parsedLimit = limit ? Number(limit) : undefined;
     if (parsedLimit && Number.isFinite(parsedLimit) && parsedLimit > 0) {
-      params.push(parsedLimit);
-      query += ` LIMIT $${params.length}`;
+      query = query.limit(parsedLimit);
     }
 
-    const result = await db.query(query, params);
-    res.json(result.rows);
+    const events = await query;
+    res.json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
     res.status(500).json({ error: 'Failed to fetch events' });
@@ -40,13 +34,13 @@ exports.getEvents = async (req, res) => {
 exports.getEventById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query('SELECT * FROM events WHERE id = $1', [id]);
+    const event = await Event.findById(id);
     
-    if (result.rows.length === 0) {
+    if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
     
-    res.json(result.rows[0]);
+    res.json(event);
   } catch (error) {
     console.error('Error fetching event:', error);
     res.status(500).json({ error: 'Failed to fetch event' });
@@ -77,24 +71,21 @@ exports.createEvent = async (req, res) => {
       ? `/uploads/events/${req.file.filename}`
       : imageUrl || null;
 
-    const result = await db.query(
-      'INSERT INTO events (title, description, event_date, event_time, location, category, image_url, gradient, is_featured) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [
-        title,
-        description || '',
-        date,
-        time || 'TBA',
-        location || 'TBA',
-        category || 'Community',
-        imagePath,
-        gradient || null,
-        Boolean(isFeatured),
-      ]
-    );
+    const event = await Event.create({
+      title,
+      description: description || '',
+      event_date: date,
+      event_time: time || 'TBA',
+      location: location || 'TBA',
+      category: category || 'Community',
+      image_url: imagePath,
+      gradient: gradient || null,
+      is_featured: Boolean(isFeatured),
+    });
     
     res.status(201).json({ 
       message: 'Event created successfully', 
-      event: result.rows[0] 
+      event 
     });
   } catch (error) {
     console.error('Error creating event:', error);
@@ -119,32 +110,34 @@ exports.updateEvent = async (req, res) => {
     } = req.body;
     
     // Use uploaded file path if file was uploaded, otherwise use provided URL or keep existing
-    let imagePath = imageUrl || null;
+    let imagePath = imageUrl || undefined;
     if (req.file) {
       imagePath = `/uploads/events/${req.file.filename}`;
     }
+
+    const updateData = {
+      title,
+      description,
+      event_date: date,
+      event_time: time,
+      location,
+      category,
+      gradient: gradient || null,
+      is_featured: Boolean(isFeatured),
+    };
+
+    // Only update image_url if a new one is provided
+    if (imagePath) {
+      updateData.image_url = imagePath;
+    }
     
-    const result = await db.query(
-      'UPDATE events SET title = $1, description = $2, event_date = $3, event_time = $4, location = $5, category = $6, image_url = COALESCE($7, image_url), gradient = $8, is_featured = $9 WHERE id = $10 RETURNING *',
-      [
-        title,
-        description,
-        date,
-        time,
-        location,
-        category,
-        imagePath,
-        gradient || null,
-        Boolean(isFeatured),
-        id,
-      ]
-    );
+    const event = await Event.findByIdAndUpdate(id, updateData, { new: true });
     
-    if (result.rows.length === 0) {
+    if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
     
-    res.json({ message: 'Event updated successfully', event: result.rows[0] });
+    res.json({ message: 'Event updated successfully', event });
   } catch (error) {
     console.error('Error updating event:', error);
     res.status(500).json({ error: 'Failed to update event' });
@@ -155,9 +148,9 @@ exports.updateEvent = async (req, res) => {
 exports.deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query('DELETE FROM events WHERE id = $1 RETURNING *', [id]);
+    const event = await Event.findByIdAndDelete(id);
     
-    if (result.rows.length === 0) {
+    if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
     

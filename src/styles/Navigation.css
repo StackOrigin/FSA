@@ -162,7 +162,7 @@
 
 /* Transparent nav (over dark hero): show white text */
 .navigation.transparent .nav-item span {
-  color:black;
+  color:gray;
 }
 
 .navigation.transparent .nav-item:hover span,
@@ -188,6 +188,9 @@
   inset: 0;
   border-radius: 0.5rem;
   z-index: 0;
+}
+.dark .nav-item-bg{
+  background: black;
 }
 
 /* Transparent nav: subtle white pill for active */
@@ -224,7 +227,10 @@
 
 /* Transparent nav: white icons */
 .navigation.transparent .nav-toggle-btn svg {
-  color: rgba(255, 255, 255, 0.85);
+  color: black;
+}
+.dark .navigation.transparent .nav-toggle-btn svg {
+  color: white;
 }
 
 .navigation.transparent .nav-toggle-btn:hover {
@@ -340,4 +346,29 @@
 
 .dark .nav-mobile-divider {
   background: rgba(51, 65, 85, 0.5);
+}
+
+/* ── Mobile: always show solid nav background ────────────── */
+
+@media (max-width: 767px) {
+  .navigation.transparent {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 rgba(226, 232, 240, 0.6), 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  }
+
+  .dark .navigation.transparent {
+    background: rgba(10, 15, 30, 0.92);
+    box-shadow: 0 1px 0 rgba(51, 65, 85, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  }
+
+  .navigation.transparent .nav-logo-text {
+    background: linear-gradient(to right, #2563eb, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }

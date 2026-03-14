@@ -15,10 +15,7 @@ import {
   Crown,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-interface AdminDashboardProps {
-  onNavigate: (page: string) => void;
-}
+import { useNavigate } from 'react-router-dom';
 
 interface Stats {
   events: number;
@@ -31,7 +28,9 @@ interface Stats {
   schoolLeaders: number;
 }
 
-export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
+export function AdminDashboard() {
+  const navigate = useNavigate();
+  const onNavigate = (page: string) => navigate(`/admin/${page}`);
   const [stats, setStats] = useState<Stats>({
     events: 0,
     gallery: 0,

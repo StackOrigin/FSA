@@ -36,6 +36,16 @@ export function AdmissionsPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     let value = e.target.value;
+
+    // Parents name: only letters and no numbers
+    if (e.target.name === 'parentName') {
+      value = value.replace(/[0-9]/g, '');
+    }
+    
+    // Student name: only letters and no numbers
+    if (e.target.name === 'studentName') {
+      value = value.replace(/[0-9]/g, '');
+    }
     
     // Phone number: only digits, max 10
     if (e.target.name === 'phone') {
@@ -78,7 +88,7 @@ export function AdmissionsPage() {
       icon: FileText,
       title: 'Submit Application',
       description: 'Complete our online application form with required documents.',
-      details: 'Fill out the comprehensive application form including student information. Required documents include birth certificate, and previous school records.',
+      details: 'Fill out the comprehensive application form including student information.',
       color: 'from-blue-500 to-cyan-500',
     },
     {
@@ -90,7 +100,7 @@ export function AdmissionsPage() {
     },
     {
       icon: Calendar,
-      title: 'Campus Visit & Interview',
+      title: 'School Visit & Interview',
       description: 'Tour our facilities and meet with our admissions team.',
       details: 'Schedule a personalized tour of our campus to experience our learning environment. Meet with teachers, see our facilities, and have a conversation with our admissions team.',
       color: 'from-pink-500 to-rose-500',
@@ -113,20 +123,20 @@ export function AdmissionsPage() {
 
   const faqs = [
     {
-      question: 'When are applications accepted?',
-      answer: 'We accept applications year-round, though priority is given to applications submitted before February 1st for the following school year.',
+      question: 'What grades does the school offer?',
+      answer: 'Our school provides education from primary to secondary level, focusing on academic excellence and overall student development.',
     },
     {
-      question: 'What are the age requirements?',
-      answer: 'We accept students from Pre-K (age 4) through Grade 12. Age requirements vary by grade level.',
+      question: 'How can I apply for admission?',
+      answer: 'You can apply by filling out the admission form available on our website or by visiting the school office during working hours.',
     },
     {
-      question: 'Is financial aid available?',
-      answer: 'Yes, we offer need-based financial aid and merit scholarships. Families must complete a separate financial aid application.',
+      question: 'What facilities does the school provide?',
+      answer: 'Our school offers modern classrooms, a library, computer labs, sports facilities, and extracurricular activities to support holistic learning.',
     },
     {
-      question: 'What is the student-teacher ratio?',
-      answer: 'We maintain small class sizes with an average student-teacher ratio of 12:1 to ensure personalized attention.',
+      question: 'How can parents contact the school?',
+      answer: 'Parents can contact the school through our phone number, email, or by visiting the school during office hours.',
     },
   ];
 
@@ -226,7 +236,7 @@ export function AdmissionsPage() {
         </div>
       </section>
 
-      {/* Important Dates */}
+      {/* Important Day */}
       <section className="admissions-dates-section">
         <div className="admissions-dates-container">
           <motion.div
@@ -235,15 +245,13 @@ export function AdmissionsPage() {
             viewport={{ once: true }}
             className="admissions-dates-header"
           >
-            <h2 className="admissions-dates-title">Important Dates</h2>
-            <p className="admissions-dates-subtitle">Mark your calendar</p>
+            <h2 className="admissions-dates-title">Important Day</h2>
+            <p className="admissions-dates-subtitle">Special Discount Offer on Saraswoti Puja</p>
           </motion.div>
 
           <div className="admissions-dates-grid">
             {[
-              { date: 'February 1', event: 'Priority Application Deadline', icon: Clock },
-              { date: 'March 15', event: 'Admission Decisions Released', icon: Mail },
-              { date: 'April 30', event: 'Enrollment Confirmation Due', icon: CheckCircle },
+              { date: 'Saraswoti Puja', event: 'Celebrate the auspicious occasion of Saraswoti Puja with a Special Discount on Admission Fees. Enroll on this sacred day and enjoy an exclusive concession as you begin your journey toward knowledge and success.', icon: GraduationCap },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -378,7 +386,7 @@ export function AdmissionsPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="admissions-form-input"
-                      placeholder="1234567890"
+                      placeholder="+977 9XXXXXXXXX"
                       required
                     />
                   </div>
@@ -398,8 +406,9 @@ export function AdmissionsPage() {
                       required
                     >
                       <option value="">Select a grade</option>
-                      <option value="Pre-K">Pre-K</option>
-                      <option value="Kindergarten">Kindergarten</option>
+                      <option value="Nursery">Nursery</option>
+                      <option value="LKG">LKG</option>
+                      <option value="UKG">UKG</option>
                       <option value="Grade 1">Grade 1</option>
                       <option value="Grade 2">Grade 2</option>
                       <option value="Grade 3">Grade 3</option>

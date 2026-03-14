@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Trash2,
@@ -24,11 +25,9 @@ interface GalleryImage {
   created_at: string;
 }
 
-interface GalleryManagementProps {
-  onBack?: () => void;
-}
-
-export function GalleryManagement({ onBack }: GalleryManagementProps) {
+export function GalleryManagement() {
+  const navigate = useNavigate();
+  const onBack = () => navigate('/admin');
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -346,13 +345,13 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="admin-modal gallery-modal"
+              className="admin-modal"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
               <div className="admin-modal-header">
-                <div className="gallery-modal-title-wrapper">
-                  <div className="gallery-modal-icon">
+                <div className="admin-modal-title-wrapper">
+                  <div className="admin-modal-icon">
                     <ImagePlus />
                   </div>
                   <h2 className="admin-modal-title">Add Image</h2>
@@ -365,16 +364,18 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
               {/* Modal Body */}
               <div className="admin-modal-body gallery-modal-body">
                 <form onSubmit={handleSubmit} className="admin-modal-form">
+
                   {/* Title */}
                   <div className="admin-form-field">
                     <label htmlFor="title" className="admin-form-label">Title *</label>
                     <input
                       id="title"
+                      type="text"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      required
+                      placeholder="Enter image title"
                       className="admin-form-input"
-                      placeholder="Image title"
+                      required
                     />
                   </div>
 
@@ -474,18 +475,6 @@ export function GalleryManagement({ onBack }: GalleryManagementProps) {
                     </select>
                   </div>
 
-                  {/* Description */}
-                  <div className="admin-form-field">
-                    <label htmlFor="description" className="admin-form-label">Description</label>
-                    <textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      rows={2}
-                      className="admin-form-textarea"
-                      placeholder="Optional description..."
-                    />
-                  </div>
 
                   {/* Upload Progress */}
                   {submitting && uploadProgress > 0 && (

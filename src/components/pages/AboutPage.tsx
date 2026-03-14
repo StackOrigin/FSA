@@ -1,6 +1,19 @@
 import { motion } from 'motion/react';
-import { Target, Eye, Heart, Award, Users, Lightbulb } from 'lucide-react';
+import { Target, Eye } from 'lucide-react';
 import '../../styles/pages/AboutPage.css';
+
+import sabinImg from '../images/sabin.jpg';
+import salinaImg from '../images/salina.jpg';
+import anuskaImg from '../images/anuska.jpg';
+import pmessageImg from '../images/pmessage.jpeg';
+import mainphoto1Img from '../images/mainphoto1.jpg';
+import sudamaImg from '../images/sudama.jpg';
+import teacher1 from '../images/teacher1.png';
+import img2000 from '../images/2000.jpg';
+import img2010 from '../images/2010.jpg';
+import img2015 from '../images/2015.jpg';
+import img2020 from '../images/2020.jpg';
+import img2025 from '../images/2025.jpg';
 
 export function AboutPage() {
   const milestones = [
@@ -61,22 +74,22 @@ export function AboutPage() {
   ];
 
   const teacherTestimonials = [
-    { img: './images/principal.jpg', text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
-    { img: './images/mainphoto1.jpg', text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."' },
-    { img: './images/mainphoto1.jpg', text: '"Each student\'s success reflects our commitment to quality education."' },
+    { img: pmessageImg, text: '"Watching students grow in confidence is the most rewarding part of teaching here."' },
+    { img: teacher1, text: '"Education is not only about imparting knowledge, but about nurturing character and self-belief."', style: { objectPosition: 'top' } },
+    { img: sudamaImg, text: '"Each student\'s success reflects our commitment to quality education."' },
   ];
 
   const studentTestimonials = [
-    { img: './images/mainphoto1.jpg', text: '"My teachers encourage me to think big and believe in myself."' },
-    { img: './images/mainphoto1.jpg', text: '"Learning here is exciting — every lesson helps me discover something new."' },
-    { img: './images/mainphoto1.jpg', text: '"Teachers here are very supportive, and the learning approach makes difficult subjects easy to understand."' },
+    { img: sabinImg, text: '"My teachers encourage me to think big and believe in myself."' },
+    { img: salinaImg, text: '"Learning here is exciting — every lesson helps me discover something new."' },
+    { img: anuskaImg, text: '"Teachers here are very supportive, and the learning approach makes difficult subjects easy to understand."' },
   ];
 
   return (
     <div className="about-page">
       {/* Hero Section */}
       <section className="about-hero"
-      style={{backgroundImage:"linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/mainphoto1.jpg')", backgroundSize:"cover", backgroundPosition:"center"}}>
+      style={{backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${mainphoto1Img}')`, backgroundSize:"cover", backgroundPosition:"center"}}>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -125,8 +138,8 @@ export function AboutPage() {
               </div>
               <h2 className="card-title">Our Vision</h2>
               <p className="card-description">
-                To be a global leader in education, recognized for excellence in teaching, innovation in learning, and dedication to 
-                developing compassionate, capable individuals who will shape a better future for all. 
+                To create a learning environment that encourages knowledge, creativity, and personal growth.
+
               </p>
             </div>
           </motion.div>
@@ -185,11 +198,11 @@ export function AboutPage() {
               className="journey-images"
             >
               {[
-                { src: './images/2000.jpg', alt: '2000' },
-                { src: './images/2010.jpg', alt: '2010' },
-                { src: './images/2015.jpg', alt: '2015' },
-                { src: './images/2020.jpg', alt: '2020' },
-                { src: './images/2025.jpg', alt: '2025' },
+                { src: img2000, alt: '2000' },
+                { src: img2010, alt: '2010' },
+                { src: img2015, alt: '2015' },
+                { src: img2020, alt: '2020' },
+                { src: img2025, alt: '2025' },
               ].map((img, i) => (
                 <motion.img
                   key={img.alt}
@@ -268,7 +281,7 @@ export function AboutPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <img className='testimonial-img' src={testimonial.img} alt="Teacher" />
+                  <img className='testimonial-img' src={testimonial.img} alt="Teacher" style={testimonial.style} />
                   <p>{testimonial.text}</p>
                 </motion.div>
               ))}
