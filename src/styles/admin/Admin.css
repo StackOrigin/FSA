@@ -2232,12 +2232,12 @@
 }
 
 .feature-action-btn.delete {
-  color: #dc2626;
+  color: #4b5563;
 }
 
 .feature-action-btn.delete:hover {
-  border-color: #fca5a5;
-  background-color: #fef2f2;
+  border-color: #93c5fd;
+  background-color: #eff6ff;
 }
 
 .feature-action-btn svg {

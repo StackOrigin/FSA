@@ -13,7 +13,6 @@ import {
   Loader2,
   CalendarDays,
   ArrowLeft,
-  Star,
 } from 'lucide-react';
 
 interface Event {
@@ -23,7 +22,6 @@ interface Event {
   event_date: string;
   event_time: string;
   location: string;
-  is_featured: boolean;
   created_at: string;
 }
 
@@ -41,7 +39,6 @@ export function EventsManagement() {
     date: '',
     time: '',
     location: '',
-    isFeatured: false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -79,7 +76,6 @@ export function EventsManagement() {
       submitData.append('date', formData.date);
       submitData.append('time', formData.time);
       submitData.append('location', formData.location);
-      submitData.append('isFeatured', String(formData.isFeatured));
       
       if (selectedFile) {
         submitData.append('image', selectedFile);
@@ -117,29 +113,6 @@ export function EventsManagement() {
     }
   };
 
-  const toggleFeatured = async (event: Event) => {
-    try {
-      const submitData = new FormData();
-      submitData.append('title', event.title);
-      submitData.append('description', event.description || '');
-      submitData.append('date', event.event_date?.split('T')[0] || '');
-      submitData.append('time', event.event_time || '');
-      submitData.append('location', event.location || '');
-      submitData.append('isFeatured', String(!event.is_featured));
-
-      const response = await fetch(`/api/events/${event.id}`, {
-        method: 'PUT',
-        body: submitData,
-      });
-
-      if (response.ok) {
-        fetchEvents();
-      }
-    } catch (error) {
-      console.error('Error toggling featured status:', error);
-    }
-  };
-
   const openAddModal = () => {
     setEditingEvent(null);
     setFormData({
@@ -148,7 +121,6 @@ export function EventsManagement() {
       date: '',
       time: '',
       location: '',
-      isFeatured: false,
     });
     setSelectedFile(null);
     setImagePreview(null);
@@ -163,7 +135,6 @@ export function EventsManagement() {
       date: event.event_date?.split('T')[0] || '',
       time: event.event_time || '',
       location: event.location || '',
-      isFeatured: event.is_featured || false,
     });
     setSelectedFile(null);
     setImagePreview(null);
@@ -179,7 +150,6 @@ export function EventsManagement() {
       date: '',
       time: '',
       location: '',
-      isFeatured: false,
     });
     setSelectedFile(null);
     setImagePreview(null);
@@ -283,27 +253,9 @@ export function EventsManagement() {
             >
               <div className="admin-item-card">
                 <div className="admin-item-content">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <h3 className="admin-item-title" style={{ fontSize: '1.125rem' }}>
-                      {event.title}
-                    </h3>
-                    {event.is_featured && (
-                      <span style={{ 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: '0.25rem',
-                        padding: '0.25rem 0.625rem', 
-                        backgroundColor: '#fef3c7', 
-                        color: '#d97706', 
-                        fontSize: '0.75rem', 
-                        fontWeight: 600, 
-                        borderRadius: '9999px' 
-                      }}>
-                        <Star style={{ width: '0.75rem', height: '0.75rem', fill: '#d97706' }} />
-                        Featured
-                      </span>
-                    )}
-                  </div>
+                  <h3 className="admin-item-title" style={{ fontSize: '1.125rem' }}>
+                    {event.title}
+                  </h3>
                   {event.description && (
                     <p className="admin-item-meta" style={{ marginTop: '0.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {event.description}
@@ -333,19 +285,6 @@ export function EventsManagement() {
                   </div>
                 </div>
                 <div className="admin-item-actions">
-                  <button 
-                    className="admin-item-btn" 
-                    onClick={() => toggleFeatured(event)}
-                    style={{ 
-                      backgroundColor: event.is_featured ? '#fef3c7' : '#f3f4f6',
-                      color: event.is_featured ? '#d97706' : '#6b7280',
-                      border: event.is_featured ? '1px solid #fcd34d' : '1px solid #e5e7eb'
-                    }}
-                    title={event.is_featured ? 'Remove from featured' : 'Add to featured'}
-                  >
-                    <Star style={{ fill: event.is_featured ? '#d97706' : 'none' }} />
-                    {event.is_featured ? 'Featured' : 'Feature'}
-                  </button>
                   <button className="admin-item-btn edit" onClick={() => openEditModal(event)}>
                     <Pencil />
                     Edit
