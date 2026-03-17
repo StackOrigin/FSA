@@ -140,7 +140,7 @@
 
 @media (min-width: 768px) {
   .events-carousel-image-wrapper {
-    height: 100%;
+    height: 24rem; /* constrain the height instead of setting to 100% to stop it blowing out */
   }
 }
 
@@ -154,6 +154,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 20%; /* shift focus up slightly usually better for portraits/events */
 }
 
 .events-carousel-placeholder {
@@ -395,8 +396,7 @@
 @media (min-width: 768px) {
   .events-card-image-container {
     width: 18rem;
-    height: auto;
-    min-height: 14rem;
+    height: 12rem;
   }
 }
 
