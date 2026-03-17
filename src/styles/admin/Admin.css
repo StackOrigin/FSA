@@ -14,7 +14,7 @@
 
 .admin-main {
   min-height: 100vh;
-  padding-top: 4rem;
+  padding-top: 3rem;
 }
 
 @media (min-width: 1024px) {
@@ -301,7 +301,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4rem;
+  height: 3rem;
   border-bottom: 1px solid #e5e7eb;
   z-index: 50;
   display: flex;
@@ -653,13 +653,7 @@
 }
 
 .admin-mobile-spacer {
-  height: 4rem;
-}
-
-@media (min-width: 1024px) {
-  .admin-mobile-spacer {
-    display: none;
-  }
+  display: none;
 }
 
 /* =============================================
