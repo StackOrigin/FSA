@@ -35,8 +35,11 @@ type NewsItem = {
 export function EventsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
-  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([]);
+  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([
+  ]);
+  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([
+
+  ]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
 
   const [loadingFeatured, setLoadingFeatured] = useState(true);
@@ -70,11 +73,10 @@ export function EventsPage() {
             })
           : [];
 
-        setFeaturedEvents(mapped);
+        setFeaturedEvents(prev => [...prev, ...mapped]);
         setCurrentSlide(0);
       } catch (err) {
         console.error('Failed to load featured events', err);
-        setFeaturedEvents([]);
       } finally {
         setLoadingFeatured(false);
       }
@@ -109,10 +111,9 @@ export function EventsPage() {
             }).sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime())
           : [];
 
-        setUpcomingEvents(mapped);
+        setUpcomingEvents(prev => [...prev, ...mapped].sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime()));
       } catch (err) {
         console.error('Failed to load events from API', err);
-        setUpcomingEvents([]);
       } finally {
         setLoadingUpcoming(false);
       }
@@ -152,7 +153,7 @@ export function EventsPage() {
 
     const intervalId = window.setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % featuredEvents.length);
-    }, 5000);
+    }, 3000);
 
     return () => window.clearInterval(intervalId);
   }, [featuredEvents.length]);
