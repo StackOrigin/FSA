@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Stats {
+  homeContent: number;
   events: number;
   gallery: number;
   contacts: number;
@@ -32,6 +33,7 @@ export function AdminDashboard() {
   const navigate = useNavigate();
   const onNavigate = (page: string) => navigate(`/admin/${page}`);
   const [stats, setStats] = useState<Stats>({
+    homeContent: 0,
     events: 0,
     gallery: 0,
     contacts: 0,
@@ -49,7 +51,8 @@ export function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const [eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes, birthdaysRes, housesRes, leadersRes] = await Promise.all([
+      const [homeContentRes, eventsRes, contactsRes, admissionsRes, galleryRes, noticesRes, birthdaysRes, housesRes, leadersRes] = await Promise.all([
+        fetch('/api/content/home'),
         fetch('/api/events'),
         fetch('/api/contact'),
         fetch('/api/admissions'),
@@ -60,6 +63,7 @@ export function AdminDashboard() {
         fetch('/api/school-leaders'),
       ]);
 
+      const homeContent = await homeContentRes.json();
       const events = await eventsRes.json();
       const contacts = await contactsRes.json();
       const admissions = await admissionsRes.json();
@@ -70,6 +74,7 @@ export function AdminDashboard() {
       const schoolLeaders = await leadersRes.json();
 
       setStats({
+        homeContent: Array.isArray(homeContent?.features) ? homeContent.features.length : 0,
         events: Array.isArray(events) ? events.length : 0,
         gallery: Array.isArray(gallery) ? gallery.length : 0,
         contacts: Array.isArray(contacts) ? contacts.length : 0,
@@ -87,6 +92,14 @@ export function AdminDashboard() {
   };
 
   const statCards = [
+    {
+      id: 'home-content',
+      title: 'Home Content',
+      value: stats.homeContent,
+      icon: Home,
+      gradient: 'linear-gradient(to bottom right, #6366f1, #a855f7)',
+      iconBg: '#6366f1',
+    },
     {
       id: 'events',
       title: 'Total Events',
