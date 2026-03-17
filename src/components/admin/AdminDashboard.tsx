@@ -74,7 +74,7 @@ export function AdminDashboard() {
       const schoolLeaders = await leadersRes.json();
 
       setStats({
-        homeContent: homeContent ? 1 : 0,
+        homeContent: Array.isArray(homeContent?.features) ? homeContent.features.length : 0,
         events: Array.isArray(events) ? events.length : 0,
         gallery: Array.isArray(gallery) ? gallery.length : 0,
         contacts: Array.isArray(contacts) ? contacts.length : 0,

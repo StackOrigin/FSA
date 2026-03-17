@@ -2032,6 +2032,17 @@
   color: #c4b5fd;
 }
 
+.feature-stats {
+  margin-bottom: 0.5rem;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 0.5rem;
+}
+
 .feature-card {
   padding: 1.25rem;
   background-color: white;
@@ -2232,6 +2243,21 @@
 .feature-action-btn svg {
   width: 1rem;
   height: 1rem;
+}
+
+@media (max-width: 768px) {
+  .feature-list {
+    gap: 1.125rem;
+    padding-right: 0.625rem;
+  }
+
+  .feature-card {
+    padding: 1rem;
+  }
+
+  .feature-actions {
+    margin-right: 0.125rem;
+  }
 }
 
 /* Feature Modal */
@@ -2735,7 +2761,7 @@
 }
 
 .gallery-filters-card {
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 0.75rem;
   background-color: white;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -2748,7 +2774,7 @@
 .gallery-filters-inner {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 @media (min-width: 640px) {
@@ -2761,14 +2787,14 @@
 .gallery-search-wrapper {
   display: flex;
   align-items: center;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  height: 4.25rem;
+  border-radius: 1rem;
   border: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
+  padding: 0 1.35rem;
+  gap: 1rem;
   flex: 1;
-  max-width: 20rem;
+  max-width: 24rem;
 }
 
 .gallery-search-wrapper:focus-within {
@@ -2783,9 +2809,9 @@
 }
 
 .gallery-search-icon {
-  width: 1rem;
-  height: 1rem;
-  color: #9ca3af;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: #6b7280;
   flex-shrink: 0;
 }
 
@@ -2795,12 +2821,13 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
+  font-weight: 500;
   color: #111827;
 }
 
 .gallery-search-input::placeholder {
-  color: #9ca3af;
+  color: #6b7280;
 }
 
 .dark .gallery-search-input {
@@ -2810,31 +2837,34 @@
 .gallery-category-filters {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  overflow: visible;
+  padding-bottom: 0;
 }
 
 @media (min-width: 640px) {
   .gallery-category-filters {
-    padding-bottom: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
   }
 }
 
 .gallery-filter-icon {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   color: #9ca3af;
   flex-shrink: 0;
 }
 
 .gallery-category-btn {
-  padding: 0 0.75rem;
-  height: 2rem;
-  border-radius: 0.5rem;
+  padding: 0 1.1rem;
+  height: 2.6rem;
+  border-radius: 0.75rem;
   border: none;
   background: none;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: #4b5563;
   cursor: pointer;
   white-space: nowrap;
