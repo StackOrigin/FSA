@@ -5,7 +5,6 @@ import {
   Trash2,
   Image as ImageIcon,
   X,
-  Search,
   Loader2,
   ExternalLink,
   ImagePlus,
@@ -31,7 +30,6 @@ export function GalleryManagement() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [formData, setFormData] = useState({
     title: '',
@@ -47,7 +45,7 @@ export function GalleryManagement() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const categories = ['all', 'classroom activity', 'sports', 'events', 'extra excursion', 'school program'];
+  const categories = ['all', 'classroom activity', 'sports', 'events', 'school program'];
 
   useEffect(() => {
     fetchImages();
@@ -188,13 +186,10 @@ export function GalleryManagement() {
   };
 
   const filteredImages = images.filter((image) => {
-    const matchesSearch =
-      image.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      image.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === 'all' ||
       image.category?.toLowerCase() === selectedCategory;
-    return matchesSearch && matchesCategory;
+    return matchesCategory;
   });
 
   return (
@@ -234,16 +229,6 @@ export function GalleryManagement() {
       {/* Filters */}
       <div className="gallery-filters-card">
         <div className="gallery-filters-inner">
-          <div className="gallery-search-wrapper">
-            <Search className="gallery-search-icon" />
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="gallery-search-input"
-            />
-          </div>
           <div className="gallery-category-filters">
             <Filter className="gallery-filter-icon" />
             {categories.map((category) => (
@@ -270,14 +255,14 @@ export function GalleryManagement() {
             <ImageIcon />
           </div>
           <h3 className="admin-empty-title">
-            {searchTerm || selectedCategory !== 'all' ? 'No images found' : 'No images yet'}
+            {selectedCategory !== 'all' ? 'No images found' : 'No images yet'}
           </h3>
           <p className="admin-empty-text">
-            {searchTerm || selectedCategory !== 'all'
-              ? 'Try adjusting your search or filter.'
+            {selectedCategory !== 'all'
+              ? 'Try adjusting your filter.'
               : 'Add your first image to get started.'}
           </p>
-          {!searchTerm && selectedCategory === 'all' && (
+          {selectedCategory === 'all' && (
             <button onClick={openAddModal} className="admin-add-btn gallery-add-btn" style={{ marginTop: '1.25rem' }}>
               <ImagePlus />
               Add Image

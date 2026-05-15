@@ -11,7 +11,6 @@ import {
   ArrowLeft,
   Bell,
   Calendar,
-  Tag,
   Upload,
   Image as ImageIcon,
 } from 'lucide-react';
@@ -20,8 +19,6 @@ interface Notice {
   id: number;
   title: string;
   description: string;
-  category: string;
-  priority: string;
   image_url?: string;
   download_url?: string;
   created_at: string;
@@ -39,16 +36,11 @@ export function NoticesManagement() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'General',
-    priority: 'medium',
     download_url: '',
   });
   const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  const categories = ['General', 'Academic', 'Administrative', 'Event', 'Exam', 'Holiday'];
-  const priorities = ['low', 'medium', 'high'];
 
   useEffect(() => {
     fetchNotices();
@@ -79,8 +71,6 @@ export function NoticesManagement() {
       const submitData = new FormData();
       submitData.append('title', formData.title);
       submitData.append('description', formData.description);
-      submitData.append('category', formData.category);
-      submitData.append('priority', formData.priority);
       if (formData.download_url) {
         submitData.append('download_url', formData.download_url);
       }
@@ -126,8 +116,6 @@ export function NoticesManagement() {
     setFormData({
       title: notice.title,
       description: notice.description,
-      category: notice.category,
-      priority: notice.priority,
       download_url: notice.download_url || '',
     });
     setImagePreview(notice.image_url || null);
@@ -140,8 +128,6 @@ export function NoticesManagement() {
     setFormData({
       title: '',
       description: '',
-      category: 'General',
-      priority: 'medium',
       download_url: '',
     });
     setSelectedFile(null);
@@ -166,19 +152,6 @@ export function NoticesManagement() {
       notice.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'bg-red-500';
-      case 'medium':
-        return 'bg-orange-500';
-      case 'low':
-        return 'bg-green-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -280,15 +253,6 @@ export function NoticesManagement() {
             >
               <div className="admin-item-card">
                 <div className="admin-item-content">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                    <span className={`notice-priority-badge ${notice.priority}`}>
-                      {notice.priority === 'high' ? 'Urgent' : notice.priority}
-                    </span>
-                    <span className="contacts-info-badge">
-                      <Tag style={{ width: '0.875rem', height: '0.875rem' }} />
-                      {notice.category}
-                    </span>
-                  </div>
                   <h3 className="admin-item-title" style={{ fontSize: '1.125rem' }}>
                     {notice.title}
                   </h3>

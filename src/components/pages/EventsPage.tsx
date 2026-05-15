@@ -35,8 +35,11 @@ type NewsItem = {
 export function EventsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
-  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([]);
+  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([
+  ]);
+  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([
+
+  ]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
 
   const [loadingFeatured, setLoadingFeatured] = useState(true);
@@ -70,11 +73,10 @@ export function EventsPage() {
             })
           : [];
 
-        setFeaturedEvents(mapped);
+        setFeaturedEvents(prev => [...prev, ...mapped]);
         setCurrentSlide(0);
       } catch (err) {
         console.error('Failed to load featured events', err);
-        setFeaturedEvents([]);
       } finally {
         setLoadingFeatured(false);
       }
@@ -109,10 +111,9 @@ export function EventsPage() {
             }).sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime())
           : [];
 
-        setUpcomingEvents(mapped);
+        setUpcomingEvents(prev => [...prev, ...mapped].sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime()));
       } catch (err) {
         console.error('Failed to load events from API', err);
-        setUpcomingEvents([]);
       } finally {
         setLoadingUpcoming(false);
       }
@@ -146,6 +147,16 @@ export function EventsPage() {
     if (featuredEvents.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + featuredEvents.length) % featuredEvents.length);
   };
+
+  useEffect(() => {
+    if (featuredEvents.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % featuredEvents.length);
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [featuredEvents.length]);
 
   return (
     <div className="pt-18">
@@ -230,26 +241,6 @@ export function EventsPage() {
                     </div>
                   </motion.div>
                 </AnimatePresence>
-
-                {/* Carousel Controls */}
-                <div className="events-carousel-controls">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={prevSlide}
-                    className="events-carousel-nav-btn"
-                  >
-                    <ChevronLeft className="events-carousel-nav-icon" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={nextSlide}
-                    className="events-carousel-nav-btn"
-                  >
-                    <ChevronRight className="events-carousel-nav-icon" />
-                  </motion.button>
-                </div>
 
                 {/* Carousel Indicators */}
                 <div className="events-carousel-indicators">

@@ -247,7 +247,7 @@ export function NoticePage() {
               style={{ maxWidth: 'min(90vw, 1200px)', maxHeight: 'min(85vh, 800px)' }}
             >
               {/* Frame Inner Container */}
-              <div className="w-full h-full p-4 flex items-center justify-center bg-gray-50" style={{ minHeight: '200px', minWidth: '400px' }}>
+              <div className="w-full h-full p-4 flex items-center justify-center bg-gray-50" style={{ minHeight: '200px' }}>
                 <img
                   src={selectedImage}
                   alt="Enlarged notice"

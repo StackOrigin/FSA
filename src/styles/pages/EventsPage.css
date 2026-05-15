@@ -140,7 +140,7 @@
 
 @media (min-width: 768px) {
   .events-carousel-image-wrapper {
-    height: 100%;
+    height: 24rem; /* constrain the height instead of setting to 100% to stop it blowing out */
   }
 }
 
@@ -154,6 +154,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 20%; /* shift focus up slightly usually better for portraits/events */
 }
 
 .events-carousel-placeholder {
@@ -228,72 +229,6 @@
 .events-carousel-description {
   color: var(--muted-foreground);
   margin-bottom: 1.5rem;
-}
-
-.events-carousel-btn {
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, #2563eb, #9333ea);
-  color: white;
-  font-weight: 500;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  width: fit-content;
-  transition: all 0.3s;
-}
-
-.events-carousel-btn:hover {
-  background: linear-gradient(to right, #1d4ed8, #7e22ce);
-}
-
-/* Carousel Controls */
-.events-carousel-controls {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-  pointer-events: none;
-}
-
-.events-carousel-nav-btn {
-  pointer-events: auto;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 9999px;
-  background-color: var(--background-80);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: box-shadow 0.3s;
-}
-
-.events-carousel-nav-btn:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-@media (max-width: 767px) {
-  .events-carousel-nav-btn {
-    background-color: transparent;
-    border-color: transparent;
-    backdrop-filter: none;
-    box-shadow: none;
-  }
-
-  .events-carousel-nav-btn:hover {
-    box-shadow: none;
-  }
-}
-
-.events-carousel-nav-icon {
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 /* Carousel Indicators */
@@ -461,8 +396,7 @@
 @media (min-width: 768px) {
   .events-card-image-container {
     width: 18rem;
-    height: auto;
-    min-height: 14rem;
+    height: 12rem;
   }
 }
 
