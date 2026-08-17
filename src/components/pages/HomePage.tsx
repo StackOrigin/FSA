@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Cake, Calendar } from 'lucide-react';
+import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Image } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { ScrollSequence } from '../ScrollSequence';
 import '../../styles/pages/HomePage.css';
@@ -8,6 +8,34 @@ import pMessageImg from '../images/pmessage.jpeg';
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
+
+const STATS = [
+  { id: 1, value: 700, suffix: '+', label: 'Students', icon: 'Users' },
+  { id: 2, value: 30, suffix: '+', label: 'Expert Teachers', icon: 'BookOpen' },
+  { id: 3, value: 95, suffix: '%', label: 'Success Rate', icon: 'Award' },
+  { id: 4, value: 24, suffix: '+', label: 'Years of Trust', icon: 'Globe' },
+];
+
+const FEATURES = [
+  {
+    title: 'Modern Curriculum',
+    description: "Cutting-edge courses designed for the digital age, preparing students for tomorrow's challenges.",
+    gradient: 'from-blue-500 to-cyan-500',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+  },
+  {
+    title: 'Expert Educators',
+    description: 'Learn from passionate teachers who inspire curiosity and foster critical thinking.',
+    gradient: 'from-purple-500 to-pink-500',
+    image: 'https://images.unsplash.com/photo-1655800466797-8ab2598b4274?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+  },
+  {
+    title: 'State-of-the-Art Facilities',
+    description: 'World-class laboratories, studios, and technology that bring learning to life.',
+    gradient: 'from-orange-500 to-red-500',
+    image: 'https://images.unsplash.com/photo-1602052577122-f73b9710adba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+  },
+];
 
 export function HomePage({ onNavigate }: HomePageProps) {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -20,7 +48,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
-  const iconMap: Record<string, any> = { Users, BookOpen, Award, Globe };
   const [homeContent, setHomeContent] = useState<any>(null);
   const [homeLoading, setHomeLoading] = useState(true);
 
@@ -191,22 +218,16 @@ export function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* Statistics Section */}
-      <StatsSection loading={homeLoading} iconMap={iconMap} stats={homeContent?.stats} />
+      <StatsSection />
 
       {/* Features Section */}
-      <FeaturesSection onNavigate={onNavigate} loading={homeLoading} features={homeContent?.features} />
+      <FeaturesSection onNavigate={onNavigate} />
 
       {/* Testimonials Section */}
       <TestimonialsSection loading={homeLoading} testimonials={homeContent?.testimonials} />
 
-      {/* Birthday Section */}
-      <BirthdaySection />
-
-      {/* School Houses Section */}
-      <SchoolHousesSection />
-
-      {/* School Leaders Section */}
-      <SchoolLeadersSection />
+      {/* Gallery Section */}
+      <GallerySection />
 
       {/* Scroll-Driven Animation */}
       <ScrollSequence />
@@ -218,40 +239,25 @@ export function HomePage({ onNavigate }: HomePageProps) {
   );
 }
 
-function StatsSection({
-  loading,
-  stats,
-  iconMap,
-}: {
-  loading: boolean;
-  stats: any[] | undefined;
-  iconMap: Record<string, any>;
-}) {
-  const safeStats = Array.isArray(stats) ? stats : [];
+function StatsSection() {
+  const iconMap: Record<string, any> = { Users, BookOpen, Award, Globe };
 
   return (
     <section className="stats-section">
       
       <div className="stats-container">
-        {loading ? (
-          <div className="stats-loading">
-            <Loader2 />
-          </div>
-        ) : (
-          <div className="stats-grid">
-            {safeStats.map((stat, index) => (
-              <StatCard
-                key={stat.id ?? index}
-                stat={{
-                  ...stat,
-                  icon: iconMap[String(stat.icon)] ?? Users,
-                }}
-                index={index}
-              />
-            ))}
-          </div>
-        )}
-
+        <div className="stats-grid">
+          {STATS.map((stat, index) => (
+            <StatCard
+              key={stat.id ?? index}
+              stat={{
+                ...stat,
+                icon: iconMap[String(stat.icon)] ?? Users,
+              }}
+              index={index}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -324,14 +330,9 @@ function StatCard({ stat, index }: { stat: any; index: number }) {
 
 function FeaturesSection({
   onNavigate,
-  loading,
-  features,
 }: {
   onNavigate: (page: string) => void;
-  loading: boolean;
-  features: any[] | undefined;
 }) {
-  const safeFeatures = Array.isArray(features) ? features : [];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const toggleExpand = (index: number, e: React.MouseEvent) => {
@@ -357,58 +358,46 @@ function FeaturesSection({
         </motion.div>
 
         <div className="features-grid">
-          {loading ? (
-            <div className="features-loading">
-              <Loader2 />
-            </div>
-          ) : safeFeatures.length === 0 ? (
-            <div className="features-empty">
-              <div className="features-empty-card">
-                <p className="text-muted-foreground">No features configured.</p>
-              </div>
-            </div>
-          ) : (
-            safeFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="feature-card">
-                  <div className="feature-image-container">
-                    <motion.div
-                      className="feature-gradient-overlay"
-                      style={{background: `linear-gradient(to bottom right, ${feature.gradient})`}}
-                    />
-                    <motion.img
-                      src={feature.image}
-                      alt={feature.title}
-                      className="feature-image"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </div>
-                  <div className="feature-content">
-                    <h3 className="feature-title">{feature.title}</h3>
-                    <p className={`feature-description ${expandedIndex === index ? 'expanded' : ''}`}>
-                      {feature.description}
-                    </p>
-                    {feature.description && feature.description.length > 80 && (
-                      <button
-                        className="read-more-btn"
-                        onClick={(e) => toggleExpand(index, e)}
-                      >
-                        {expandedIndex === index ? 'Read Less' : 'Read More'}
-                      </button>
-                    )}
-                  </div>
+          {FEATURES.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              whileHover={{ y: -8 }}
+            >
+              <div className="feature-card">
+                <div className="feature-image-container">
+                  <motion.div
+                    className="feature-gradient-overlay"
+                    style={{background: `linear-gradient(to bottom right, ${feature.gradient})`}}
+                  />
+                  <motion.img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="feature-image"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  />
                 </div>
-              </motion.div>
-            ))
-          )}
+                <div className="feature-content">
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className={`feature-description ${expandedIndex === index ? 'expanded' : ''}`}>
+                    {feature.description}
+                  </p>
+                  {feature.description && feature.description.length > 80 && (
+                    <button
+                      className="read-more-btn"
+                      onClick={(e) => toggleExpand(index, e)}
+                    >
+                      {expandedIndex === index ? 'Read Less' : 'Read More'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -536,307 +525,139 @@ function TestimonialsSection({
   );
 }
 
-interface BirthdayPerson {
+interface GalleryImage {
   id: number;
-  name: string;
-  role: string;
-  birth_date: string;
-  image_url?: string;
+  title: string;
+  image_url: string;
+  category: string;
+  description: string;
+  created_at: string;
 }
 
-function BirthdaySection() {
-  const [birthdays, setBirthdays] = useState<BirthdayPerson[]>([]);
+function GallerySection() {
+  const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBirthdays = async () => {
+    const fetchImages = async () => {
       try {
-        const res = await fetch('/api/birthdays/today');
+        const res = await fetch('/api/gallery');
         const data = await res.json();
-        setBirthdays(Array.isArray(data) ? data : []);
+        setImages(Array.isArray(data) ? data : []);
       } catch (e) {
-        console.error('Failed to load birthdays', e);
+        console.error('Failed to load gallery images', e);
       } finally {
         setLoading(false);
       }
     };
-    fetchBirthdays();
+    fetchImages();
   }, []);
 
-  // Don't render section if no birthdays today and not loading
-  if (!loading && birthdays.length === 0) return null;
-
-  const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr);
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
-    return `${monthNames[d.getMonth()]} ${d.getDate()}`;
-  };
-
-  return (
-    <section className="birthday-section">
-      <div className="birthday-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
-        >
-          <div className="birthday-label">
-            <Cake className="birthday-label-icon" />
-            <span>Celebrations</span>
+  if (loading) {
+    return (
+      <section className="gallery-section" aria-label="Gallery">
+        <div className="gallery-container">
+          <div className="gallery-header">
+            <div className="gallery-header-content">
+              <div className="gallery-icon-wrapper">
+                <Image className="gallery-icon" size={28} />
+              </div>
+              <div>
+                <h2 className="gallery-title">Gallery</h2>
+                <p className="gallery-subtitle">Moments that define our journey</p>
+              </div>
+            </div>
           </div>
-          <h2 className="section-title">Today's Birthdays</h2>
-          <p className="section-subtitle">
-            Wishing our member a day filled with joy and a year ahead full of success and happiness!
-          </p>
-        </motion.div>
-
-        {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
-          </div>
-        ) : (
-          <div className="birthday-grid">
-            {birthdays.map((person, index) => (
-              <BirthdayCard key={person.id} person={person} index={index} formatDate={formatDate} />
-            ))}</div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function getInitials(name: string) {
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-}
-
-function BirthdayCard({ person, index, formatDate }: { person: BirthdayPerson; index: number; formatDate: (d: string) => string }) {
-  const accentColors = ['#3b82f6', '#9333ea', '#ec4899'];
-  const accent = accentColors[index % accentColors.length];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -6 }}
-      className="birthday-card"
-    >
-      <div className="birthday-card-body">
-        <div className="birthday-avatar" style={person.image_url ? {} : { background: accent }}>
-          {person.image_url ? (
-            <img src={person.image_url} alt={person.name} className="birthday-avatar-img" />
-          ) : (
-            <span>{getInitials(person.name)}</span>
-          )}
-        </div>
-        <h3 className="birthday-name">{person.name}</h3>
-        <p className="birthday-role">{person.role}</p>
-        <div className="birthday-date">
-          <Calendar className="birthday-date-icon" />
-          <span>{formatDate(person.birth_date)}</span>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-interface SchoolHouseData {
-  id: number;
-  name: string;
-  color: string;
-  border: string;
-  captain_name: string;
-  captain_image: string;
-  vice_captain_name: string;
-  vice_captain_image: string;
-}
-
-function SchoolHousesSection() {
-  const [houses, setHouses] = useState<SchoolHouseData[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchHouses = async () => {
-      try {
-        const res = await fetch('/api/school-houses');
-        const data = await res.json();
-        setHouses(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.error('Failed to load school houses', e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchHouses();
-  }, []);
-
-  if (!loading && houses.length === 0) return null;
-
-  return (
-    <section className="school-houses-section">
-      <div className="school-houses-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
-        >
-          <h2 className="section-title">School House</h2>
-          <p className="section-subtitle">
-            Our four proud houses competing in spirit, sportsmanship, and excellence
-          </p>
-        </motion.div>
-
-        {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
-          </div>
-        ) : (
-          <div className="school-houses-grid">
-            {houses.map((house, index) => (
-              <motion.div
-                key={house.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.12 }}
-                whileHover={{ y: -6 }}
-                className="school-house-card"
-                style={{ borderColor: house.border }}
-              >
-                <div
-                  className="school-house-color-bar"
-                  style={{ background: house.color }}
-                />
-                <h3 className="school-house-name" style={{ color: house.color }}>
-                  {house.name}
-                </h3>
-                <div className="school-house-leaders">
-                  {/* Captain */}
-                  <div className="school-house-leader">
-                    <div className="school-house-avatar">
-                      {house.captain_image ? (
-                        <img src={house.captain_image} alt={house.captain_name} />
-                      ) : (
-                        <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
-                      )}
-                    </div>
-                    <span className="school-house-leader-role">Captain</span>
-                    <span className="school-house-leader-name">{house.captain_name || 'TBA'}</span>
-                  </div>
-                  {/* Vice Captain */}
-                  <div className="school-house-leader">
-                    <div className="school-house-avatar">
-                      {house.vice_captain_image ? (
-                        <img src={house.vice_captain_image} alt={house.vice_captain_name} />
-                      ) : (
-                        <Users style={{ width: '1.5rem', height: '1.5rem', color: house.color }} />
-                      )}
-                    </div>
-                    <span className="school-house-leader-role">Vice Captain</span>
-                    <span className="school-house-leader-name">{house.vice_captain_name || 'TBA'}</span>
-                  </div>
+          <div className="gallery-grid" role="list">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="gallery-card skeleton" role="listitem">
+                <div className="gallery-image-wrapper">
+                  <div className="gallery-skeleton-image" />
                 </div>
-              </motion.div>
+                <div className="gallery-content">
+                  <div className="gallery-skeleton-text" />
+                  <div className="gallery-skeleton-text short" />
+                </div>
+              </div>
             ))}
           </div>
-        )}
-      </div>
-    </section>
-  );
-}
+        </div>
+      </section>
+    );
+  }
 
-interface SchoolLeaderData {
-  id: number;
-  role: string;
-  name: string;
-  image: string;
-  color: string;
-}
-
-function SchoolLeadersSection() {
-  const [leaders, setLeaders] = useState<SchoolLeaderData[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLeaders = async () => {
-      try {
-        const res = await fetch('/api/school-leaders');
-        const data = await res.json();
-        setLeaders(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.error('Failed to load school leaders', e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchLeaders();
-  }, []);
-
-  if (!loading && leaders.length === 0) return null;
+  if (images.length === 0) {
+    return (
+      <section className="gallery-section" aria-label="Gallery">
+        <div className="gallery-container">
+          <div className="gallery-header">
+            <div className="gallery-header-content">
+              <div className="gallery-icon-wrapper">
+                <Image className="gallery-icon" size={28} />
+              </div>
+              <div>
+                <h2 className="gallery-title">Gallery</h2>
+                <p className="gallery-subtitle">Moments that define our journey</p>
+              </div>
+            </div>
+          </div>
+          <div className="gallery-empty">
+            <Image className="gallery-empty-icon" size={48} />
+            <p className="gallery-empty-text">No images in gallery yet</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="school-leaders-section">
-      <div className="school-leaders-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
-        >
-          <h2 className="section-title">School Leaders</h2>
-          <p className="section-subtitle">
-            Student leaders who represent and inspire our school community
-          </p>
-        </motion.div>
-
-        {loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-            <Loader2 style={{ width: '2rem', height: '2rem', color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
+    <section className="gallery-section" aria-label="Gallery">
+      <div className="gallery-container">
+        <div className="gallery-header">
+          <div className="gallery-header-content">
+            <div className="gallery-icon-wrapper">
+              <Image className="gallery-icon" size={28} />
+            </div>
+            <div>
+              <h2 className="gallery-title">Gallery</h2>
+              <p className="gallery-subtitle">Moments that define our journey</p>
+            </div>
           </div>
-        ) : (
-          <div className="school-leaders-grid">
-            {leaders.map((leader, index) => (
-              <motion.div
-                key={leader.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -6 }}
-                className="school-leader-card"
-                style={{ borderColor: leader.color + '4D' }}
-              >
-                <div
-                  className="school-leader-color-bar"
-                  style={{ background: leader.color }}
+        </div>
+        <div className="gallery-grid" role="list">
+          {images.map((image, index) => (
+            <motion.article
+              key={image.id}
+              className="gallery-card"
+              role="listitem"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
+            >
+              <div className="gallery-image-wrapper">
+                <img
+                  src={image.image_url}
+                  alt={image.title || `Gallery image ${index + 1}`}
+                  className="gallery-image"
+                  loading="lazy"
                 />
-                <div
-                  className="school-leader-avatar"
-                  style={{ borderColor: leader.color }}
-                >
-                  {leader.image ? (
-                    <img src={leader.image} alt={leader.name} />
-                  ) : (
-                    <Users style={{ width: '2rem', height: '2rem', color: leader.color }} />
-                  )}
+                <div className="gallery-overlay">
+                  <span className="gallery-view-text">View</span>
+                  <Image className="gallery-expand-icon" size={20} />
                 </div>
-                <span className="school-leader-role" style={{ color: leader.color }}>
-                  {leader.role}
-                </span>
-                <span className="school-leader-name">
-                  {leader.name || 'TBA'}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        )}
+              </div>
+              <div className="gallery-content">
+                <span className="gallery-category">{image.category}</span>
+                <h3 className="gallery-image-title">{image.title}</h3>
+                {image.description && (
+                  <p className="gallery-description">{image.description}</p>
+                )}
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );
