@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { submitInquiry, getSchoolSiteData } from '../../lib/api';
 import '../../styles/pages/ContactPage.css';
 
 export function ContactPage() {
@@ -81,22 +82,14 @@ export function ContactPage() {
     setSubmitError(null);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          subject: formData.subject,
-          message: formData.message,
-        }),
+      await submitInquiry({
+        type: 'contact',
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
       });
-
-      if (!response.ok) {
-        const text = await response.text().catch(() => '');
-        throw new Error(text || 'Failed to submit contact form');
-      }
 
       setSubmitted(true);
       setFormData({
@@ -121,9 +114,36 @@ export function ContactPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/content/contact');
-        const data = await res.json();
-        setContactCards(Array.isArray(data?.cards) ? data.cards : []);
+        const data = await getSchoolSiteData<any>();
+        // Build contact cards from school data
+        const school = data?.school ?? {};
+        const cards = [
+          {
+            icon: 'Phone',
+            title: 'Phone',
+            details: [school.phone || '+977-01-123456'].filter(Boolean),
+            color: '#10b981 to-#14b8a6',
+          },
+          {
+            icon: 'Mail',
+            title: 'Email',
+            details: [school.email || 'info@futurestars.edu.np'].filter(Boolean),
+            color: '#3b82f6 to-#06b6d4',
+          },
+          {
+            icon: 'MapPin',
+            title: 'Location',
+            details: [school.address || 'Lubhu-Dandathok-Dharachour Rd, 44708'].filter(Boolean),
+            color: '#f97316 to-#fbbf24',
+          },
+          {
+            icon: 'Clock',
+            title: 'School Hours',
+            details: ['Sun - Fri: 9:00 AM - 4:00 PM'],
+            color: '#8b5cf6 to-#ec4899',
+          },
+        ];
+        setContactCards(cards);
       } catch (e) {
         console.error('Failed to load contact content', e);
         setContactCards([]);

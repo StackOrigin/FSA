@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { HomePage } from './components/pages/HomePage';
 import { AboutPage } from './components/pages/AboutPage';
-import {NoticePage} from './components/pages/NoticePage';
+import { NoticePage } from './components/pages/NoticePage';
 import { AdmissionsPage } from './components/pages/AdmissionsPage';
 import { EventsPage } from './components/pages/EventsPage';
 import { GalleryPage } from './components/pages/GalleryPage';
 import { ContactPage } from './components/pages/ContactPage';
-import { AdminApp } from './components/admin/AdminApp';
+import { NIVAKSHA_CONFIG } from './lib/nivaksha-config';
 import './styles/App.css';
 
 export default function App() {
@@ -36,7 +36,7 @@ export default function App() {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     localStorage.setItem('darkMode', String(newDarkMode));
-    
+
     if (newDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -57,13 +57,10 @@ export default function App() {
     return path.slice(1); // Remove leading slash
   };
 
-  // If on admin page, render only the admin app
+  // Redirect admin routes to the external admin panel
   if (location.pathname.startsWith('/admin')) {
-    return (
-      <Routes>
-        <Route path="/admin/*" element={<AdminApp />} />
-      </Routes>
-    );
+    window.location.href = NIVAKSHA_CONFIG.adminUrl;
+    return null;
   }
 
   return (
@@ -74,7 +71,7 @@ export default function App() {
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
       />
-      
+
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<HomePage onNavigate={handleNavigate} />} />
@@ -84,9 +81,10 @@ export default function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin/*" element={<Navigate to={NIVAKSHA_CONFIG.adminUrl} replace />} />
         </Routes>
       </AnimatePresence>
-      
+
       <Footer onNavigate={handleNavigate} />
       <ScrollToTop />
     </div>

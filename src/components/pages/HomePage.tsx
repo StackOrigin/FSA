@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Image } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { ScrollSequence } from '../ScrollSequence';
+import { getGalleryItems } from '../../lib/api';
 import '../../styles/pages/HomePage.css';
 import pMessageImg from '../images/pmessage.jpeg';
 
@@ -48,25 +49,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
-  const [homeContent, setHomeContent] = useState<any>(null);
-  const [homeLoading, setHomeLoading] = useState(true);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch('/api/content/home');
-        const data = await res.json();
-        setHomeContent(data);
-      } catch (e) {
-        console.error('Failed to load home content', e);
-        setHomeContent(null);
-      } finally {
-        setHomeLoading(false);
-      }
-    };
-
-    load();
-  }, []);
 
   return (
     <div className="home-page" >
@@ -224,7 +206,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       <FeaturesSection onNavigate={onNavigate} />
 
       {/* Testimonials Section */}
-      <TestimonialsSection loading={homeLoading} testimonials={homeContent?.testimonials} />
+      <TestimonialsSection />
 
       {/* Gallery Section */}
       <GallerySection />
@@ -404,14 +386,7 @@ function FeaturesSection({
   );
 }
 
-function TestimonialsSection({
-  loading,
-  testimonials,
-}: {
-  loading: boolean;
-  testimonials: any[] | undefined;
-}) {
-  const safeTestimonials = Array.isArray(testimonials) ? testimonials : [];
+function TestimonialsSection() {
 
   return (
     <section className="familymessage-section">
@@ -541,9 +516,17 @@ function GallerySection() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('/api/gallery');
-        const data = await res.json();
-        setImages(Array.isArray(data) ? data : []);
+        // Fetch gallery items from site-data endpoint
+        const items = await getGalleryItems();
+        const flatImages: GalleryImage[] = (items ?? []).map((item, index) => ({
+          id: index,
+          title: item?.alt ?? 'Gallery',
+          image_url: item?.src ?? '',
+          category: item?.category ?? 'General',
+          description: '',
+          created_at: '',
+        }));
+        setImages(flatImages.filter(img => img.image_url));
       } catch (e) {
         console.error('Failed to load gallery images', e);
       } finally {

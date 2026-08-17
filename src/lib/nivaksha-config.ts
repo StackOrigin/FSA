@@ -23,7 +23,10 @@ export const NIVAKSHA_CONFIG = {
   baseUrl: getEnv('VITE_NIVAKSHA_API_URL', 'https://nivaksha.me/api'),
   
   // School ID - required for all API calls, can be set via VITE_SCHOOL_ID
-  schoolId: getEnv('VITE_SCHOOL_ID', ''),
+  schoolId: getEnv('VITE_SCHOOL_ID', 'future-stars'),
+  
+  // Admin panel URL
+  adminUrl: 'https://nivaksha.me/admin',
   
   // Default pagination
   defaultLimit: 12,
@@ -87,7 +90,7 @@ export function buildSiteDataUrl(params: Record<string, string | number | undefi
   const queryString = searchParams.toString();
   const separator = queryString ? '?' : '';
   
-  return `${baseUrl}/site-data${separator}${queryString}`;
+  return `${baseUrl}/schools/${schoolId}/site-data${separator}${queryString}`;
 }
 
 /**

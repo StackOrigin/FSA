@@ -17,7 +17,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { useState } from 'react';
-import { apiJson } from '../../lib/api';
+import { submitInquiry } from '../../lib/api';
 import '../../styles/pages/AdmissionsPage.css';
 
 export function AdmissionsPage() {
@@ -71,9 +71,15 @@ export function AdmissionsPage() {
     
     setFormStatus('submitting');
     try {
-      await apiJson('/admissions', {
-        method: 'POST',
-        body: JSON.stringify(formData),
+      await submitInquiry({
+        type: 'admission',
+        fullName: formData.parentName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        studentName: formData.studentName,
+        guardianName: formData.parentName,
+        grade: formData.gradeApplying,
       });
       setFormStatus('success');
       setFormData({ studentName: '', parentName: '', email: '', phone: '', gradeApplying: '', message: '' });

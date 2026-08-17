@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, Tag, Loader2, Newspaper } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { apiGet, resolveUploadUrl } from '../../lib/api';
 import '../../styles/pages/EventsPage.css';
 
 type FeaturedEvent = {
@@ -47,80 +48,73 @@ export function EventsPage() {
   
 
   useEffect(() => {
-    const loadFeatured = async () => {
+    const loadEvents = async () => {
       try {
-        const res = await fetch('/api/events?featured=true');
-        const data = await res.json();
-
-        const mapped: FeaturedEvent[] = Array.isArray(data)
-          ? data.map((e: any) => {
-              const rawDate = String(e.event_date ?? '');
-              const parsed = rawDate.includes('T') ? new Date(rawDate) : new Date(`${rawDate}T00:00:00`);
-              const longDate = isNaN(parsed.getTime())
-                ? rawDate
-                : parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-
-              return {
-                title: String(e.title ?? 'Untitled Event'),
-                date: longDate,
-                time: String(e.event_time ?? 'TBA'),
-                location: String(e.location ?? 'TBA'),
-                description: String(e.description ?? ''),
-                image: e.image_url ? String(e.image_url) : null,
-                gradient: String(e.gradient ?? 'from-blue-500 to-purple-600'),
-                category: String(e.category ?? 'Community'),
-              };
-            })
+        const data = await apiGet<any[]>('events');
+        const publishedEvents = Array.isArray(data)
+          ? data.filter((e: any) => e && (e.status === 'published' || !e.status))
           : [];
 
-        setFeaturedEvents(prev => [...prev, ...mapped]);
+        // Map Nivaksha event shape to old internal shape
+        const mappedFeatured: FeaturedEvent[] = publishedEvents
+          .slice(0, 5)
+          .map((e: any) => {
+            const rawDate = String(e.startAt ?? e.event_date ?? '');
+            const parsed = rawDate.includes('T') ? new Date(rawDate) : new Date(`${rawDate}T00:00:00`);
+            const longDate = isNaN(parsed.getTime())
+              ? rawDate
+              : parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+            return {
+              title: String(e.title ?? 'Untitled Event'),
+              date: longDate,
+              time: isNaN(parsed.getTime())
+                ? 'TBA'
+                : parsed.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+              location: String(e.location ?? 'TBA'),
+              description: String(e.description ?? ''),
+              image: e.coverUrl ? resolveUploadUrl(e.coverUrl) : null,
+              gradient: String(e.gradient ?? 'from-blue-500 to-purple-600'),
+              category: String(e.category ?? 'Community'),
+            };
+          });
+
+        const mappedUpcoming: UpcomingEvent[] = publishedEvents.map((e: any) => {
+          const rawDate = String(e.startAt ?? e.event_date ?? '');
+          const parsed = rawDate.includes('T') ? new Date(rawDate) : new Date(`${rawDate}T00:00:00`);
+          const shortDate = isNaN(parsed.getTime())
+            ? rawDate
+            : parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+          const month = isNaN(parsed.getTime())
+            ? 'Unknown'
+            : parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long' });
+
+          return {
+            date: shortDate,
+            title: String(e.title ?? 'Untitled Event'),
+            time: isNaN(parsed.getTime())
+              ? 'TBA'
+              : parsed.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+            location: String(e.location ?? 'TBA'),
+            description: String(e.description ?? ''),
+            image: e.coverUrl ? resolveUploadUrl(e.coverUrl) : null,
+            month,
+            parsedDate: parsed,
+          };
+        }).sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
+
+        setFeaturedEvents(mappedFeatured);
+        setUpcomingEvents(mappedUpcoming);
         setCurrentSlide(0);
-      } catch (err) {
-        console.error('Failed to load featured events', err);
-      } finally {
-        setLoadingFeatured(false);
-      }
-    };
-
-    const loadUpcoming = async () => {
-      try {
-        const res = await fetch('/api/events');
-        const data = await res.json();
-
-        const mapped: UpcomingEvent[] = Array.isArray(data)
-          ? data.map((e: any) => {
-              const rawDate = String(e.event_date ?? '');
-              const parsed = rawDate.includes('T') ? new Date(rawDate) : new Date(`${rawDate}T00:00:00`);
-              const shortDate = isNaN(parsed.getTime())
-                ? rawDate
-                : parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-              const month = isNaN(parsed.getTime())
-                ? 'Unknown'
-                : parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long' });
-
-              return {
-                date: shortDate,
-                title: String(e.title ?? 'Untitled Event'),
-                time: String(e.event_time ?? 'TBA'),
-                location: String(e.location ?? 'TBA'),
-                description: String(e.description ?? ''),
-                image: e.image_url ? String(e.image_url) : null,
-                month,
-                parsedDate: parsed,
-              };
-            }).sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime())
-          : [];
-
-        setUpcomingEvents(prev => [...prev, ...mapped].sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime()));
       } catch (err) {
         console.error('Failed to load events from API', err);
       } finally {
+        setLoadingFeatured(false);
         setLoadingUpcoming(false);
       }
     };
 
-    loadFeatured();
-    loadUpcoming();
+    loadEvents();
   }, []);
 
   const groupedEvents = upcomingEvents.reduce((acc, event) => {

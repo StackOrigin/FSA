@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { getGalleryItems, getGalleryCategories } from '../../lib/api';
 import '../../styles/pages/GalleryPage.css';
 
 export function GalleryPage() {
@@ -8,25 +9,34 @@ export function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const [apiImages, setApiImages] = useState<Array<{ url: string; title: string; category: string }>>([]);
+  const [categories, setCategories] = useState<string[]>(['all']);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/gallery');
-        const data = await res.json();
+        // Fetch gallery items and categories from site-data endpoint
+        const [items, cats] = await Promise.all([getGalleryItems(), getGalleryCategories()]);
 
-        setApiImages(
-          Array.isArray(data)
-            ? data
-                .filter((x: any) => x && x.image_url)
-                .map((x: any) => ({
-                  url: String(x.image_url),
-                  title: String(x.title ?? 'Untitled'),
-                  category: String(x.category ?? 'General'),
-                }))
-            : []
-        );
+        const flatImages: Array<{ url: string; title: string; category: string }> = (items ?? []).map((item: any) => ({
+          url: String(item?.src ?? item?.url ?? ''),
+          title: String(item?.alt ?? item?.title ?? 'Untitled'),
+          category: String(item?.category ?? 'General'),
+        }));
+
+        setApiImages(flatImages.filter(img => img.url));
+
+        // Build categories from API, deduplicate, and normalize to lowercase
+        // Only "all" is hardcoded; if API already returns "All", we use it as-is
+        const rawCats: string[] = Array.isArray(cats)
+          ? cats.map((c: any) => String(c).toLowerCase()).filter(Boolean)
+          : [];
+        const dedupedCats: string[] = [];
+        rawCats.forEach((c) => {
+          if (!dedupedCats.includes(c)) dedupedCats.push(c);
+        });
+        const hasAll = dedupedCats.includes('all');
+        setCategories(hasAll ? dedupedCats : ['all', ...dedupedCats]);
       } catch (e) {
         console.error('Failed to load gallery from API', e);
         setApiImages([]);
@@ -44,11 +54,9 @@ export function GalleryPage() {
 
   const images = apiImages;
 
-  const categories = ['all', 'classroom activity', 'sports', 'events', 'school program'];
-
   const filteredImages = selectedCategory === 'all'
     ? images
-    : images.filter((img) => img.category === selectedCategory);
+    : images.filter((img) => img.category.toLowerCase() === selectedCategory);
 
   return (
     <div className="pt-20">

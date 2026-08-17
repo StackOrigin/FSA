@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import { Download, Calendar, Search, Bell, Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Toaster } from '../ui/sonner';
+import { apiGet, resolveUploadUrl } from '../../lib/api';
 import '../../styles/pages/NoticePage.css';
 
 interface Notice {
-  id: number;
+  id: string | number;
   title: string;
   description: string;
   created_at: string;
@@ -19,11 +20,11 @@ export function NoticePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
-  const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | number | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [expandedNotices, setExpandedNotices] = useState<Set<number>>(new Set());
+  const [expandedNotices, setExpandedNotices] = useState<Set<string | number>>(new Set());
 
-  const toggleExpand = (id: number) => {
+  const toggleExpand = (id: string | number) => {
     setExpandedNotices(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -39,10 +40,23 @@ export function NoticePage() {
   const fetchNotices = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/notices');
-      if (!response.ok) throw new Error('Failed to fetch notices');
-      const data = await response.json();
-      setNotices(data);
+      const data = await apiGet<any[]>('notices');
+      // Map Nivaksha notice shape to the old internal shape
+      if (Array.isArray(data)) {
+        const mapped: Notice[] = data
+          .filter((n: any) => n && (n.status === 'published' || !n.status) && n.title)
+          .map((n: any) => ({
+            id: n.id,
+            title: String(n.title ?? 'Untitled'),
+            description: String(n.body ?? n.description ?? ''),
+            created_at: n.publishAt ?? n.createdAt ?? '',
+            image_url: n.attachment ? resolveUploadUrl(n.attachment) : undefined,
+            download_url: n.attachment ? resolveUploadUrl(n.attachment) : undefined,
+          }));
+        setNotices(mapped);
+      } else {
+        setNotices([]);
+      }
     } catch (error) {
       console.error('Error fetching notices:', error);
     } finally {
