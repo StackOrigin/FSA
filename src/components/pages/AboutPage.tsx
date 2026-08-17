@@ -39,8 +39,8 @@ export function AboutPage() {
     },
     {
       year: '2025',
-      title: 'Centre for Creativity',
-      description: 'Developed innovation spaces to encourage research, creativity.',
+      title: 'State-of-the-Art Campus',
+      description: 'Achieved state-of-the-art facilities with world-class laboratories, studios, and technology that bring learning to life.',
     },
   ];
 
