@@ -5,6 +5,7 @@ import { ScrollSequence } from '../ScrollSequence';
 import { getGalleryItems } from '../../lib/api';
 import '../../styles/pages/HomePage.css';
 import pMessageImg from '../images/pmessage.jpeg';
+import founderImg from '../images/founderimage.png';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -318,13 +319,6 @@ function FeaturesSection({
 }: {
   onNavigate: (page: string) => void;
 }) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-
-  const toggleExpand = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
-
   return (
     <section className="features-section" >
       <div className="features-container" >
@@ -368,17 +362,9 @@ function FeaturesSection({
                 </div>
                 <div className="feature-content">
                   <h3 className="feature-title">{feature.title}</h3>
-                  <p className={`feature-description ${expandedIndex === index ? 'expanded' : ''}`}>
+                  <p className="feature-description">
                     {feature.description}
                   </p>
-                  {feature.description && feature.description.length > 80 && (
-                    <button
-                      className="read-more-btn"
-                      onClick={(e) => toggleExpand(index, e)}
-                    >
-                      {expandedIndex === index ? 'Read Less' : 'Read More'}
-                    </button>
-                  )}
                 </div>
               </div>
             </motion.div>
@@ -421,6 +407,7 @@ function TestimonialsSection() {
                   <div className="principal-image-wrapper">
                     <div className="principal-image-glow" />
                     <motion.img
+                      src={founderImg}
                       className="principal-image"
                       alt="Founder"
                       initial={{ scale: 0.9, opacity: 0 }}
@@ -485,7 +472,19 @@ function TestimonialsSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                   >
-                    At Future Stars, we believe that every child carries a spark of greatness. Our mission has always been to create an environment where that spark is ignited through dedicated mentorship, innovative teaching, and a culture of kindness. Watching our students grow into confident, compassionate leaders is the greatest reward of this journey.
+                    Respected Parents/Guardians/Teachers and my Dear Students,
+With immense joy and gratitude, I extend my heartfelt Congratulations to each one of you on the successful conclusion of our Academic Session 2082. This achievement is not the result of one individual’s effort, but beautiful reflection of our collective dedication, perseverance and unity.
+To our valued Parents and Guardians-THANK YOU sincerely for your relentless trust, co-operation and support. Your partnership has played vital role in shaping a positive learning environment for our children.
+To our respected and amazing Educators-your tireless commitment, patience and passion for nurturing young minds have been the backbone of the success. Your hard work does not go unnoticed, and am deeply grateful.
+To our dear Students-your curiosity, discipline and determination have been truly inspiring. You are indeed the shining stars who give purpose to our educative journey.
+As we pause and reflect, let us remember this thought: “Success is not just measured by results, but by the effort, integrity and unity we build along the way.”
+As we prepare to step into a new academic session, I humbly pray that Almighty God continues to bless each of you with good health, wisdom and strength. May the coming days bring renewed energy, greater achievements, and endless opportunities.
+For now, I wish you all a well-deserved time of rest, joy and relaxation. May these days refresh your spirit and prepare you for another wonderful journey ahead.
+Thank you once again to everyone for being an integral part of our school family.
+Warm regards,
+Anil Thapaliya, 
+   (Principal FSA)
+
                   </motion.p>
                  
                 </div>
@@ -508,21 +507,25 @@ const ACHIEVEMENTS = [
     title: 'Academic Excellence',
     description: 'Consistently ranked among the top schools in the region with outstanding board exam results year after year.',
     gradient: 'linear-gradient(135deg, #f59e0b, #f97316)',
+    image: './images/academics.png',
   },
   {
     title: 'Sports Champions',
     description: 'Our students have brought home numerous district and national level trophies in athletics, football, and cricket.',
     gradient: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+    image: './images/Sports.jpg',
   },
   {
     title: 'Cultural Achievements',
     description: 'Celebrated for outstanding performances in music, dance, and drama at inter-school competitions.',
     gradient: 'linear-gradient(135deg, #ec4899, #f43f5e)',
+    image: './images/student achievement.jpg',
   },
   {
     title: 'Innovation & Science',
     description: 'Young innovators from our school have excelled in science fairs and technology exhibitions with creative projects.',
     gradient: 'linear-gradient(135deg, #10b981, #14b8a6)',
+    image: './images/2025.jpg',
   },
 ];
 
@@ -559,7 +562,14 @@ function AchievementsSection() {
                   style={{ background: achievement.gradient }}
                 />
                 <div className="achievement-card-body">
-                  <div className="achievement-photo-placeholder" />
+                  <div className="achievement-photo-wrapper">
+                    <img
+                      src={achievement.image}
+                      alt={achievement.title}
+                      className="achievement-photo"
+                      loading="lazy"
+                    />
+                  </div>
                   <h3 className="achievement-title">{achievement.title}</h3>
                   <p className="achievement-description">{achievement.description}</p>
                 </div>

@@ -7,6 +7,7 @@ import '../../styles/pages/GalleryPage.css';
 export function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const [apiImages, setApiImages] = useState<Array<{ url: string; title: string; category: string }>>([]);
   const [categories, setCategories] = useState<string[]>(['all']);
@@ -118,7 +119,8 @@ export function GalleryPage() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.4 }}
                     whileHover={{ scale: 1.05 }}
-                    className="gallery-card"
+                    whileTap={{ scale: 0.97 }}
+                    className={`gallery-card ${index === 0 ? 'featured' : ''}`}
                     onClick={() => setSelectedImage(index)}
                   >
                     <div className="gallery-card-inner">
@@ -153,6 +155,23 @@ export function GalleryPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
+            onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
+            onTouchEnd={(e) => {
+              if (touchStartX === null) return;
+              const diff = e.changedTouches[0].clientX - touchStartX;
+              if (Math.abs(diff) > 50) {
+                if (diff < 0) {
+                  setSelectedImage((prev) =>
+                    prev === null ? null : (prev + 1) % filteredImages.length
+                  );
+                } else {
+                  setSelectedImage((prev) =>
+                    prev === null ? null : (prev - 1 + filteredImages.length) % filteredImages.length
+                  );
+                }
+              }
+              setTouchStartX(null);
+            }}
             style={{
               position: 'fixed',
               top: 0,
@@ -218,6 +237,9 @@ export function GalleryPage() {
                 </h3>
                 <div className="gallery-modal-category">
                   {filteredImages[selectedImage].category}
+                </div>
+                <div className="gallery-modal-counter">
+                  {selectedImage + 1} / {filteredImages.length}
                 </div>
               </div>
             </motion.div>
