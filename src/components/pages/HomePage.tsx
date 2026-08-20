@@ -1,11 +1,10 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { BookOpen, Users, Award, Globe, ArrowRight, Sparkles, Loader2, Image, FlaskConical, Palette, Lightbulb, Rocket } from 'lucide-react';
+import { BookOpen, Users, Award, Globe, ArrowRight, Loader2, Image } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { ScrollSequence } from '../ScrollSequence';
 import { getGalleryItems } from '../../lib/api';
 import '../../styles/pages/HomePage.css';
 import pMessageImg from '../images/pmessage.jpeg';
-import img2025 from '../images/2025.jpg';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -35,7 +34,7 @@ const FEATURES = [
     title: 'State-of-the-Art Facilities',
     description: 'World-class laboratories, studios, and technology that bring learning to life.',
     gradient: 'from-orange-500 to-red-500',
-    image: 'https://images.unsplash.com/photo-1602052577122-f73b9710adba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    image: './images/2025.jpg',
   },
 ];
 
@@ -203,9 +202,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Statistics Section */}
       <StatsSection />
 
-      {/* 2025 State-of-the-Art Milestone */}
-      <Milestone2025Section onNavigate={onNavigate} />
-
       {/* Features Section */}
       <FeaturesSection onNavigate={onNavigate} />
 
@@ -314,164 +310,6 @@ function StatCard({ stat, index }: { stat: any; index: number }) {
         <div className="stat-label">{stat.label}</div>
       </div>
     </motion.div>
-  );
-}
-
-function Milestone2025Section({ onNavigate }: { onNavigate: (page: string) => void }) {
-  const MILESTONE_BADGES = [
-    { icon: FlaskConical, label: 'Smart Labs' },
-    { icon: Palette, label: 'Creative Studios' },
-    { icon: Lightbulb, label: 'Innovation Hub' },
-    { icon: Rocket, label: 'Future-Ready' },
-  ];
-
-  return (
-    <section className="milestone2025-section">
-      {/* Ambient background orbs */}
-      <div className="milestone2025-orbs" aria-hidden="true">
-        <div className="milestone2025-orb milestone2025-orb-1" />
-        <div className="milestone2025-orb milestone2025-orb-2" />
-        <div className="milestone2025-orb milestone2025-orb-3" />
-      </div>
-
-      <div className="milestone2025-container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="milestone2025-header"
-        >
-          <div className="milestone2025-kicker">
-            <Sparkles size={16} />
-            <span>Milestone 2025</span>
-          </div>
-          <h2 className="milestone2025-big-title">
-            The Year Education
-            <span className="milestone2025-big-title-gradient"> Went Next-Gen</span>
-          </h2>
-          <p className="milestone2025-big-subtitle">
-            A landmark for our campus — state-of-the-art, everywhere you look
-          </p>
-        </motion.div>
-
-        <div className="milestone2025-grid">
-          {/* Visual / Photo */}
-          <motion.div
-            className="milestone2025-visual"
-            initial={{ opacity: 0, scale: 0.85 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="milestone2025-glow" />
-            <motion.div
-              className="milestone2025-frame"
-              animate={{ rotate: [0, 2.5, 0, -2.5, 0] }}
-              transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <motion.img
-                src={img2025}
-                alt="2025 State-of-the-art Future Stars campus"
-                whileHover={{ scale: 1.07 }}
-                transition={{ duration: 0.6 }}
-              />
-              <div className="milestone2025-frame-shine" />
-              <div className="milestone2025-frame-border" />
-            </motion.div>
-
-            <motion.div
-              className="milestone2025-year-badge"
-              initial={{ scale: 0, rotate: -20 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring', stiffness: 220, damping: 15, delay: 0.7 }}
-              whileHover={{ scale: 1.1, rotate: 3 }}
-            >
-              <Sparkles size={18} className="milestone2025-year-badge-icon" />
-              <span className="milestone2025-year-badge-year">2025</span>
-              <span className="milestone2025-year-badge-label">Milestone</span>
-            </motion.div>
-
-            <motion.div
-              className="milestone2025-float-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
-              <motion.div
-                className="milestone2025-float-card-inner"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <span className="milestone2025-float-card-icon">✦</span>
-                <div>
-                  <strong>State-of-the-Art</strong>
-                  <small>Facilities · 2025</small>
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Content */}
-          <motion.div
-            className="milestone2025-content"
-            initial={{ opacity: 0, x: 60 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.35 }}
-          >
-            <div className="milestone2025-title-row">
-              <span className="milestone2025-title-accent" />
-              <h3 className="milestone2025-title">2025 Expo Showcase</h3>
-            </div>
-            <p className="milestone2025-description">
-              Step into the 2025 photo story — world-class labs, immersive studios,
-              and intelligent learning spaces that bring every dream to life.
-              This is where the future of Future Stars begins.
-            </p>
-
-            <div className="milestone2025-badges-grid">
-              {MILESTONE_BADGES.map((badge, index) => (
-                <motion.div
-                  key={badge.label}
-                  className="milestone2025-badge-item"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  whileHover={{ y: -4 }}
-                >
-                  <badge.icon size={22} className="milestone2025-badge-icon" />
-                  <span>{badge.label}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              className="milestone2025-cta"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-            >
-              <motion.button
-                onClick={() => onNavigate('about')}
-                className="btn-primary-gradient"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-              >
-                Explore the Campus
-                <ArrowRight />
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
   );
 }
 
