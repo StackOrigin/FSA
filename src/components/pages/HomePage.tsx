@@ -690,7 +690,7 @@ function GallerySection() {
           </div>
         </div>
         <div className="gallery-grid" role="list">
-          {images.map((image, index) => (
+          {images.slice(0, 4).map((image, index) => (
             <motion.article
               key={image.id}
               className="gallery-card"
